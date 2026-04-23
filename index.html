@@ -1,103 +1,262 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TapMeal | Tu Café Perfecto, Sin Fricciones</title>
   <meta property="og:title" content="TapMeal | Pedidos digitales sin fricciones">
   <meta property="og:description" content="Redefine la hospitalidad. PWA para cafeterías con comandas automáticas.">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&display=swap"
+    rel="stylesheet">
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          colors: { crema:"#FDFBF7", carbon:"#1C1C1C", cafe:"#3E2723", terracota:"#A84C38", arena:"#F0EBE1" },
-          fontFamily: { serif:["'Playfair Display'","serif"], sans:["'Inter'","sans-serif"] }
+          colors: { crema: "#FDFBF7", carbon: "#1C1C1C", cafe: "#3E2723", terracota: "#A84C38", arena: "#F0EBE1" },
+          fontFamily: { serif: ["'Playfair Display'", "serif"], sans: ["'Inter'", "sans-serif"] }
         }
       }
     };
   </script>
   <style>
-    html, body { margin:0; padding:0; overflow:hidden; height:100%; font-family:'Inter',sans-serif; background:#1C1C1C; }
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100%;
+      font-family: 'Inter', sans-serif;
+      background: #1C1C1C;
+    }
 
     /* Full-page wrapper */
     #fp-wrapper {
       transition: transform 0.9s cubic-bezier(0.76, 0, 0.24, 1);
       will-change: transform;
     }
+
     .fp-section {
-      height: 100vh; width: 100vw; position: relative; overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      position: relative;
+      overflow: hidden;
     }
 
     /* Section content reveal */
     .fp-section .fp-content {
-      opacity: 0; transform: translateY(40px);
+      opacity: 0;
+      transform: translateY(40px);
       transition: opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s;
     }
+
     .fp-section.active .fp-content {
-      opacity: 1; transform: translateY(0);
+      opacity: 1;
+      transform: translateY(0);
     }
 
     /* Side dots */
-    .fp-nav { position:fixed; right:2rem; top:50%; transform:translateY(-50%); z-index:100; display:flex; flex-direction:column; gap:12px; }
-    .fp-dot { width:12px; height:12px; border-radius:50%; border:2px solid rgba(255,255,255,0.4); background:transparent; cursor:pointer; transition:all 0.4s ease; }
-    .fp-dot.active { background:#A84C38; border-color:#A84C38; transform:scale(1.3); }
-    .fp-dot:hover { border-color:#fff; }
+    .fp-nav {
+      position: fixed;
+      right: 2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .fp-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.4s ease;
+    }
+
+    .fp-dot.active {
+      background: #A84C38;
+      border-color: #A84C38;
+      transform: scale(1.3);
+    }
+
+    .fp-dot:hover {
+      border-color: #fff;
+    }
 
     /* Counter & Label */
-    .fp-info { position:fixed; left:2rem; bottom:2rem; z-index:100; color:rgba(255,255,255,0.5); font-size:12px; letter-spacing:0.15em; text-transform:uppercase; }
-    #fp-counter { font-variant-numeric: tabular-nums; }
+    .fp-info {
+      position: fixed;
+      left: 2rem;
+      bottom: 2rem;
+      z-index: 100;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    #fp-counter {
+      font-variant-numeric: tabular-nums;
+    }
 
     /* Header con Glassmorfismo */
-    #site-header { transition: all 0.4s ease; }
+    #site-header {
+      transition: all 0.4s ease;
+    }
+
     #site-header.scrolled {
-      background-color: rgba(28,28,28,0.55);
-      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      background-color: rgba(28, 28, 28, 0.55);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     /* Hamburger */
-    .hamburger span { display:block; width:24px; height:2px; background:#fff; margin:5px 0; transition:all 0.3s ease; }
-    .hamburger.open span:nth-child(1) { transform:rotate(45deg) translate(5px,5px); }
-    .hamburger.open span:nth-child(2) { opacity:0; }
-    .hamburger.open span:nth-child(3) { transform:rotate(-45deg) translate(5px,-5px); }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: #fff;
+      margin: 5px 0;
+      transition: all 0.3s ease;
+    }
+
+    .hamburger.open span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.open span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
 
     /* Mobile menu */
-    #mobile-menu { position:fixed; inset:0; background:rgba(28,28,28,0.97); z-index:90; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2rem; opacity:0; pointer-events:none; transition:opacity 0.4s ease; }
-    #mobile-menu.open { opacity:1; pointer-events:auto; }
+    #mobile-menu {
+      position: fixed;
+      inset: 0;
+      background: rgba(28, 28, 28, 0.97);
+      z-index: 90;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    #mobile-menu.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
 
     /* Parallax-like image scale on active */
-    .fp-bg-img { transition: transform 1.5s ease; transform: scale(1.1); }
-    .fp-section.active .fp-bg-img { transform: scale(1); }
+    .fp-bg-img {
+      transition: transform 1.5s ease;
+      transform: scale(1.1);
+    }
+
+    .fp-section.active .fp-bg-img {
+      transform: scale(1);
+    }
 
     /* Hide dots on small screens */
-    @media(max-width:768px) { .fp-nav { right:1rem; gap:8px; } .fp-dot { width:8px; height:8px; } .fp-info { display:none; } }
+    @media(max-width:768px) {
+      .fp-nav {
+        right: 1rem;
+        gap: 8px;
+      }
+
+      .fp-dot {
+        width: 8px;
+        height: 8px;
+      }
+
+      .fp-info {
+        display: none;
+      }
+    }
 
     /* FAQ */
-    details > summary { list-style:none; cursor:pointer; }
-    details > summary::-webkit-details-marker { display:none; }
+    details>summary {
+      list-style: none;
+      cursor: pointer;
+    }
+
+    details>summary::-webkit-details-marker {
+      display: none;
+    }
 
     /* Ocultar scrollbar en carrusel */
-    .scrollbar-hide::-webkit-scrollbar { display:none; }
-    .scrollbar-hide { -ms-overflow-style:none; scrollbar-width:none; }
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
 
     /* Demo card reveal */
-    .demo-card.revealed { opacity:1 !important; transform:translateY(0) !important; }
+    .demo-card.revealed {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+    }
 
     /* Phone mockup reveal */
-    .phone-mockup.revealed { opacity:1 !important; transform:translateY(0) !important; }
+    .phone-mockup.revealed {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+    }
 
     /* Reveal items (Problem section, general) */
-    .reveal-item.revealed { opacity:1 !important; transform:translateY(0) !important; }
+    .reveal-item.revealed {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+    }
 
     /* Pulse animation para el total */
-    @keyframes totalPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
-    .total-pulse { animation: totalPulse 0.3s ease; }
+    @keyframes totalPulse {
+
+      0%,
+      100% {
+        transform: scale(1)
+      }
+
+      50% {
+        transform: scale(1.08)
+      }
+    }
+
+    .total-pulse {
+      animation: totalPulse 0.3s ease;
+    }
   </style>
 </head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G280TG73E8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-G280TG73E8');
+</script>
+
 <body class="antialiased">
 
   <!-- Header -->
@@ -105,33 +264,46 @@
     <div class="mx-auto flex max-w-7xl items-center justify-between">
       <!-- Logo con icono de barista -->
       <a href="#" class="flex items-center gap-2.5 group">
-        <div class="h-9 w-9 rounded-full bg-terracota/15 border border-terracota/30 flex items-center justify-center group-hover:bg-terracota/25 transition">
+        <div
+          class="h-9 w-9 rounded-full bg-terracota/15 border border-terracota/30 flex items-center justify-center group-hover:bg-terracota/25 transition">
           <i data-lucide="coffee" class="h-4 w-4 text-terracota"></i>
         </div>
-        <span class="font-serif text-2xl font-bold text-white tracking-wide">TapMeal<span class="text-terracota">.</span></span>
+        <span class="font-serif text-2xl font-bold text-white tracking-wide">TapMeal<span
+            class="text-terracota">.</span></span>
       </a>
       <!-- Navegación desktop -->
       <nav class="hidden md:flex items-center gap-8">
-        <button onclick="window.goToSection&&goToSection(1)" class="text-white/70 hover:text-white transition bg-transparent border-none cursor-pointer flex items-center gap-1.5" title="Problema">
+        <button onclick="window.goToSection&&goToSection(1)"
+          class="text-white/70 hover:text-white transition bg-transparent border-none cursor-pointer flex items-center gap-1.5"
+          title="Problema">
           <i data-lucide="alert-triangle" class="h-4 w-4"></i>
           <span class="text-sm font-medium tracking-widest uppercase hidden lg:inline">Problema</span>
         </button>
-        <button onclick="window.goToSection&&goToSection(3)" class="text-white/70 hover:text-white transition bg-transparent border-none cursor-pointer flex items-center gap-1.5" title="Solución">
+        <button onclick="window.goToSection&&goToSection(3)"
+          class="text-white/70 hover:text-white transition bg-transparent border-none cursor-pointer flex items-center gap-1.5"
+          title="Solución">
           <i data-lucide="lightbulb" class="h-4 w-4"></i>
           <span class="text-sm font-medium tracking-widest uppercase hidden lg:inline">Solución</span>
         </button>
-        <button onclick="window.goToSection&&goToSection(7)" class="text-white/70 hover:text-white transition bg-transparent border-none cursor-pointer flex items-center gap-1.5" title="Preguntas Frecuentes">
+        <button onclick="window.goToSection&&goToSection(7)"
+          class="text-white/70 hover:text-white transition bg-transparent border-none cursor-pointer flex items-center gap-1.5"
+          title="Preguntas Frecuentes">
           <i data-lucide="help-circle" class="h-4 w-4"></i>
           <span class="text-sm font-medium tracking-widest uppercase hidden lg:inline">FAQ</span>
         </button>
-        <button onclick="window.goToSection&&goToSection(9)" class="text-white/70 hover:text-white transition bg-transparent border-none cursor-pointer flex items-center gap-1.5" title="Equipo">
+        <button onclick="window.goToSection&&goToSection(9)"
+          class="text-white/70 hover:text-white transition bg-transparent border-none cursor-pointer flex items-center gap-1.5"
+          title="Equipo">
           <i data-lucide="users" class="h-4 w-4"></i>
           <span class="text-sm font-medium tracking-widest uppercase hidden lg:inline">Equipo</span>
         </button>
-        <button onclick="window.goToSection&&goToSection(10)" class="ml-2 px-5 py-2 text-xs font-medium tracking-widest uppercase bg-terracota text-white hover:bg-terracota/85 transition-colors rounded-sm">Reservar Cupo</button>
+        <button onclick="window.goToSection&&goToSection(10)"
+          class="ml-2 px-5 py-2 text-xs font-medium tracking-widest uppercase bg-terracota text-white hover:bg-terracota/85 transition-colors rounded-sm">Reservar
+          Cupo</button>
       </nav>
       <div class="flex items-center gap-4">
-        <button id="mobile-menu-btn" class="hamburger md:hidden z-[100]"><span></span><span></span><span></span></button>
+        <button id="mobile-menu-btn"
+          class="hamburger md:hidden z-[100]"><span></span><span></span><span></span></button>
       </div>
     </div>
   </header>
@@ -175,17 +347,23 @@
     <!-- S0: HERO -->
     <section class="fp-section active" data-label="Inicio">
       <div class="absolute inset-0">
-        <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&q=80&w=2000" alt="Café" class="fp-bg-img w-full h-full object-cover">
+        <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&q=80&w=2000"
+          alt="Café" class="fp-bg-img w-full h-full object-cover">
         <div class="absolute inset-0 bg-carbon/50"></div>
       </div>
-      <div class="fp-content relative z-10 h-full flex flex-col items-center justify-center text-center px-6 max-w-4xl mx-auto">
-        <p class="text-white/80 font-medium tracking-[0.2em] uppercase text-sm mb-6">La herramienta que convierte tu cafetería en un referente de rapidez en Juigalpa</p>
+      <div
+        class="fp-content relative z-10 h-full flex flex-col items-center justify-center text-center px-6 max-w-4xl mx-auto">
+        <p class="text-white/80 font-medium tracking-[0.2em] uppercase text-sm mb-6">La herramienta que convierte tu
+          cafetería en un referente de rapidez en Juigalpa</p>
         <h1 class="font-serif text-5xl sm:text-7xl lg:text-8xl text-white leading-tight mb-8">
           El café que mereces, <br><span class="italic text-white/90">sin la fila de siempre.</span>
         </h1>
         <div class="flex flex-col sm:flex-row items-center gap-6 mt-8">
-          <button onclick="window.goToSection&&goToSection(10)" class="px-8 py-4 bg-terracota text-white text-sm font-medium tracking-widest uppercase hover:bg-terracota/90 transition-colors">Reservar Mi Cupo</button>
-          <button onclick="window.goToSection && goToSection(1)" class="px-4 py-2 text-white text-sm font-medium tracking-widest uppercase flex items-center gap-2 bg-transparent border-none cursor-pointer hover:text-terracota transition">
+          <button onclick="window.goToSection&&goToSection(10)"
+            class="px-8 py-4 bg-terracota text-white text-sm font-medium tracking-widest uppercase hover:bg-terracota/90 transition-colors">Reservar
+            Mi Cupo</button>
+          <button onclick="window.goToSection && goToSection(1)"
+            class="px-4 py-2 text-white text-sm font-medium tracking-widest uppercase flex items-center gap-2 bg-transparent border-none cursor-pointer hover:text-terracota transition">
             Descubrir <i data-lucide="arrow-down" class="h-4 w-4"></i>
           </button>
         </div>
@@ -201,26 +379,37 @@
           <div class="order-2 lg:order-1 relative" id="problem-visual">
             <div class="grid grid-cols-2 gap-4">
               <!-- Lado Caos (Tradicional) -->
-              <div class="relative rounded-2xl overflow-hidden shadow-lg reveal-item opacity-0 translate-y-4 transition-all duration-700">
-                <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80&w=600" loading="lazy" alt="Cafetería con estrés operativo en hora pico" class="w-full h-full object-cover aspect-[3/4] grayscale">
+              <div
+                class="relative rounded-2xl overflow-hidden shadow-lg reveal-item opacity-0 translate-y-4 transition-all duration-700">
+                <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80&w=600"
+                  loading="lazy" alt="Cafetería con estrés operativo en hora pico"
+                  class="w-full h-full object-cover aspect-[3/4] grayscale">
                 <div class="absolute inset-0 bg-gradient-to-t from-carbon/80 via-carbon/30 to-transparent"></div>
                 <div class="absolute bottom-0 left-0 right-0 p-4">
-                  <span class="inline-flex items-center gap-1.5 text-red-400 text-[10px] font-bold uppercase tracking-widest"><i data-lucide="x-circle" class="h-3 w-3"></i> Sistema Tradicional</span>
+                  <span
+                    class="inline-flex items-center gap-1.5 text-red-400 text-[10px] font-bold uppercase tracking-widest"><i
+                      data-lucide="x-circle" class="h-3 w-3"></i> Sistema Tradicional</span>
                   <p class="text-white/80 text-xs mt-1 font-light">Papel, estrés y errores</p>
                 </div>
               </div>
               <!-- Lado Solución (Digital) -->
-              <div class="relative rounded-2xl overflow-hidden shadow-lg reveal-item opacity-0 translate-y-4 transition-all duration-700 delay-200">
-                <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&q=80&w=600" loading="lazy" alt="Barista preparando café con calma usando sistema digital" class="w-full h-full object-cover aspect-[3/4]">
+              <div
+                class="relative rounded-2xl overflow-hidden shadow-lg reveal-item opacity-0 translate-y-4 transition-all duration-700 delay-200">
+                <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&q=80&w=600"
+                  loading="lazy" alt="Barista preparando café con calma usando sistema digital"
+                  class="w-full h-full object-cover aspect-[3/4]">
                 <div class="absolute inset-0 bg-gradient-to-t from-carbon/80 via-carbon/30 to-transparent"></div>
                 <div class="absolute bottom-0 left-0 right-0 p-4">
-                  <span class="inline-flex items-center gap-1.5 text-emerald-400 text-[10px] font-bold uppercase tracking-widest"><i data-lucide="check-circle" class="h-3 w-3"></i> Con TapMeal</span>
+                  <span
+                    class="inline-flex items-center gap-1.5 text-emerald-400 text-[10px] font-bold uppercase tracking-widest"><i
+                      data-lucide="check-circle" class="h-3 w-3"></i> Con TapMeal</span>
                   <p class="text-white/80 text-xs mt-1 font-light">Digital, preciso y fluido</p>
                 </div>
               </div>
             </div>
             <!-- Indicador de contraste -->
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full bg-white shadow-lg flex items-center justify-center">
+            <div
+              class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full bg-white shadow-lg flex items-center justify-center">
               <i data-lucide="arrow-right" class="h-4 w-4 text-terracota"></i>
             </div>
           </div>
@@ -228,27 +417,56 @@
           <!-- Texto PAS: Agitación del Dolor -->
           <div class="order-1 lg:order-2" id="problem-text">
             <p class="text-terracota font-medium tracking-widest uppercase text-xs mb-4">El Problema Real</p>
-            <h2 class="font-serif text-2xl sm:text-3xl lg:text-4xl text-carbon leading-tight mb-5">¿Cuánto dinero se escapa entre el papel y el estrés de la hora pico?</h2>
-            <p class="text-carbon/70 text-sm sm:text-base mb-3 font-light leading-relaxed">Son las 9 AM. La fila crece. Un mesero confunde una orden, el barista prepara un latte con leche entera cuando pidieron de almendras. El cliente paga frustrado, sube una reseña de 1 estrella… <strong class="text-carbon font-medium">y no vuelve jamás.</strong></p>
-            <p class="text-carbon/90 text-sm sm:text-base mb-6 font-semibold leading-relaxed">Cada día sin un sistema digital, tu cafetería pierde ventas, clientes y reputación.</p>
+            <h2 class="font-serif text-2xl sm:text-3xl lg:text-4xl text-carbon leading-tight mb-5">¿Cuánto dinero se
+              escapa entre el papel y el estrés de la hora pico?</h2>
+            <p class="text-carbon/70 text-sm sm:text-base mb-3 font-light leading-relaxed">Son las 9 AM. La fila crece.
+              Un mesero confunde una orden, el barista prepara un latte con leche entera cuando pidieron de almendras.
+              El cliente paga frustrado, sube una reseña de 1 estrella… <strong class="text-carbon font-medium">y no
+                vuelve jamás.</strong></p>
+            <p class="text-carbon/90 text-sm sm:text-base mb-6 font-semibold leading-relaxed">Cada día sin un sistema
+              digital, tu cafetería pierde ventas, clientes y reputación.</p>
 
             <!-- Puntos de dolor con iconos específicos y animación reveal -->
             <ul class="space-y-3 border-t border-carbon/10 pt-5" id="pain-points">
               <li class="reveal-item opacity-0 translate-y-4 transition-all duration-500 flex items-start gap-4 group">
-                <span class="h-8 w-8 shrink-0 rounded-lg bg-red-50 border border-red-100 flex items-center justify-center group-hover:bg-red-100 transition"><i data-lucide="user-x" class="h-5 w-5 text-red-500"></i></span>
-                <div><p class="text-carbon font-medium text-sm">Clientes que se van sin ordenar</p><p class="text-carbon/50 text-xs font-light mt-0.5">El 23% abandona si la espera supera los 5 minutos.</p></div>
+                <span
+                  class="h-8 w-8 shrink-0 rounded-lg bg-red-50 border border-red-100 flex items-center justify-center group-hover:bg-red-100 transition"><i
+                    data-lucide="user-x" class="h-5 w-5 text-red-500"></i></span>
+                <div>
+                  <p class="text-carbon font-medium text-sm">Clientes que se van sin ordenar</p>
+                  <p class="text-carbon/50 text-xs font-light mt-0.5">El 23% abandona si la espera supera los 5 minutos.
+                  </p>
+                </div>
               </li>
               <li class="reveal-item opacity-0 translate-y-4 transition-all duration-500 flex items-start gap-4 group">
-                <span class="h-8 w-8 shrink-0 rounded-lg bg-amber-50 border border-amber-100 flex items-center justify-center group-hover:bg-amber-100 transition"><i data-lucide="file-warning" class="h-5 w-5 text-amber-500"></i></span>
-                <div><p class="text-carbon font-medium text-sm">Pedidos equivocados = desperdicio</p><p class="text-carbon/50 text-xs font-light mt-0.5">Cada error te cuesta producto, tiempo y la confianza del cliente.</p></div>
+                <span
+                  class="h-8 w-8 shrink-0 rounded-lg bg-amber-50 border border-amber-100 flex items-center justify-center group-hover:bg-amber-100 transition"><i
+                    data-lucide="file-warning" class="h-5 w-5 text-amber-500"></i></span>
+                <div>
+                  <p class="text-carbon font-medium text-sm">Pedidos equivocados = desperdicio</p>
+                  <p class="text-carbon/50 text-xs font-light mt-0.5">Cada error te cuesta producto, tiempo y la
+                    confianza del cliente.</p>
+                </div>
               </li>
               <li class="reveal-item opacity-0 translate-y-4 transition-all duration-500 flex items-start gap-4 group">
-                <span class="h-8 w-8 shrink-0 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center group-hover:bg-blue-100 transition"><i data-lucide="clock" class="h-5 w-5 text-blue-500"></i></span>
-                <div><p class="text-carbon font-medium text-sm">Baristas estresados y rotación alta</p><p class="text-carbon/50 text-xs font-light mt-0.5">El caos operativo quema a tu equipo en semanas.</p></div>
+                <span
+                  class="h-8 w-8 shrink-0 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center group-hover:bg-blue-100 transition"><i
+                    data-lucide="clock" class="h-5 w-5 text-blue-500"></i></span>
+                <div>
+                  <p class="text-carbon font-medium text-sm">Baristas estresados y rotación alta</p>
+                  <p class="text-carbon/50 text-xs font-light mt-0.5">El caos operativo quema a tu equipo en semanas.
+                  </p>
+                </div>
               </li>
               <li class="reveal-item opacity-0 translate-y-4 transition-all duration-500 flex items-start gap-4 group">
-                <span class="h-8 w-8 shrink-0 rounded-lg bg-purple-50 border border-purple-100 flex items-center justify-center group-hover:bg-purple-100 transition"><i data-lucide="eye-off" class="h-5 w-5 text-purple-500"></i></span>
-                <div><p class="text-carbon font-medium text-sm">Cero datos = decisiones a ciegas</p><p class="text-carbon/50 text-xs font-light mt-0.5">No sabes qué se vende, qué se agota ni cuándo es tu hora pico real.</p></div>
+                <span
+                  class="h-8 w-8 shrink-0 rounded-lg bg-purple-50 border border-purple-100 flex items-center justify-center group-hover:bg-purple-100 transition"><i
+                    data-lucide="eye-off" class="h-5 w-5 text-purple-500"></i></span>
+                <div>
+                  <p class="text-carbon font-medium text-sm">Cero datos = decisiones a ciegas</p>
+                  <p class="text-carbon/50 text-xs font-light mt-0.5">No sabes qué se vende, qué se agota ni cuándo es
+                    tu hora pico real.</p>
+                </div>
               </li>
             </ul>
           </div>
@@ -259,27 +477,38 @@
 
     <!-- S2: DEMO INTERACTIVO — Mockup Smartphone -->
     <section class="fp-section bg-arena" data-label="Demo">
-      <div class="fp-content h-full flex flex-col lg:flex-row items-center justify-center gap-10 lg:gap-20 px-6 max-w-7xl mx-auto">
+      <div
+        class="fp-content h-full flex flex-col lg:flex-row items-center justify-center gap-10 lg:gap-20 px-6 max-w-7xl mx-auto">
 
         <!-- Texto izquierdo -->
         <div class="text-center lg:text-left lg:max-w-md shrink-0">
           <p class="text-terracota font-medium tracking-widest uppercase text-xs mb-4">Demostración Interactiva</p>
-          <h2 class="font-serif text-3xl sm:text-4xl text-carbon leading-tight mb-4">Tu menú es tu<br>mejor vendedor.</h2>
-          <p class="text-carbon/60 font-light text-sm leading-relaxed mb-3">Un menú visual e intuitivo que vende por ti. Desliza, añade al carrito y observa el total actualizarse al instante.</p>
+          <h2 class="font-serif text-3xl sm:text-4xl text-carbon leading-tight mb-4">Tu menú es tu<br>mejor vendedor.
+          </h2>
+          <p class="text-carbon/60 font-light text-sm leading-relaxed mb-3">Un menú visual e intuitivo que vende por ti.
+            Desliza, añade al carrito y observa el total actualizarse al instante.</p>
           <!-- Social Proof dinámico -->
           <div class="flex items-center gap-2 justify-center lg:justify-start mb-6">
-            <span class="flex h-2 w-2 relative"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span></span>
-            <span class="text-carbon/50 text-xs tracking-wide" id="social-proof-counter"><strong class="text-carbon/80" id="order-count">24</strong> pedidos procesados hoy</span>
+            <span class="flex h-2 w-2 relative"><span
+                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span
+                class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span></span>
+            <span class="text-carbon/50 text-xs tracking-wide" id="social-proof-counter"><strong class="text-carbon/80"
+                id="order-count">24</strong> pedidos procesados hoy</span>
           </div>
-          <p class="text-carbon/40 text-xs tracking-wide flex items-center justify-center lg:justify-start gap-2"><i data-lucide="hand-metal" class="h-4 w-4"></i> Interactúa con el teléfono →</p>
+          <p class="text-carbon/40 text-xs tracking-wide flex items-center justify-center lg:justify-start gap-2"><i
+              data-lucide="hand-metal" class="h-4 w-4"></i> Interactúa con el teléfono →</p>
         </div>
 
         <!-- Mockup de Smartphone (Reveal via IO) -->
-        <article class="relative w-[280px] sm:w-[300px] shrink-0 phone-mockup opacity-0 translate-y-8 transition-all duration-1000 ease-out" aria-label="Simulador de la aplicación TapMeal">
+        <article
+          class="relative w-[280px] sm:w-[300px] shrink-0 phone-mockup opacity-0 translate-y-8 transition-all duration-1000 ease-out"
+          aria-label="Simulador de la aplicación TapMeal">
           <!-- Marco del teléfono -->
           <div class="rounded-[2.5rem] bg-carbon p-2.5 shadow-2xl shadow-carbon/40">
             <!-- Notch -->
-            <div class="flex justify-center pt-1.5 pb-2"><div class="w-20 h-4 bg-carbon rounded-full border-2 border-carbon/80"></div></div>
+            <div class="flex justify-center pt-1.5 pb-2">
+              <div class="w-20 h-4 bg-carbon rounded-full border-2 border-carbon/80"></div>
+            </div>
             <!-- Pantalla interior -->
             <div class="bg-crema rounded-[2rem] overflow-hidden" id="phone-screen">
 
@@ -290,79 +519,128 @@
                     <h4 class="font-serif text-base text-carbon leading-none">It's Coffee Time</h4>
                     <span class="text-[8px] text-carbon/50 tracking-widest uppercase">Menú Digital</span>
                   </div>
-                  <span class="text-[9px] text-terracota font-bold tracking-widest uppercase bg-terracota/10 px-2 py-1 rounded-full">Mesa 4</span>
+                  <span
+                    class="text-[9px] text-terracota font-bold tracking-widest uppercase bg-terracota/10 px-2 py-1 rounded-full">Mesa
+                    4</span>
                 </div>
               </header>
 
               <!-- Categorías deslizables -->
               <nav class="px-4 py-2 flex gap-1.5 overflow-x-auto scrollbar-hide" aria-label="Categorías del menú">
-                <button class="px-2.5 py-0.5 bg-carbon text-white text-[9px] font-medium uppercase tracking-widest rounded-full whitespace-nowrap shrink-0">Todos</button>
-                <button class="px-2.5 py-0.5 bg-carbon/5 text-carbon/60 text-[9px] font-medium uppercase tracking-widest rounded-full whitespace-nowrap shrink-0 hover:bg-carbon/10 transition">Café</button>
-                <button class="px-2.5 py-0.5 bg-carbon/5 text-carbon/60 text-[9px] font-medium uppercase tracking-widest rounded-full whitespace-nowrap shrink-0 hover:bg-carbon/10 transition">Postres</button>
-                <button class="px-2.5 py-0.5 bg-carbon/5 text-carbon/60 text-[9px] font-medium uppercase tracking-widest rounded-full whitespace-nowrap shrink-0 hover:bg-carbon/10 transition">Brunch</button>
+                <button
+                  class="px-2.5 py-0.5 bg-carbon text-white text-[9px] font-medium uppercase tracking-widest rounded-full whitespace-nowrap shrink-0">Todos</button>
+                <button
+                  class="px-2.5 py-0.5 bg-carbon/5 text-carbon/60 text-[9px] font-medium uppercase tracking-widest rounded-full whitespace-nowrap shrink-0 hover:bg-carbon/10 transition">Café</button>
+                <button
+                  class="px-2.5 py-0.5 bg-carbon/5 text-carbon/60 text-[9px] font-medium uppercase tracking-widest rounded-full whitespace-nowrap shrink-0 hover:bg-carbon/10 transition">Postres</button>
+                <button
+                  class="px-2.5 py-0.5 bg-carbon/5 text-carbon/60 text-[9px] font-medium uppercase tracking-widest rounded-full whitespace-nowrap shrink-0 hover:bg-carbon/10 transition">Brunch</button>
               </nav>
 
               <!-- Carrusel horizontal de platos (snap scroll) -->
               <div class="px-4 py-1">
-                <div id="menu-carousel" class="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-3 scrollbar-hide" style="-webkit-overflow-scrolling:touch;">
+                <div id="menu-carousel" class="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-3 scrollbar-hide"
+                  style="-webkit-overflow-scrolling:touch;">
                   <!-- Plato 1 -->
-                  <div class="demo-card snap-start shrink-0 w-[160px] bg-white rounded-xl overflow-hidden shadow-sm border border-carbon/5 opacity-0 translate-y-4 transition-all duration-500 relative" data-price="3.80">
-                    <span class="absolute top-2 left-2 z-10 bg-terracota text-white text-[8px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full shadow-sm">Más popular</span>
-                    <div class="h-20 overflow-hidden"><img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&q=80&w=400" alt="Flat White servido en taza de cerámica" class="w-full h-full object-cover hover:scale-110 transition duration-700"></div>
+                  <div
+                    class="demo-card snap-start shrink-0 w-[160px] bg-white rounded-xl overflow-hidden shadow-sm border border-carbon/5 opacity-0 translate-y-4 transition-all duration-500 relative"
+                    data-price="3.80">
+                    <span
+                      class="absolute top-2 left-2 z-10 bg-terracota text-white text-[8px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full shadow-sm">Más
+                      popular</span>
+                    <div class="h-20 overflow-hidden"><img
+                        src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&q=80&w=400"
+                        alt="Flat White servido en taza de cerámica"
+                        class="w-full h-full object-cover hover:scale-110 transition duration-700"></div>
                     <div class="p-2">
                       <p class="text-xs font-medium text-carbon">Flat White</p>
                       <p class="text-[10px] text-carbon/50 mb-2">Espresso doble + leche texturizada</p>
                       <div class="flex justify-between items-center">
                         <span class="text-xs font-semibold text-carbon">$3.80</span>
-                        <button class="demo-add-btn h-7 w-7 rounded-full bg-carbon text-white flex items-center justify-center hover:bg-terracota transition-colors" data-price="3.80" aria-label="Añadir Flat White"><i data-lucide="plus" class="h-3.5 w-3.5"></i></button>
+                        <button
+                          class="demo-add-btn h-7 w-7 rounded-full bg-carbon text-white flex items-center justify-center hover:bg-terracota transition-colors"
+                          data-price="3.80" aria-label="Añadir Flat White"><i data-lucide="plus"
+                            class="h-3.5 w-3.5"></i></button>
                       </div>
                     </div>
                   </div>
                   <!-- Plato 2 -->
-                  <div class="demo-card snap-start shrink-0 w-[160px] bg-white rounded-xl overflow-hidden shadow-sm border border-carbon/5 opacity-0 translate-y-4 transition-all duration-500" data-price="4.50">
-                    <div class="h-20 overflow-hidden"><img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&q=80&w=400" alt="Cappuccino con arte latte en forma de corazón" class="w-full h-full object-cover hover:scale-110 transition duration-700"></div>
+                  <div
+                    class="demo-card snap-start shrink-0 w-[160px] bg-white rounded-xl overflow-hidden shadow-sm border border-carbon/5 opacity-0 translate-y-4 transition-all duration-500"
+                    data-price="4.50">
+                    <div class="h-20 overflow-hidden"><img
+                        src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&q=80&w=400"
+                        alt="Cappuccino con arte latte en forma de corazón"
+                        class="w-full h-full object-cover hover:scale-110 transition duration-700"></div>
                     <div class="p-2">
                       <p class="text-xs font-medium text-carbon">Cappuccino</p>
                       <p class="text-[10px] text-carbon/50 mb-2">Espresso + espuma cremosa</p>
                       <div class="flex justify-between items-center">
                         <span class="text-xs font-semibold text-carbon">$4.50</span>
-                        <button class="demo-add-btn h-7 w-7 rounded-full bg-carbon text-white flex items-center justify-center hover:bg-terracota transition-colors" data-price="4.50" aria-label="Añadir Cappuccino"><i data-lucide="plus" class="h-3.5 w-3.5"></i></button>
+                        <button
+                          class="demo-add-btn h-7 w-7 rounded-full bg-carbon text-white flex items-center justify-center hover:bg-terracota transition-colors"
+                          data-price="4.50" aria-label="Añadir Cappuccino"><i data-lucide="plus"
+                            class="h-3.5 w-3.5"></i></button>
                       </div>
                     </div>
                   </div>
                   <!-- Plato 3 -->
-                  <div class="demo-card snap-start shrink-0 w-[160px] bg-white rounded-xl overflow-hidden shadow-sm border border-carbon/5 opacity-0 translate-y-4 transition-all duration-500" data-price="6.00">
-                    <div class="h-20 overflow-hidden"><img src="https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&q=80&w=400" alt="Cheesecake de arándanos con base crujiente" class="w-full h-full object-cover hover:scale-110 transition duration-700"></div>
+                  <div
+                    class="demo-card snap-start shrink-0 w-[160px] bg-white rounded-xl overflow-hidden shadow-sm border border-carbon/5 opacity-0 translate-y-4 transition-all duration-500"
+                    data-price="6.00">
+                    <div class="h-20 overflow-hidden"><img
+                        src="https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&q=80&w=400"
+                        alt="Cheesecake de arándanos con base crujiente"
+                        class="w-full h-full object-cover hover:scale-110 transition duration-700"></div>
                     <div class="p-2">
                       <p class="text-xs font-medium text-carbon">Cheesecake</p>
                       <p class="text-[10px] text-carbon/50 mb-2">Arándanos + base de galleta</p>
                       <div class="flex justify-between items-center">
                         <span class="text-xs font-semibold text-carbon">$6.00</span>
-                        <button class="demo-add-btn h-7 w-7 rounded-full bg-carbon text-white flex items-center justify-center hover:bg-terracota transition-colors" data-price="6.00" aria-label="Añadir Cheesecake"><i data-lucide="plus" class="h-3.5 w-3.5"></i></button>
+                        <button
+                          class="demo-add-btn h-7 w-7 rounded-full bg-carbon text-white flex items-center justify-center hover:bg-terracota transition-colors"
+                          data-price="6.00" aria-label="Añadir Cheesecake"><i data-lucide="plus"
+                            class="h-3.5 w-3.5"></i></button>
                       </div>
                     </div>
                   </div>
                   <!-- Plato 4 -->
-                  <div class="demo-card snap-start shrink-0 w-[160px] bg-white rounded-xl overflow-hidden shadow-sm border border-carbon/5 opacity-0 translate-y-4 transition-all duration-500" data-price="8.50">
-                    <div class="h-20 overflow-hidden"><img src="https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&q=80&w=400" alt="Avo Toast con huevo pochado y microgreens" class="w-full h-full object-cover hover:scale-110 transition duration-700"></div>
+                  <div
+                    class="demo-card snap-start shrink-0 w-[160px] bg-white rounded-xl overflow-hidden shadow-sm border border-carbon/5 opacity-0 translate-y-4 transition-all duration-500"
+                    data-price="8.50">
+                    <div class="h-20 overflow-hidden"><img
+                        src="https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&q=80&w=400"
+                        alt="Avo Toast con huevo pochado y microgreens"
+                        class="w-full h-full object-cover hover:scale-110 transition duration-700"></div>
                     <div class="p-2">
                       <p class="text-xs font-medium text-carbon">Avo Toast</p>
                       <p class="text-[10px] text-carbon/50 mb-2">Aguacate + huevo pochado</p>
                       <div class="flex justify-between items-center">
                         <span class="text-xs font-semibold text-carbon">$8.50</span>
-                        <button class="demo-add-btn h-7 w-7 rounded-full bg-carbon text-white flex items-center justify-center hover:bg-terracota transition-colors" data-price="8.50" aria-label="Añadir Avo Toast"><i data-lucide="plus" class="h-3.5 w-3.5"></i></button>
+                        <button
+                          class="demo-add-btn h-7 w-7 rounded-full bg-carbon text-white flex items-center justify-center hover:bg-terracota transition-colors"
+                          data-price="8.50" aria-label="Añadir Avo Toast"><i data-lucide="plus"
+                            class="h-3.5 w-3.5"></i></button>
                       </div>
                     </div>
                   </div>
                   <!-- Plato 5 -->
-                  <div class="demo-card snap-start shrink-0 w-[160px] bg-white rounded-xl overflow-hidden shadow-sm border border-carbon/5 opacity-0 translate-y-4 transition-all duration-500" data-price="5.20">
-                    <div class="h-20 overflow-hidden"><img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?auto=format&fit=crop&q=80&w=400" alt="Matcha Latte verde con espuma suave" class="w-full h-full object-cover hover:scale-110 transition duration-700"></div>
+                  <div
+                    class="demo-card snap-start shrink-0 w-[160px] bg-white rounded-xl overflow-hidden shadow-sm border border-carbon/5 opacity-0 translate-y-4 transition-all duration-500"
+                    data-price="5.20">
+                    <div class="h-20 overflow-hidden"><img
+                        src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?auto=format&fit=crop&q=80&w=400"
+                        alt="Matcha Latte verde con espuma suave"
+                        class="w-full h-full object-cover hover:scale-110 transition duration-700"></div>
                     <div class="p-2">
                       <p class="text-xs font-medium text-carbon">Matcha Latte</p>
                       <p class="text-[10px] text-carbon/50 mb-2">Té matcha ceremonial + leche</p>
                       <div class="flex justify-between items-center">
                         <span class="text-xs font-semibold text-carbon">$5.20</span>
-                        <button class="demo-add-btn h-7 w-7 rounded-full bg-carbon text-white flex items-center justify-center hover:bg-terracota transition-colors" data-price="5.20" aria-label="Añadir Matcha Latte"><i data-lucide="plus" class="h-3.5 w-3.5"></i></button>
+                        <button
+                          class="demo-add-btn h-7 w-7 rounded-full bg-carbon text-white flex items-center justify-center hover:bg-terracota transition-colors"
+                          data-price="5.20" aria-label="Añadir Matcha Latte"><i data-lucide="plus"
+                            class="h-3.5 w-3.5"></i></button>
                       </div>
                     </div>
                   </div>
@@ -386,7 +664,9 @@
                   </div>
                   <span class="text-[9px] text-carbon/40" id="demo-item-count">0 items</span>
                 </div>
-                <button id="demo-order-btn" class="w-full py-2.5 bg-carbon text-white text-[10px] font-medium uppercase tracking-widest rounded-lg hover:bg-terracota transition-colors flex justify-center gap-2 items-center disabled:opacity-30 disabled:cursor-not-allowed" disabled>
+                <button id="demo-order-btn"
+                  class="w-full py-2.5 bg-carbon text-white text-[10px] font-medium uppercase tracking-widest rounded-lg hover:bg-terracota transition-colors flex justify-center gap-2 items-center disabled:opacity-30 disabled:cursor-not-allowed"
+                  disabled>
                   Confirmar Orden <i data-lucide="arrow-right" class="h-3 w-3"></i>
                 </button>
               </footer>
@@ -404,24 +684,32 @@
         <div class="max-w-7xl mx-auto w-full">
           <div class="text-center max-w-3xl mx-auto mb-16">
             <p class="text-terracota font-medium tracking-widest uppercase text-xs mb-6">La Solución TapMeal</p>
-            <h2 class="font-serif text-4xl sm:text-6xl text-white leading-tight mb-6">El menú en tus manos. <br>El control en tu cocina.</h2>
-            <p class="text-white/60 text-lg font-light">Transforma la experiencia de tu cafetería con tecnología que trabaja para ti, no al revés.</p>
+            <h2 class="font-serif text-4xl sm:text-6xl text-white leading-tight mb-6">El menú en tus manos. <br>El
+              control en tu cocina.</h2>
+            <p class="text-white/60 text-lg font-light">Transforma la experiencia de tu cafetería con tecnología que
+              trabaja para ti, no al revés.</p>
           </div>
           <div class="grid md:grid-cols-3 gap-12 border-t border-white/10 pt-12">
             <div class="text-center">
-              <div class="h-12 w-12 mx-auto border border-white/20 rounded-full flex items-center justify-center mb-6"><i data-lucide="smartphone" class="h-5 w-5 text-terracota"></i></div>
+              <div class="h-12 w-12 mx-auto border border-white/20 rounded-full flex items-center justify-center mb-6">
+                <i data-lucide="smartphone" class="h-5 w-5 text-terracota"></i></div>
               <h3 class="font-serif text-2xl text-white mb-4">Atención inmediata sin esperas</h3>
-              <p class="text-white/60 font-light text-sm leading-relaxed">Tu cliente se sienta, escanea y ordena en menos de 30 segundos. Sin descargas, sin filas, sin fricción.</p>
+              <p class="text-white/60 font-light text-sm leading-relaxed">Tu cliente se sienta, escanea y ordena en
+                menos de 30 segundos. Sin descargas, sin filas, sin fricción.</p>
             </div>
             <div class="text-center">
-              <div class="h-12 w-12 mx-auto border border-white/20 rounded-full flex items-center justify-center mb-6"><i data-lucide="printer" class="h-5 w-5 text-terracota"></i></div>
+              <div class="h-12 w-12 mx-auto border border-white/20 rounded-full flex items-center justify-center mb-6">
+                <i data-lucide="printer" class="h-5 w-5 text-terracota"></i></div>
               <h3 class="font-serif text-2xl text-white mb-4">Adiós errores, hola precisión</h3>
-              <p class="text-white/60 font-light text-sm leading-relaxed">Cada pedido llega exacto a la barra. Ni una leche equivocada, ni un extra olvidado.</p>
+              <p class="text-white/60 font-light text-sm leading-relaxed">Cada pedido llega exacto a la barra. Ni una
+                leche equivocada, ni un extra olvidado.</p>
             </div>
             <div class="text-center">
-              <div class="h-12 w-12 mx-auto border border-white/20 rounded-full flex items-center justify-center mb-6"><i data-lucide="database" class="h-5 w-5 text-terracota"></i></div>
+              <div class="h-12 w-12 mx-auto border border-white/20 rounded-full flex items-center justify-center mb-6">
+                <i data-lucide="database" class="h-5 w-5 text-terracota"></i></div>
               <h3 class="font-serif text-2xl text-white mb-4">Toma el control total de tu inventario al instante</h3>
-              <p class="text-white/60 font-light text-sm leading-relaxed">Sabe en tiempo real qué se vende, qué se agota y cuándo es tu hora pico. Deja de adivinar, empieza a decidir.</p>
+              <p class="text-white/60 font-light text-sm leading-relaxed">Sabe en tiempo real qué se vende, qué se agota
+                y cuándo es tu hora pico. Deja de adivinar, empieza a decidir.</p>
             </div>
           </div>
         </div>
@@ -435,16 +723,43 @@
           <h2 class="font-serif text-4xl sm:text-5xl text-carbon text-center mb-16">La Experiencia</h2>
           <div class="grid md:grid-cols-3 gap-12">
             <div class="group">
-              <div class="aspect-[4/3] bg-arena overflow-hidden mb-6"><img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&q=80&w=800" loading="lazy" alt="Escaneando QR" class="w-full h-full object-cover group-hover:scale-105 transition duration-700 grayscale hover:grayscale-0"></div>
-              <div class="flex gap-4"><span class="font-serif text-4xl text-terracota">01</span><div><h3 class="font-serif text-xl text-carbon mb-2">Llega & Escanea</h3><p class="text-carbon/60 text-sm font-light">El cliente abre su cámara y accede al menú completo.</p></div></div>
+              <div class="aspect-[4/3] bg-arena overflow-hidden mb-6"><img
+                  src="https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&q=80&w=800"
+                  loading="lazy" alt="Escaneando QR"
+                  class="w-full h-full object-cover group-hover:scale-105 transition duration-700 grayscale hover:grayscale-0">
+              </div>
+              <div class="flex gap-4"><span class="font-serif text-4xl text-terracota">01</span>
+                <div>
+                  <h3 class="font-serif text-xl text-carbon mb-2">Llega & Escanea</h3>
+                  <p class="text-carbon/60 text-sm font-light">El cliente abre su cámara y accede al menú completo.</p>
+                </div>
+              </div>
             </div>
             <div class="group">
-              <div class="aspect-[4/3] bg-arena overflow-hidden mb-6"><img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&q=80&w=800" loading="lazy" alt="Personalizando pedido en celular" class="w-full h-full object-cover group-hover:scale-105 transition duration-700 grayscale hover:grayscale-0"></div>
-              <div class="flex gap-4"><span class="font-serif text-4xl text-terracota">02</span><div><h3 class="font-serif text-xl text-carbon mb-2">Personaliza & Paga</h3><p class="text-carbon/60 text-sm font-light">Elige sus favoritos y procesa la orden directamente.</p></div></div>
+              <div class="aspect-[4/3] bg-arena overflow-hidden mb-6"><img
+                  src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&q=80&w=800"
+                  loading="lazy" alt="Personalizando pedido en celular"
+                  class="w-full h-full object-cover group-hover:scale-105 transition duration-700 grayscale hover:grayscale-0">
+              </div>
+              <div class="flex gap-4"><span class="font-serif text-4xl text-terracota">02</span>
+                <div>
+                  <h3 class="font-serif text-xl text-carbon mb-2">Personaliza & Paga</h3>
+                  <p class="text-carbon/60 text-sm font-light">Elige sus favoritos y procesa la orden directamente.</p>
+                </div>
+              </div>
             </div>
             <div class="group">
-              <div class="aspect-[4/3] bg-arena overflow-hidden mb-6"><img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&q=80&w=800" loading="lazy" alt="Café" class="w-full h-full object-cover group-hover:scale-105 transition duration-700 grayscale hover:grayscale-0"></div>
-              <div class="flex gap-4"><span class="font-serif text-4xl text-terracota">03</span><div><h3 class="font-serif text-xl text-carbon mb-2">Relájate & Disfruta</h3><p class="text-carbon/60 text-sm font-light">La orden se imprime en barra instantáneamente.</p></div></div>
+              <div class="aspect-[4/3] bg-arena overflow-hidden mb-6"><img
+                  src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&q=80&w=800"
+                  loading="lazy" alt="Café"
+                  class="w-full h-full object-cover group-hover:scale-105 transition duration-700 grayscale hover:grayscale-0">
+              </div>
+              <div class="flex gap-4"><span class="font-serif text-4xl text-terracota">03</span>
+                <div>
+                  <h3 class="font-serif text-xl text-carbon mb-2">Relájate & Disfruta</h3>
+                  <p class="text-carbon/60 text-sm font-light">La orden se imprime en barra instantáneamente.</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -456,7 +771,9 @@
       <div class="fp-content h-full flex items-center justify-center px-6">
         <div class="max-w-4xl text-center">
           <i data-lucide="quote" class="h-10 w-10 text-carbon/20 mx-auto mb-8"></i>
-          <h2 class="font-serif text-3xl sm:text-4xl text-carbon leading-snug mb-10">"Con TapMeal, nuestros baristas dejaron de estresarse con las comandas. Las ventas subieron porque los clientes ya no se van por la fila. Es una transformación real."</h2>
+          <h2 class="font-serif text-3xl sm:text-4xl text-carbon leading-snug mb-10">"Con TapMeal, nuestros baristas
+            dejaron de estresarse con las comandas. Las ventas subieron porque los clientes ya no se van por la fila. Es
+            una transformación real."</h2>
           <div class="flex flex-col sm:flex-row items-center justify-center gap-8">
             <div>
               <p class="font-medium text-carbon uppercase tracking-widest text-sm mb-1">Roger Álvarez</p>
@@ -477,21 +794,27 @@
       <div class="fp-content h-full flex items-center justify-center px-6">
         <div class="max-w-3xl text-center">
           <p class="text-terracota font-medium tracking-widest uppercase text-xs mb-6">¿Es Para Ti?</p>
-          <h2 class="font-serif text-4xl sm:text-5xl text-carbon leading-tight mb-10">Exclusivo para cafeterías que valoran cada detalle.</h2>
+          <h2 class="font-serif text-4xl sm:text-5xl text-carbon leading-tight mb-10">Exclusivo para cafeterías que
+            valoran cada detalle.</h2>
           <div class="grid sm:grid-cols-2 gap-8 text-left">
             <div class="bg-white p-6 shadow-md border border-carbon/5">
-              <h3 class="font-serif text-xl text-carbon mb-4 flex items-center gap-2"><i data-lucide="check-circle" class="h-5 w-5 text-emerald-600"></i> TapMeal es para ti si:</h3>
+              <h3 class="font-serif text-xl text-carbon mb-4 flex items-center gap-2"><i data-lucide="check-circle"
+                  class="h-5 w-5 text-emerald-600"></i> TapMeal es para ti si:</h3>
               <ul class="space-y-3 text-carbon/70 text-sm font-light">
-                <li class="flex gap-2"><span class="text-emerald-600">✓</span> Tienes una cafetería con servicio en mesa</li>
+                <li class="flex gap-2"><span class="text-emerald-600">✓</span> Tienes una cafetería con servicio en mesa
+                </li>
                 <li class="flex gap-2"><span class="text-emerald-600">✓</span> Quieres eliminar errores en comandas</li>
-                <li class="flex gap-2"><span class="text-emerald-600">✓</span> Buscas datos reales para tomar decisiones</li>
+                <li class="flex gap-2"><span class="text-emerald-600">✓</span> Buscas datos reales para tomar decisiones
+                </li>
                 <li class="flex gap-2"><span class="text-emerald-600">✓</span> Valoras la experiencia de tu cliente</li>
               </ul>
             </div>
             <div class="bg-carbon p-6 shadow-md">
-              <h3 class="font-serif text-xl text-white mb-4 flex items-center gap-2"><i data-lucide="x-circle" class="h-5 w-5 text-red-400"></i> NO es para ti si:</h3>
+              <h3 class="font-serif text-xl text-white mb-4 flex items-center gap-2"><i data-lucide="x-circle"
+                  class="h-5 w-5 text-red-400"></i> NO es para ti si:</h3>
               <ul class="space-y-3 text-white/60 text-sm font-light">
-                <li class="flex gap-2"><span class="text-red-400">✗</span> Dependes solo de apps de delivery externas</li>
+                <li class="flex gap-2"><span class="text-red-400">✗</span> Dependes solo de apps de delivery externas
+                </li>
                 <li class="flex gap-2"><span class="text-red-400">✗</span> Tu modelo es comida rápida masiva</li>
                 <li class="flex gap-2"><span class="text-red-400">✗</span> No tienes WiFi estable en tu local</li>
                 <li class="flex gap-2"><span class="text-red-400">✗</span> No buscas modernizar tu operación</li>
@@ -509,28 +832,50 @@
           <h2 class="font-serif text-4xl text-carbon mb-10">Preguntas Frecuentes</h2>
           <div class="space-y-0 border-t border-carbon/20">
             <details class="group border-b border-carbon/20">
-              <summary class="flex justify-between items-center py-5 font-medium text-carbon">¿Mis clientes deben descargar algo? <i data-lucide="plus" class="h-5 w-5 text-carbon/40 transition-transform group-open:rotate-45"></i></summary>
-              <p class="pb-5 text-carbon/60 font-light text-sm">No. TapMeal es una PWA (Progressive Web App). El cliente escanea el QR y navega por el menú directamente en su navegador, con la misma fluidez que una app nativa.</p>
+              <summary class="flex justify-between items-center py-5 font-medium text-carbon">¿Mis clientes deben
+                descargar algo? <i data-lucide="plus"
+                  class="h-5 w-5 text-carbon/40 transition-transform group-open:rotate-45"></i></summary>
+              <p class="pb-5 text-carbon/60 font-light text-sm">No. TapMeal es una PWA (Progressive Web App). El cliente
+                escanea el QR y navega por el menú directamente en su navegador, con la misma fluidez que una app
+                nativa.</p>
             </details>
             <details class="group border-b border-carbon/20">
-              <summary class="flex justify-between items-center py-5 font-medium text-carbon">¿Cómo llega la orden a mis baristas? <i data-lucide="plus" class="h-5 w-5 text-carbon/40 transition-transform group-open:rotate-45"></i></summary>
-              <p class="pb-5 text-carbon/60 font-light text-sm">Nuestra integración con Supabase permite comunicación en tiempo real. La orden se refleja en el panel del admin y se imprime el ticket térmico en barra al instante.</p>
+              <summary class="flex justify-between items-center py-5 font-medium text-carbon">¿Cómo llega la orden a mis
+                baristas? <i data-lucide="plus"
+                  class="h-5 w-5 text-carbon/40 transition-transform group-open:rotate-45"></i></summary>
+              <p class="pb-5 text-carbon/60 font-light text-sm">Nuestra integración con Supabase permite comunicación en
+                tiempo real. La orden se refleja en el panel del admin y se imprime el ticket térmico en barra al
+                instante.</p>
             </details>
             <details class="group border-b border-carbon/20">
-              <summary class="flex justify-between items-center py-5 font-medium text-carbon">¿Puedo modificar el menú yo mismo? <i data-lucide="plus" class="h-5 w-5 text-carbon/40 transition-transform group-open:rotate-45"></i></summary>
-              <p class="pb-5 text-carbon/60 font-light text-sm">Sí. El panel administrativo privado te permite pausar productos agotados, cambiar precios o añadir especialidades de temporada en segundos.</p>
+              <summary class="flex justify-between items-center py-5 font-medium text-carbon">¿Puedo modificar el menú
+                yo mismo? <i data-lucide="plus"
+                  class="h-5 w-5 text-carbon/40 transition-transform group-open:rotate-45"></i></summary>
+              <p class="pb-5 text-carbon/60 font-light text-sm">Sí. El panel administrativo privado te permite pausar
+                productos agotados, cambiar precios o añadir especialidades de temporada en segundos.</p>
             </details>
             <details class="group border-b border-carbon/20">
-              <summary class="flex justify-between items-center py-5 font-medium text-carbon">¿Necesito equipo especial? <i data-lucide="plus" class="h-5 w-5 text-carbon/40 transition-transform group-open:rotate-45"></i></summary>
-              <p class="pb-5 text-carbon/60 font-light text-sm">Solo WiFi y una impresora térmica opcional. TapMeal funciona en cualquier dispositivo con navegador moderno.</p>
+              <summary class="flex justify-between items-center py-5 font-medium text-carbon">¿Necesito equipo especial?
+                <i data-lucide="plus" class="h-5 w-5 text-carbon/40 transition-transform group-open:rotate-45"></i>
+              </summary>
+              <p class="pb-5 text-carbon/60 font-light text-sm">Solo WiFi y una impresora térmica opcional. TapMeal
+                funciona en cualquier dispositivo con navegador moderno.</p>
             </details>
             <details class="group border-b border-carbon/20">
-              <summary class="flex justify-between items-center py-5 font-medium text-carbon">¿Mis datos están seguros con Supabase? <i data-lucide="plus" class="h-5 w-5 text-carbon/40 transition-transform group-open:rotate-45"></i></summary>
-              <p class="pb-5 text-carbon/60 font-light text-sm">Absolutamente. Supabase usa PostgreSQL con cifrado de datos en reposo y en tránsito. Además, las políticas de seguridad a nivel de fila (RLS) garantizan que cada cafetería solo accede a sus propios datos.</p>
+              <summary class="flex justify-between items-center py-5 font-medium text-carbon">¿Mis datos están seguros
+                con Supabase? <i data-lucide="plus"
+                  class="h-5 w-5 text-carbon/40 transition-transform group-open:rotate-45"></i></summary>
+              <p class="pb-5 text-carbon/60 font-light text-sm">Absolutamente. Supabase usa PostgreSQL con cifrado de
+                datos en reposo y en tránsito. Además, las políticas de seguridad a nivel de fila (RLS) garantizan que
+                cada cafetería solo accede a sus propios datos.</p>
             </details>
             <details class="group border-b border-carbon/20">
-              <summary class="flex justify-between items-center py-5 font-medium text-carbon">¿Es fácil de usar para mis baristas? <i data-lucide="plus" class="h-5 w-5 text-carbon/40 transition-transform group-open:rotate-45"></i></summary>
-              <p class="pb-5 text-carbon/60 font-light text-sm">Sí. El panel de barra está diseñado para ser intuitivo: las órdenes llegan automáticamente y solo necesitan marcarlas como "en preparación" o "listas". Capacitación promedio: 10 minutos.</p>
+              <summary class="flex justify-between items-center py-5 font-medium text-carbon">¿Es fácil de usar para mis
+                baristas? <i data-lucide="plus"
+                  class="h-5 w-5 text-carbon/40 transition-transform group-open:rotate-45"></i></summary>
+              <p class="pb-5 text-carbon/60 font-light text-sm">Sí. El panel de barra está diseñado para ser intuitivo:
+                las órdenes llegan automáticamente y solo necesitan marcarlas como "en preparación" o "listas".
+                Capacitación promedio: 10 minutos.</p>
             </details>
           </div>
         </div>
@@ -544,8 +889,11 @@
           <div class="inline-block mb-8 px-4 py-2 border border-terracota/50 bg-terracota/10">
             <span class="text-terracota text-sm font-bold tracking-widest uppercase">Cupos Limitados</span>
           </div>
-          <h2 class="font-serif text-4xl sm:text-6xl mb-8">Solo quedan <span class="text-terracota">3</span> plazas este semestre.</h2>
-          <p class="text-white/60 font-light text-lg mb-6 max-w-xl mx-auto">Estamos aceptando únicamente 5 cafeterías en Juigalpa para la fase Beta exclusiva de este semestre. Los cupos se asignan por orden de llegada y 2 ya fueron reservados.</p>
+          <h2 class="font-serif text-4xl sm:text-6xl mb-8">Solo quedan <span class="text-terracota">3</span> plazas este
+            semestre.</h2>
+          <p class="text-white/60 font-light text-lg mb-6 max-w-xl mx-auto">Estamos aceptando únicamente 5 cafeterías en
+            Juigalpa para la fase Beta exclusiva de este semestre. Los cupos se asignan por orden de llegada y 2 ya
+            fueron reservados.</p>
           <p class="text-white/40 text-sm">2 de 5 cupos ya reservados — Solo quedan 3 disponibles.</p>
           <div class="flex justify-center gap-3 mt-6">
             <div class="w-12 h-2 bg-terracota rounded-full"></div>
@@ -554,7 +902,9 @@
             <div class="w-12 h-2 bg-white/20 rounded-full"></div>
             <div class="w-12 h-2 bg-white/20 rounded-full"></div>
           </div>
-          <button onclick="window.goToSection&&goToSection(10)" class="mt-10 px-8 py-4 bg-terracota text-white text-sm font-medium tracking-widest uppercase hover:bg-terracota/90 transition-colors">Reservar Mi Cupo Ahora</button>
+          <button onclick="window.goToSection&&goToSection(10)"
+            class="mt-10 px-8 py-4 bg-terracota text-white text-sm font-medium tracking-widest uppercase hover:bg-terracota/90 transition-colors">Reservar
+            Mi Cupo Ahora</button>
         </div>
       </div>
     </section>
@@ -565,12 +915,25 @@
         <div class="max-w-5xl text-center text-white">
           <p class="text-terracota font-medium tracking-widest uppercase text-xs mb-4">El Equipo Detrás de TapMeal</p>
           <h2 class="font-serif text-4xl sm:text-5xl mb-12">Conoce a los creadores.</h2>
-          <p class="text-white/60 font-light max-w-2xl mx-auto mb-16">Diseñado y programado por el Grupo #6 de Ingeniería en Sistemas (4to Año) — UNAN CUR Chontales, Recinto "Cornelio Silva Argüello".</p>
+          <p class="text-white/60 font-light max-w-2xl mx-auto mb-16">Diseñado y programado por el Grupo #6 de
+            Ingeniería en Sistemas (4to Año) — UNAN CUR Chontales, Recinto "Cornelio Silva Argüello".</p>
           <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 border-t border-white/10 pt-12">
-            <div><h3 class="font-serif text-xl mb-1">María Sarahí Gonzales Ruiz</h3><p class="text-white/40 text-sm uppercase tracking-widest">Product Owner</p></div>
-            <div><h3 class="font-serif text-xl mb-1">Edgar José Martínez</h3><p class="text-white/40 text-sm uppercase tracking-widest">Scrum Master</p></div>
-            <div><h3 class="font-serif text-xl mb-1">Gustavo Juriel Domínguez</h3><p class="text-white/40 text-sm uppercase tracking-widest">Developer</p></div>
-            <div><h3 class="font-serif text-xl mb-1">Wesling Alcides Bermúdez</h3><p class="text-white/40 text-sm uppercase tracking-widest">Developer</p></div>
+            <div>
+              <h3 class="font-serif text-xl mb-1">María Sarahí Gonzales Ruiz</h3>
+              <p class="text-white/40 text-sm uppercase tracking-widest">Product Owner</p>
+            </div>
+            <div>
+              <h3 class="font-serif text-xl mb-1">Edgar José Martínez</h3>
+              <p class="text-white/40 text-sm uppercase tracking-widest">Scrum Master</p>
+            </div>
+            <div>
+              <h3 class="font-serif text-xl mb-1">Gustavo Juriel Domínguez</h3>
+              <p class="text-white/40 text-sm uppercase tracking-widest">Developer</p>
+            </div>
+            <div>
+              <h3 class="font-serif text-xl mb-1">Wesling Alcides Bermúdez</h3>
+              <p class="text-white/40 text-sm uppercase tracking-widest">Developer</p>
+            </div>
           </div>
         </div>
       </div>
@@ -579,21 +942,29 @@
     <!-- S10: CTA FINAL -->
     <section class="fp-section" data-label="Contacto">
       <div class="absolute inset-0">
-        <img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&q=80&w=2000" loading="lazy" alt="Granos de café tostados sobre superficie oscura" class="fp-bg-img w-full h-full object-cover">
+        <img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&q=80&w=2000"
+          loading="lazy" alt="Granos de café tostados sobre superficie oscura"
+          class="fp-bg-img w-full h-full object-cover">
         <div class="absolute inset-0 bg-carbon/80"></div>
       </div>
       <div class="fp-content relative z-10 h-full flex flex-col items-center justify-center px-6">
         <div class="text-center max-w-2xl">
           <h2 class="font-serif text-4xl sm:text-5xl text-white mb-6">La nueva era de la hospitalidad empieza aquí.</h2>
-          <p class="text-white/70 font-light text-lg mb-4">Déjanos tu correo y te contactaremos para activar tu cafetería.</p>
-          <p class="text-white/40 text-xs mb-8 tracking-wide">🔒 Cero spam. Solo información relevante sobre tu acceso.</p>
+          <p class="text-white/70 font-light text-lg mb-4">Déjanos tu correo y te contactaremos para activar tu
+            cafetería.</p>
+          <p class="text-white/40 text-xs mb-8 tracking-wide">🔒 Cero spam. Solo información relevante sobre tu acceso.
+          </p>
           <form id="beta-form" class="flex flex-col sm:flex-row gap-0 max-w-lg mx-auto">
-            <input id="beta-email" type="email" placeholder="tu@cafeteria.com" required class="px-6 py-4 bg-white/10 border border-white/20 text-white placeholder-white/40 outline-none flex-1 focus:bg-white/20 transition-colors">
-            <button id="beta-submit" type="submit" class="bg-terracota text-white font-medium px-8 py-4 uppercase tracking-widest text-sm hover:bg-terracota/90 transition-colors"><span>Reservar Cupo</span></button>
+            <input id="beta-email" type="email" placeholder="tu@cafeteria.com" required
+              class="px-6 py-4 bg-white/10 border border-white/20 text-white placeholder-white/40 outline-none flex-1 focus:bg-white/20 transition-colors">
+            <button id="beta-submit" type="submit"
+              class="bg-terracota text-white font-medium px-8 py-4 uppercase tracking-widest text-sm hover:bg-terracota/90 transition-colors"><span>Reservar
+                Cupo</span></button>
           </form>
           <div id="form-message" class="hidden mt-6 text-sm font-medium tracking-wide"></div>
         </div>
-        <div class="absolute bottom-8 text-white/30 text-xs tracking-widest uppercase">© 2026 TapMeal · Proyecto Universitario · UNAN CUR Chontales</div>
+        <div class="absolute bottom-8 text-white/30 text-xs tracking-widest uppercase">© 2026 TapMeal · Proyecto
+          Universitario · UNAN CUR Chontales</div>
       </div>
     </section>
 
@@ -601,10 +972,11 @@
 
   <script>
     // Expose goTo globally for inline onclick handlers
-    window.goToSection = function(i) {
+    window.goToSection = function (i) {
       if (typeof goTo === 'function') goTo(i);
     };
   </script>
   <script src="./main.js"></script>
 </body>
+
 </html>
