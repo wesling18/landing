@@ -9,6 +9,10 @@ let dots = [];
 let sectionNames = [];
 const TRANSITION_MS = 900;
 
+// Detect dvh support for wrapper transform
+const supportsDvh = CSS.supports && CSS.supports('height', '100dvh');
+const vh = supportsDvh ? 'dvh' : 'vh';
+
 // Initialize everything on DOM ready
 document.addEventListener("DOMContentLoaded", () => {
   if (window.lucide) window.lucide.createIcons();
@@ -22,10 +26,12 @@ document.addEventListener("DOMContentLoaded", () => {
   initKeyboardNav();
   initTouchNav();
   initDotNav();
+  initSectionObserver();
   initBetaForm();
   initInteractiveMenu();
   initMobileMenu();
   initRevealAnimations();
+  initChatbot();
 
   // Reveal first section immediately
   sections[0]?.classList.add("active");
@@ -35,7 +41,14 @@ document.addEventListener("DOMContentLoaded", () => {
 window.goTo = goTo;
 window.goToSection = goTo;
 function goTo(index) {
-  if (isAnimating || index === currentSection || index < 0 || index >= sections.length) return;
+  if (index < 0 || index >= sections.length) return;
+
+  if (window.innerWidth <= 768) {
+    sections[index].scrollIntoView({ behavior: 'smooth' });
+    return;
+  }
+
+  if (isAnimating || index === currentSection) return;
   isAnimating = true;
 
   // Remove active from old
@@ -46,7 +59,10 @@ function goTo(index) {
 
   // Move wrapper
   const wrapper = document.getElementById("fp-wrapper");
-  wrapper.style.transform = `translateY(-${currentSection * 100}vh)`;
+  wrapper.style.transform = `translateY(-${currentSection * 100}${vh})`;
+
+  // Ensure body is unlocked (cleanup from mobile menu or overlays)
+  document.body.style.overflow = '';
 
   // Add active to new
   setTimeout(() => {
@@ -86,6 +102,7 @@ function initWheelNav() {
   let timeout;
 
   window.addEventListener("wheel", (e) => {
+    if (window.innerWidth <= 768) return;
     e.preventDefault();
     accumulated += e.deltaY;
     clearTimeout(timeout);
@@ -101,6 +118,7 @@ function initWheelNav() {
 // --- Keyboard Navigation ---
 function initKeyboardNav() {
   window.addEventListener("keydown", (e) => {
+    if (window.innerWidth <= 768) return;
     if (e.key === "ArrowDown" || e.key === "PageDown") { e.preventDefault(); goNext(); }
     if (e.key === "ArrowUp" || e.key === "PageUp") { e.preventDefault(); goPrev(); }
     if (e.key === "Home") { e.preventDefault(); goTo(0); }
@@ -111,8 +129,12 @@ function initKeyboardNav() {
 // --- Touch/Swipe Navigation ---
 function initTouchNav() {
   let startY = 0;
-  window.addEventListener("touchstart", (e) => { startY = e.touches[0].clientY; }, { passive: true });
+  window.addEventListener("touchstart", (e) => { 
+    if (window.innerWidth <= 768) return;
+    startY = e.touches[0].clientY; 
+  }, { passive: true });
   window.addEventListener("touchend", (e) => {
+    if (window.innerWidth <= 768) return;
     const diff = startY - e.changedTouches[0].clientY;
     if (Math.abs(diff) > 60) {
       if (diff > 0) goNext(); else goPrev();
@@ -127,23 +149,46 @@ function initDotNav() {
   });
 }
 
+// --- Intersection Observer for Sections (Mobile) ---
+function initSectionObserver() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && window.innerWidth <= 768) {
+        const index = sections.indexOf(entry.target);
+        if (index !== -1 && currentSection !== index) {
+          currentSection = index;
+          sections.forEach(s => s.classList.remove("active"));
+          entry.target.classList.add("active");
+          updateUI();
+        }
+      }
+    });
+  }, { threshold: 0.3 });
+  
+  sections.forEach(s => observer.observe(s));
+}
+
 // --- Mobile Menu ---
 function initMobileMenu() {
   const btn = document.getElementById("mobile-menu-btn");
   const menu = document.getElementById("mobile-menu");
   if (!btn || !menu) return;
 
-  btn.addEventListener("click", () => {
-    menu.classList.toggle("open");
-    btn.classList.toggle("open");
-  });
+  const toggleMenu = (open) => {
+    const isOpen = open !== undefined ? open : !menu.classList.contains('open');
+    menu.classList.toggle('open', isOpen);
+    btn.classList.toggle('open', isOpen);
+    // Lock/unlock body scroll
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  };
+
+  btn.addEventListener("click", () => toggleMenu());
 
   menu.querySelectorAll("[data-goto]").forEach(link => {
     link.addEventListener("click", () => {
       const idx = parseInt(link.dataset.goto, 10);
       goTo(idx);
-      menu.classList.remove("open");
-      btn.classList.remove("open");
+      toggleMenu(false);
     });
   });
 }
@@ -329,4 +374,189 @@ function initRevealAnimations() {
   }, { threshold: 0.15 });
 
   items.forEach(item => observer.observe(item));
+}
+
+// --- Chatbot Interactivo ---
+function initChatbot() {
+  const fab = document.getElementById('chat-fab');
+  const win = document.getElementById('chat-window');
+  const closeBtn = document.getElementById('chat-close');
+  const msgContainer = document.getElementById('chat-messages');
+  const quickReplies = document.getElementById('chat-quick-replies');
+  const emailForm = document.getElementById('chat-email-form');
+  const emailInput = document.getElementById('chat-email-input');
+  if (!fab || !win) return;
+
+  let chatOpen = false;
+  let chatStarted = false;
+
+  // Show FAB only after passing Hero (section > 0)
+  // We piggyback on the existing goTo function by watching currentSection
+  const checkFabVisibility = () => {
+    if (currentSection > 0) {
+      fab.classList.add('visible');
+    }
+  };
+  // Override goTo to also check FAB visibility
+  const originalGoTo = window.goTo;
+  window.goTo = function(index) {
+    originalGoTo(index);
+    setTimeout(checkFabVisibility, 100);
+  };
+  window.goToSection = window.goTo;
+
+  // Toggle chat
+  fab.addEventListener('click', () => {
+    chatOpen = !chatOpen;
+    win.classList.toggle('open', chatOpen);
+    if (chatOpen && !chatStarted) {
+      chatStarted = true;
+      startConversation();
+    }
+    // Re-render Lucide icons for new elements
+    setTimeout(() => { if (window.lucide) window.lucide.createIcons(); }, 50);
+  });
+
+  closeBtn.addEventListener('click', () => {
+    chatOpen = false;
+    win.classList.remove('open');
+  });
+
+  // -- Message Helpers --
+  function addMessage(text, isBot = true) {
+    const div = document.createElement('div');
+    div.className = `chat-msg flex ${isBot ? 'justify-start' : 'justify-end'}`;
+    const bubble = document.createElement('div');
+    bubble.className = isBot
+      ? 'max-w-[85%] px-4 py-3 rounded-2xl rounded-bl-sm bg-white text-carbon text-xs leading-relaxed shadow-sm border border-carbon/5'
+      : 'max-w-[85%] px-4 py-3 rounded-2xl rounded-br-sm bg-terracota text-white text-xs leading-relaxed shadow-sm';
+    bubble.innerHTML = text;
+    div.appendChild(bubble);
+    msgContainer.appendChild(div);
+    msgContainer.scrollTop = msgContainer.scrollHeight;
+  }
+
+  function showTyping() {
+    const div = document.createElement('div');
+    div.className = 'chat-msg flex justify-start';
+    div.id = 'typing-indicator';
+    div.innerHTML = '<div class="px-4 py-3 rounded-2xl rounded-bl-sm bg-white shadow-sm border border-carbon/5 flex items-center gap-1.5"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>';
+    msgContainer.appendChild(div);
+    msgContainer.scrollTop = msgContainer.scrollHeight;
+  }
+
+  function hideTyping() {
+    const el = document.getElementById('typing-indicator');
+    if (el) el.remove();
+  }
+
+  function botReply(text, delay = 1200) {
+    showTyping();
+    return new Promise(resolve => {
+      setTimeout(() => {
+        hideTyping();
+        addMessage(text, true);
+        resolve();
+      }, delay);
+    });
+  }
+
+  function setQuickReplies(options) {
+    quickReplies.innerHTML = '';
+    options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'px-3 py-1.5 text-[10px] font-medium tracking-wide uppercase rounded-full border border-carbon/15 text-carbon/70 bg-white hover:bg-terracota hover:text-white hover:border-terracota transition-all';
+      btn.textContent = opt.label;
+      btn.addEventListener('click', () => {
+        addMessage(opt.label, false);
+        quickReplies.innerHTML = '';
+        opt.action();
+      });
+      quickReplies.appendChild(btn);
+    });
+  }
+
+  // -- Conversation Flow --
+  function startConversation() {
+    botReply('\u00a1Hola! \ud83d\udc4b Soy el asistente de <strong>TapMeal</strong>.').then(() => {
+      return botReply('\u00bfListo para eliminar las filas en tu cafeter\u00eda y convertir cada visita en una venta?', 1000);
+    }).then(() => {
+      setQuickReplies([
+        { label: '\u00bfEs seguro?', action: answerSecurity },
+        { label: '\u00bfQu\u00e9 tan r\u00e1pido es?', action: answerSpeed },
+        { label: '\u00bfQui\u00e9n lo desarrolla?', action: answerTeam },
+        { label: 'Quiero probarlo', action: answerBeta }
+      ]);
+    });
+  }
+
+  function showMainMenu() {
+    setQuickReplies([
+      { label: '\u00bfEs seguro?', action: answerSecurity },
+      { label: '\u00bfQu\u00e9 tan r\u00e1pido es?', action: answerSpeed },
+      { label: '\u00bfQui\u00e9n lo desarrolla?', action: answerTeam },
+      { label: 'Quiero probarlo', action: answerBeta }
+    ]);
+  }
+
+  function answerSecurity() {
+    botReply('Usamos <strong>Supabase</strong> (basado en PostgreSQL), con encriptaci\u00f3n de datos en tr\u00e1nsito y en reposo. Tu informaci\u00f3n y la de tus clientes est\u00e1 protegida con est\u00e1ndares bancarios. \ud83d\udd12').then(() => {
+      return botReply('Adem\u00e1s, ning\u00fan dato sensible se almacena en el dispositivo del cliente.', 800);
+    }).then(() => {
+      setQuickReplies([
+        { label: 'Otra pregunta', action: showMainMenu },
+        { label: 'Quiero probarlo', action: answerBeta }
+      ]);
+    });
+  }
+
+  function answerSpeed() {
+    botReply('TapMeal es una <strong>PWA</strong>: funciona directo desde el navegador. Tus clientes escanean un QR, ven el men\u00fa y ordenan en <strong>menos de 30 segundos</strong>. \u26a1').then(() => {
+      return botReply('Cero descargas, cero esperas. El pedido llega a cocina en tiempo real.', 800);
+    }).then(() => {
+      setQuickReplies([
+        { label: 'Otra pregunta', action: showMainMenu },
+        { label: 'Quiero probarlo', action: answerBeta }
+      ]);
+    });
+  }
+
+  function answerTeam() {
+    botReply('Somos estudiantes de la <strong>UNAN CUR Chontales</strong>, liderados por:\n<br>\u2022 <strong>Edgar Mart\u00ednez</strong> \u2014 Scrum Master\n<br>\u2022 <strong>Gustavo Dom\u00ednguez</strong> \u2014 Dev Team\n<br>\u2022 <strong>Wesling Murillo</strong> \u2014 Dev Team\n<br>\u2022 <strong>Mar\u00eda Garc\u00eda</strong> \u2014 Product Owner').then(() => {
+      return botReply('Un equipo apasionado por modernizar la atenci\u00f3n en cafeter\u00edas de Juigalpa. \u2615', 800);
+    }).then(() => {
+      setQuickReplies([
+        { label: 'Otra pregunta', action: showMainMenu },
+        { label: 'Quiero probarlo', action: answerBeta }
+      ]);
+    });
+  }
+
+  function answerBeta() {
+    botReply('\u00a1Genial! \ud83d\ude80 Solo quedan <strong>3 plazas</strong> para la Beta privada en Juigalpa.').then(() => {
+      return botReply('Deja tu correo y te enviaremos acceso exclusivo antes que nadie:', 800);
+    }).then(() => {
+      quickReplies.innerHTML = '';
+      emailForm.classList.remove('hidden');
+      emailInput.focus();
+    });
+  }
+
+  // Email form submission
+  emailForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = emailInput.value.trim();
+    if (!email) return;
+    addMessage(email, false);
+    emailForm.classList.add('hidden');
+    emailInput.value = '';
+    botReply('\u00a1Registrado! \u2705 Te contactaremos pronto en <strong>' + email + '</strong>.').then(() => {
+      return botReply('Mientras tanto, explora la demo interactiva del men\u00fa arriba. \u00a1Gracias por tu inter\u00e9s en TapMeal! \u2615', 800);
+    }).then(() => {
+      setQuickReplies([
+        { label: 'Ver Demo', action: () => { chatOpen = false; win.classList.remove('open'); window.goTo(2); } },
+        { label: 'Otra pregunta', action: showMainMenu }
+      ]);
+    });
+  });
 }

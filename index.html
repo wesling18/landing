@@ -43,6 +43,7 @@
 
     .fp-section {
       height: 100vh;
+      height: 100dvh;
       width: 100vw;
       position: relative;
       overflow: hidden;
@@ -53,6 +54,9 @@
       opacity: 0;
       transform: translateY(40px);
       transition: opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s;
+      max-height: 100%;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     .fp-section.active .fp-content {
@@ -173,18 +177,33 @@
       transform: scale(1);
     }
 
-    /* Hide dots on small screens */
+    /* Responsive adjustments for mobile scroll */
     @media(max-width:768px) {
+      html, body {
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+      #fp-wrapper {
+        transition: none !important;
+        transform: none !important;
+      }
+      .fp-section {
+        height: auto;
+        min-height: 100dvh;
+        overflow: visible;
+      }
+      .fp-section .fp-content {
+        max-height: none;
+        overflow-y: visible;
+      }
       .fp-nav {
         right: 1rem;
         gap: 8px;
       }
-
       .fp-dot {
         width: 8px;
         height: 8px;
       }
-
       .fp-info {
         display: none;
       }
@@ -243,6 +262,32 @@
 
     .total-pulse {
       animation: totalPulse 0.3s ease;
+    }
+
+    /* ===== CHATBOT ===== */
+    #chat-fab { opacity:0; transform:scale(0.6) translateY(20px); pointer-events:none; transition:all 0.5s cubic-bezier(0.34,1.56,0.64,1); }
+    #chat-fab.visible { opacity:1; transform:scale(1) translateY(0); pointer-events:auto; }
+    #chat-fab:hover { transform:scale(1.08) translateY(-2px); }
+
+    @keyframes fabPulse { 0%,100%{ box-shadow:0 0 0 0 rgba(168,76,56,0.4); } 70%{ box-shadow:0 0 0 12px rgba(168,76,56,0); } }
+    #chat-fab.visible { animation: fabPulse 2.5s ease-in-out 3; }
+
+    #chat-window { opacity:0; transform:translateY(16px) scale(0.95); pointer-events:none; transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1); }
+    #chat-window.open { opacity:1; transform:translateY(0) scale(1); pointer-events:auto; }
+
+    #chat-messages::-webkit-scrollbar { width:4px; }
+    #chat-messages::-webkit-scrollbar-thumb { background:rgba(28,28,28,0.15); border-radius:10px; }
+
+    .chat-msg { opacity:0; transform:translateY(8px); animation: chatMsgIn 0.3s ease forwards; }
+    @keyframes chatMsgIn { to { opacity:1; transform:translateY(0); } }
+
+    .typing-dot { width:6px; height:6px; background:rgba(28,28,28,0.4); border-radius:50%; animation: typingBounce 1.2s ease-in-out infinite; }
+    .typing-dot:nth-child(2) { animation-delay:0.15s; }
+    .typing-dot:nth-child(3) { animation-delay:0.3s; }
+    @keyframes typingBounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-5px)} }
+
+    @media(max-width:640px) {
+      #chat-window { inset:0 !important; width:100% !important; height:100% !important; border-radius:0 !important; max-height:100dvh !important; }
     }
   </style>
 </head>
@@ -509,7 +554,7 @@
 
         <!-- Mockup de Smartphone (Reveal via IO) -->
         <article
-          class="relative w-[280px] sm:w-[300px] shrink-0 phone-mockup opacity-0 translate-y-8 transition-all duration-1000 ease-out"
+          class="relative w-[240px] sm:w-[280px] md:w-[300px] max-w-[80vw] shrink-0 phone-mockup opacity-0 translate-y-8 transition-all duration-1000 ease-out"
           aria-label="Simulador de la aplicación TapMeal">
           <!-- Marco del teléfono -->
           <div class="rounded-[2.5rem] bg-carbon p-2.5 shadow-2xl shadow-carbon/40">
@@ -977,6 +1022,48 @@
     </section>
 
   </div><!-- /fp-wrapper -->
+
+  <!-- ===== CHATBOT WIDGET ===== -->
+  <!-- Botón flotante (FAB) -->
+  <button id="chat-fab" class="fixed bottom-6 right-6 z-[200] h-14 w-14 rounded-full bg-terracota text-white shadow-lg shadow-terracota/30 flex items-center justify-center hover:shadow-xl transition-shadow" aria-label="Abrir chat de soporte">
+    <i data-lucide="message-circle" class="h-6 w-6" id="chat-fab-icon"></i>
+  </button>
+
+  <!-- Ventana del Chat — Glassmorfismo -->
+  <aside id="chat-window" class="fixed bottom-24 right-6 z-[200] w-[360px] max-h-[520px] rounded-2xl overflow-hidden flex flex-col shadow-2xl shadow-carbon/20 border border-white/15" aria-label="Chat de soporte TapMeal">
+    
+    <!-- Header -->
+    <header class="px-5 py-4 bg-carbon flex items-center justify-between shrink-0">
+      <div class="flex items-center gap-3">
+        <div class="h-9 w-9 rounded-full bg-terracota/20 flex items-center justify-center">
+          <i data-lucide="coffee" class="h-4 w-4 text-terracota"></i>
+        </div>
+        <div>
+          <p class="text-white text-sm font-medium">TapMeal Bot</p>
+          <p class="text-white/50 text-[10px] tracking-widest uppercase flex items-center gap-1">
+            <span class="h-1.5 w-1.5 rounded-full bg-emerald-400 inline-block"></span> En línea
+          </p>
+        </div>
+      </div>
+      <button id="chat-close" class="h-8 w-8 rounded-full bg-white/10 hover:bg-white/20 transition flex items-center justify-center" aria-label="Cerrar chat">
+        <i data-lucide="x" class="h-4 w-4 text-white/70"></i>
+      </button>
+    </header>
+
+    <!-- Mensajes -->
+    <div id="chat-messages" class="flex-1 overflow-y-auto px-4 py-4 space-y-3 bg-crema/80 backdrop-blur-xl" style="min-height:280px;"></div>
+
+    <!-- Quick Replies -->
+    <div id="chat-quick-replies" class="px-4 py-2 bg-crema/60 backdrop-blur-md border-t border-carbon/5 flex flex-wrap gap-2 shrink-0"></div>
+
+    <!-- Input de email (oculto inicialmente) -->
+    <form id="chat-email-form" class="hidden px-4 py-3 bg-white/70 backdrop-blur-md border-t border-carbon/5 shrink-0">
+      <div class="flex gap-2">
+        <input type="email" id="chat-email-input" placeholder="tu@correo.com" required class="flex-1 px-3 py-2 text-xs bg-white rounded-lg border border-carbon/10 focus:outline-none focus:border-terracota/50 focus:ring-1 focus:ring-terracota/20 transition text-carbon placeholder:text-carbon/40">
+        <button type="submit" class="px-4 py-2 bg-terracota text-white text-[10px] font-bold uppercase tracking-widest rounded-lg hover:bg-terracota/85 transition-colors shrink-0">Unirme</button>
+      </div>
+    </form>
+  </aside>
 
   <script>
     // Expose goTo globally for inline onclick handlers
