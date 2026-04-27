@@ -31,11 +31,23 @@ document.addEventListener("DOMContentLoaded", () => {
   initInteractiveMenu();
   initMobileMenu();
   initRevealAnimations();
+  initFAQ();
   initChatbot();
+  initDataGoto();
 
   // Reveal first section immediately
   sections[0]?.classList.add("active");
 });
+
+function initDataGoto() {
+  document.querySelectorAll("[data-goto]").forEach(link => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      const idx = parseInt(link.dataset.goto, 10);
+      goTo(idx);
+    });
+  });
+}
 
 // --- Navigation Core ---
 window.goTo = goTo;
@@ -220,6 +232,30 @@ function initBetaForm() {
 
 // --- Interactive Demo (Smartphone Mockup) ---
 function initInteractiveMenu() {
+  // Demo Tabs Logic
+  const demoTabs = document.querySelectorAll("[data-demo-tab]");
+  const demoPanels = document.querySelectorAll("[data-demo-panel]");
+
+  demoTabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      const target = tab.dataset.target;
+      
+      // Update tabs
+      demoTabs.forEach(t => {
+        t.setAttribute("aria-selected", t === tab ? "true" : "false");
+      });
+
+      // Update panels
+      demoPanels.forEach(p => {
+        if (p.dataset.demoPanel === target) {
+          p.removeAttribute("hidden");
+        } else {
+          p.setAttribute("hidden", "");
+        }
+      });
+    });
+  });
+
   let demoTotal = 0;
   let demoItems = 0;
   const totalEl = document.getElementById("demo-total");
@@ -277,9 +313,9 @@ function initInteractiveMenu() {
       const cardWidth = 200 + 16; // w-[200px] + gap-4
       const activeIdx = Math.round(scrollLeft / cardWidth);
       dots.forEach((dot, i) => {
-        dot.classList.toggle("bg-terracota", i === activeIdx);
+        dot.classList.toggle("bg-terracotta", i === activeIdx);
         dot.classList.toggle("w-5", i === activeIdx);
-        dot.classList.toggle("bg-carbon/15", i !== activeIdx);
+        dot.classList.toggle("bg-espresso/15", i !== activeIdx);
         dot.classList.toggle("w-2", i !== activeIdx);
       });
     }, { passive: true });
@@ -295,8 +331,8 @@ function initInteractiveMenu() {
       // Visual feedback: icon swap to check
       const orig = btn.innerHTML;
       btn.innerHTML = '<i data-lucide="check" class="h-3.5 w-3.5"></i>';
-      btn.classList.add("bg-terracota");
-      btn.classList.remove("bg-carbon");
+      btn.classList.add("bg-terracotta");
+      btn.classList.remove("bg-espresso");
       if (window.lucide) window.lucide.createIcons();
 
       // Async total update
@@ -307,8 +343,8 @@ function initInteractiveMenu() {
       // Reset button after delay
       setTimeout(() => {
         btn.innerHTML = orig;
-        btn.classList.remove("bg-terracota");
-        btn.classList.add("bg-carbon");
+        btn.classList.remove("bg-terracotta");
+        btn.classList.add("bg-espresso");
         if (window.lucide) window.lucide.createIcons();
       }, 1200);
     });
@@ -324,7 +360,7 @@ function initInteractiveMenu() {
       setTimeout(() => {
         orderBtn.innerHTML = '<i data-lucide="check" class="h-4 w-4"></i> ¡Orden Enviada!';
         orderBtn.classList.add("bg-emerald-600");
-        orderBtn.classList.remove("bg-carbon", "hover:bg-terracota");
+        orderBtn.classList.remove("bg-espresso", "hover:bg-terracotta");
         if (window.lucide) window.lucide.createIcons();
         setTimeout(() => {
           demoTotal = 0;
@@ -332,7 +368,7 @@ function initInteractiveMenu() {
           updateDemoTotal();
           orderBtn.innerHTML = origText;
           orderBtn.classList.remove("bg-emerald-600");
-          orderBtn.classList.add("bg-carbon", "hover:bg-terracota");
+          orderBtn.classList.add("bg-espresso", "hover:bg-terracotta");
           orderBtn.disabled = true;
           if (window.lucide) window.lucide.createIcons();
         }, 2000);
@@ -342,7 +378,7 @@ function initInteractiveMenu() {
 
   function updateDemoTotal() {
     if (totalEl) {
-      totalEl.textContent = "$" + demoTotal.toFixed(2);
+      totalEl.textContent = "C$ " + demoTotal.toFixed(2);
       totalEl.classList.add("total-pulse");
       setTimeout(() => totalEl.classList.remove("total-pulse"), 300);
     }
@@ -374,6 +410,38 @@ function initRevealAnimations() {
   }, { threshold: 0.15 });
 
   items.forEach(item => observer.observe(item));
+}
+
+// --- FAQ Accordion Logic ---
+function initFAQ() {
+  const triggers = document.querySelectorAll('.faq-trigger');
+  
+  triggers.forEach(trigger => {
+    trigger.addEventListener('click', () => {
+      const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+      const contentId = trigger.getAttribute('aria-controls');
+      const content = document.getElementById(contentId);
+      
+      // Close all other accordions (optional, but good UX)
+      triggers.forEach(t => {
+        if (t !== trigger) {
+          t.setAttribute('aria-expanded', 'false');
+          const cId = t.getAttribute('aria-controls');
+          const c = document.getElementById(cId);
+          if (c) c.setAttribute('hidden', '');
+        }
+      });
+      
+      // Toggle current
+      if (isExpanded) {
+        trigger.setAttribute('aria-expanded', 'false');
+        if (content) content.setAttribute('hidden', '');
+      } else {
+        trigger.setAttribute('aria-expanded', 'true');
+        if (content) content.removeAttribute('hidden');
+      }
+    });
+  });
 }
 
 // --- Chatbot Interactivo ---
@@ -428,8 +496,8 @@ function initChatbot() {
     div.className = `chat-msg flex ${isBot ? 'justify-start' : 'justify-end'}`;
     const bubble = document.createElement('div');
     bubble.className = isBot
-      ? 'max-w-[85%] px-4 py-3 rounded-2xl rounded-bl-sm bg-white text-carbon text-xs leading-relaxed shadow-sm border border-carbon/5'
-      : 'max-w-[85%] px-4 py-3 rounded-2xl rounded-br-sm bg-terracota text-white text-xs leading-relaxed shadow-sm';
+      ? 'max-w-[85%] px-4 py-3 rounded-2xl rounded-bl-sm bg-white text-espresso text-xs leading-relaxed shadow-sm border border-espresso/5'
+      : 'max-w-[85%] px-4 py-3 rounded-2xl rounded-br-sm bg-terracotta text-white text-xs leading-relaxed shadow-sm';
     bubble.innerHTML = text;
     div.appendChild(bubble);
     msgContainer.appendChild(div);
@@ -440,7 +508,7 @@ function initChatbot() {
     const div = document.createElement('div');
     div.className = 'chat-msg flex justify-start';
     div.id = 'typing-indicator';
-    div.innerHTML = '<div class="px-4 py-3 rounded-2xl rounded-bl-sm bg-white shadow-sm border border-carbon/5 flex items-center gap-1.5"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>';
+    div.innerHTML = '<div class="px-4 py-3 rounded-2xl rounded-bl-sm bg-white shadow-sm border border-espresso/5 flex items-center gap-1.5"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>';
     msgContainer.appendChild(div);
     msgContainer.scrollTop = msgContainer.scrollHeight;
   }
@@ -465,7 +533,7 @@ function initChatbot() {
     quickReplies.innerHTML = '';
     options.forEach(opt => {
       const btn = document.createElement('button');
-      btn.className = 'px-3 py-1.5 text-[10px] font-medium tracking-wide uppercase rounded-full border border-carbon/15 text-carbon/70 bg-white hover:bg-terracota hover:text-white hover:border-terracota transition-all';
+      btn.className = 'px-3 py-1.5 text-[10px] font-medium tracking-wide uppercase rounded-full border border-espresso/15 text-espresso/70 bg-white hover:bg-terracotta hover:text-white hover:border-terracotta transition-all';
       btn.textContent = opt.label;
       btn.addEventListener('click', () => {
         addMessage(opt.label, false);
