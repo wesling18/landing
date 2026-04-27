@@ -191,18 +191,34 @@
         height: auto;
         min-height: 100dvh;
         overflow: visible;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
       }
       .fp-section .fp-content {
         max-height: none;
         overflow-y: visible;
+        height: auto !important;
+        width: 100%;
+        padding-top: 100px;
+        padding-bottom: 80px;
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
       }
       .fp-nav {
-        right: 1rem;
+        right: 0.5rem;
         gap: 8px;
+        background: rgba(28, 28, 28, 0.5);
+        padding: 8px 6px;
+        border-radius: 20px;
+        backdrop-filter: blur(8px);
+        transform: translateY(-50%) scale(0.85);
       }
       .fp-dot {
         width: 8px;
         height: 8px;
+        border-color: rgba(255, 255, 255, 0.6);
       }
       .fp-info {
         display: none;
