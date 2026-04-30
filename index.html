@@ -1,24 +1,19 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es" class="scroll-smooth" class="scroll-smooth">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TapMeal | Pedidos digitales para restaurantes y cafeterias</title>
-  <meta
-    name="description"
-    content="TapMeal moderniza la experiencia de pedidos en restaurantes y cafeterias con menu digital, pagos, seguimiento del pedido y control operativo en un solo flujo."
-  >
-  <meta
-    name="keywords"
-    content="TapMeal, pedidos digitales, menu QR, restaurantes, cafeterias, landing page, PWA"
-  >
+  <meta name="description"
+    content="TapMeal moderniza la experiencia de pedidos en restaurantes y cafeterias con menu digital, pagos, seguimiento del pedido y control operativo en un solo flujo.">
+  <meta name="keywords" content="TapMeal, pedidos digitales, menu QR, restaurantes, cafeterias, landing page, PWA">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet"
-  >
-  
+    href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
   <script>
     window.tailwind = window.tailwind || {};
     window.tailwind.config = {
@@ -37,7 +32,7 @@
           },
           fontFamily: {
             display: ["Fraunces", "serif"],
-            sans: ["Manrope", "sans-serif"]
+            sans: ["Inter", "sans-serif"]
           },
           boxShadow: {
             soft: "0 25px 60px rgba(91, 70, 54, 0.12)",
@@ -54,26 +49,54 @@
   <style>
     :root {
       color-scheme: light;
+      --mouse-x: 50%;
+      --mouse-y: 50%;
     }
 
+    
     body {
-      position: relative;
-      min-height: 100vh;
-      background: linear-gradient(180deg, #fbf7f2 0%, #f4eadf 34%, #e5d5c6 62%, #191210 100%);
+      background: #000000;
+      color: #fafafa;
     }
 
-    body::before {
-      content: "";
+    #cursor-glow {
       position: fixed;
       inset: 0;
+      z-index: -10;
       pointer-events: none;
-      background:
-        radial-gradient(circle at 14% 10%, rgba(220, 234, 244, 0.82), transparent 30%),
-        radial-gradient(circle at 86% 16%, rgba(244, 217, 214, 0.7), transparent 26%),
-        radial-gradient(circle at 52% 42%, rgba(233, 213, 197, 0.34), transparent 28%),
-        linear-gradient(180deg, rgba(255, 248, 242, 0.06) 0%, rgba(255, 248, 242, 0.4) 52%, rgba(16, 11, 10, 0.86) 100%);
-      z-index: -30;
+      /* Multicolored spotlight that follows mouse - BRIGHTER */
+            /* Multicolored spotlight that follows mouse - VIVID */
+      background: radial-gradient(circle 600px at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+        rgba(99, 102, 241, 0.7), rgba(236, 72, 153, 0.6), rgba(14, 165, 233, 0.5), transparent 80%);
+      
+      /* Dot grid mask */
+      -webkit-mask-image: radial-gradient(rgba(255,255,255,1) 1.5px, transparent 1.5px);
+      -webkit-mask-size: 26px 26px;
+      mask-image: radial-gradient(rgba(255,255,255,1) 1.5px, transparent 1.5px);
+      mask-size: 26px 26px;
+      mask-image: radial-gradient(rgba(0,0,0,1) 2px, transparent 2px);
+      mask-size: 30px 30px;
+      will-change: background;
     }
+
+
+    .fp-section {
+      width: 100%;
+      position: relative;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    #fp-wrapper {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    
 
     .text-balance {
       text-wrap: balance;
@@ -120,23 +143,9 @@
       pointer-events: none;
     }
 
-    .section-fade {
-      position: absolute;
-      inset-inline: 0;
-      top: -2rem;
-      height: 11rem;
-      background: linear-gradient(180deg, transparent, rgba(255, 248, 242, 0.8));
-      pointer-events: none;
-    }
+    
 
-    .section-dark-fade {
-      position: absolute;
-      inset-inline: 0;
-      top: -4rem;
-      height: 12rem;
-      background: linear-gradient(180deg, transparent, rgba(20, 15, 14, 0.94));
-      pointer-events: none;
-    }
+    
 
     .panel-hover {
       transition:
@@ -293,24 +302,25 @@
       opacity: 1;
     }
 
-    #site-header.is-scrolled .header-shell {
-      background: rgba(255, 248, 242, 0.82);
-      border-color: rgba(255, 255, 255, 0.72);
-      box-shadow: 0 18px 50px rgba(61, 48, 38, 0.09);
+    #site-header.scrolled .header-shell {
+      background: rgba(9, 9, 11, 0.85);
+      border-color: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(12px);
     }
 
     .demo-tab[aria-selected="true"] {
-      background: #5b4636;
-      color: #fff8f2;
-      border-color: #5b4636;
-      box-shadow: 0 12px 32px rgba(91, 70, 54, 0.16);
+      background: #4f46e5;
+      color: #ffffff;
+      border-color: #4f46e5;
+      box-shadow: 0 12px 32px rgba(79, 70, 229, 0.25);
     }
 
     .fp-dot.active {
-      background: #5b4636;
-      border-color: #5b4636;
+      background: #4f46e5;
+      border-color: #4f46e5;
       transform: scale(1.3);
-      box-shadow: 0 0 15px rgba(91, 70, 54, 0.3);
+      box-shadow: 0 0 15px rgba(79, 70, 229, 0.4);
     }
 
     .admin-lines {
@@ -324,6 +334,7 @@
     .scrollbar-hide::-webkit-scrollbar {
       display: none;
     }
+
     .scrollbar-hide {
       -ms-overflow-style: none;
       scrollbar-width: none;
@@ -338,6 +349,7 @@
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       pointer-events: none;
     }
+
     #mobile-menu.open {
       max-height: 500px;
       opacity: 1;
@@ -350,11 +362,13 @@
     #chat-fab.visible {
       translate: 0;
     }
+
     #chat-window.open {
       opacity: 1;
       scale: 1;
       pointer-events: auto;
     }
+
     .typing-dot {
       width: 4px;
       height: 4px;
@@ -362,11 +376,27 @@
       border-radius: 50%;
       animation: typing 1.4s infinite;
     }
-    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    .typing-dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .typing-dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
     @keyframes typing {
-      0%, 100% { transform: translateY(0); opacity: 0.4; }
-      50% { transform: translateY(-4px); opacity: 1; }
+
+      0%,
+      100% {
+        transform: translateY(0);
+        opacity: 0.4;
+      }
+
+      50% {
+        transform: translateY(-4px);
+        opacity: 1;
+      }
     }
 
     /* Phone Mockup Revealed State */
@@ -375,6 +405,7 @@
       transform: translateY(30px) rotate(2deg);
       transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
+
     .phone-mockup.revealed {
       opacity: 1;
       transform: translateY(0) rotate(0deg);
@@ -390,16 +421,27 @@
     .total-pulse {
       animation: totalPulse 0.3s ease-out;
     }
+
     @keyframes totalPulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.1); color: #D88B7D; }
-      100% { transform: scale(1); }
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.1);
+        color: #D88B7D;
+      }
+
+      100% {
+        transform: scale(1);
+      }
     }
 
     @keyframes slowZoom {
       0% {
         transform: scale(1.02);
       }
+
       100% {
         transform: scale(1.08);
       }
@@ -410,6 +452,7 @@
         opacity: 0;
         transform: translateY(16px);
       }
+
       100% {
         opacity: 1;
         transform: translateY(0);
@@ -417,19 +460,25 @@
     }
 
     @keyframes phoneFloat {
-      0%, 100% {
+
+      0%,
+      100% {
         transform: translate3d(0, 0, 0) rotate(-4deg);
       }
+
       50% {
         transform: translate3d(0, -12px, 0) rotate(-2deg);
       }
     }
 
     @keyframes pulseHalo {
-      0%, 100% {
+
+      0%,
+      100% {
         transform: scale(0.96);
         opacity: 0.58;
       }
+
       50% {
         transform: scale(1.04);
         opacity: 0.82;
@@ -437,9 +486,12 @@
     }
 
     @keyframes floatCard {
-      0%, 100% {
+
+      0%,
+      100% {
         transform: translate3d(0, 0, 0);
       }
+
       50% {
         transform: translate3d(0, -10px, 0);
       }
@@ -470,188 +522,188 @@
     }
   </style>
 </head>
-<body class="font-sans text-espresso antialiased selection:bg-terracotta/25 selection:text-cacao">
-  <div class="pointer-events-none fixed inset-0 -z-20 overflow-hidden">
-    <div class="soft-grid absolute inset-0"></div>
-    <div class="hero-glow left-[-8rem] top-[10rem] h-72 w-72 bg-sky/50"></div>
-    <div class="hero-glow right-[-6rem] top-[24rem] h-60 w-60 bg-blush/60"></div>
-    <div class="hero-glow bottom-[-7rem] left-1/3 h-80 w-80 bg-sage/50"></div>
-  </div>
+
+<body class="font-sans text-gray-400 antialiased selection:bg-indigo-500/25 selection:text-white">
+  <div id="cursor-glow"></div>
+  
 
   <header id="site-header" class="fixed inset-x-0 top-0 z-50 px-4 py-4 sm:px-6 lg:px-8">
-    <div class="header-shell mx-auto max-w-7xl rounded-full border border-white/45 bg-white/35 px-5 py-3 transition-all duration-300">
+    <div
+      class="header-shell mx-auto max-w-7xl rounded-full border border-white/10 bg-white/5 px-5 py-3 transition-all duration-300">
       <nav class="flex items-center justify-between gap-6" aria-label="Principal">
         <a href="#inicio" data-goto="0" class="flex items-center gap-3">
-          <span class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-espresso text-sm font-extrabold tracking-soft text-cream shadow-soft">
+          <span
+            class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-indigo-600 text-sm font-extrabold tracking-soft text-white shadow-soft">
             TM
           </span>
           <div>
-            <p class="font-display text-xl font-semibold leading-none text-cacao">TapMeal</p>
-            <p class="text-xs font-semibold uppercase tracking-[0.28em] text-espresso/60">Pedidos digitales</p>
+            <p class="font-display text-xl font-semibold leading-none text-white">TapMeal</p>
+            <p class="text-xs font-semibold uppercase tracking-[0.28em] text-gray-400">Pedidos digitales</p>
           </div>
         </a>
 
         <div class="hidden items-center gap-8 lg:flex">
-          <a class="text-sm font-semibold text-espresso/75 transition hover:text-cacao" href="#problema" data-goto="1">Problema</a>
-          <a class="text-sm font-semibold text-espresso/75 transition hover:text-cacao" href="#solucion" data-goto="2">Solucion</a>
-          <a class="text-sm font-semibold text-espresso/75 transition hover:text-cacao" href="#beneficios" data-goto="3">Beneficios</a>
-          <a class="text-sm font-semibold text-espresso/75 transition hover:text-cacao" href="#demo" data-goto="5">Demo</a>
-          <a class="text-sm font-semibold text-espresso/75 transition hover:text-cacao" href="#gestion" data-goto="6">Gestion</a>
-          <a class="text-sm font-semibold text-espresso/75 transition hover:text-cacao" href="#faq" data-goto="8">FAQ</a>
+          <a class="text-sm font-semibold text-gray-400 transition hover:text-white" href="#problema"
+            data-goto="1">Problema</a>
+          <a class="text-sm font-semibold text-gray-400 transition hover:text-white" href="#solucion"
+            data-goto="2">Solucion</a>
+          <a class="text-sm font-semibold text-gray-400 transition hover:text-white" href="#beneficios"
+            data-goto="3">Beneficios</a>
+          <a class="text-sm font-semibold text-gray-400 transition hover:text-white" href="#demo"
+            data-goto="5">Demo</a>
+          <a class="text-sm font-semibold text-gray-400 transition hover:text-white" href="#gestion"
+            data-goto="6">Gestion</a>
+          <a class="text-sm font-semibold text-gray-400 transition hover:text-white" href="#faq"
+            data-goto="8">FAQ</a>
         </div>
 
         <div class="hidden items-center gap-3 lg:flex">
-          <a
-            href="#caso-real"
-            data-goto="7"
-            class="rounded-full border border-espresso/15 bg-white/60 px-4 py-2 text-sm font-semibold text-espresso transition hover:border-espresso/30 hover:bg-white"
-          >
+          <a href="#caso-real" data-goto="7"
+            class="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-gray-400 transition hover:border-white/10 hover:bg-[#1a1514]">
             Caso real
           </a>
-          <a
-            href="#demo"
-            class="rounded-full bg-espresso px-5 py-2.5 text-sm font-semibold text-cream shadow-soft transition hover:-translate-y-0.5 hover:bg-cacao"
-            data-goto="5"
-          >
+          <a href="#demo"
+            class="rounded-full bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-[#18181b]"
+            data-goto="5">
             Ver demo
           </a>
         </div>
 
-        <button
-          id="mobile-menu-btn"
-          class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-espresso/15 bg-white/65 text-espresso transition hover:border-espresso/35 hover:bg-white lg:hidden"
-          type="button"
-          aria-expanded="false"
-          aria-controls="mobile-menu"
-          aria-label="Abrir menu"
-        >
+        <button id="mobile-menu-btn"
+          class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-gray-400 transition hover:border-white/10 hover:bg-[#1a1514] lg:hidden"
+          type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Abrir menu">
           <span data-lucide="menu" class="h-5 w-5"></span>
         </button>
       </nav>
 
-      <div
-        id="mobile-menu"
-        class="mt-4 rounded-[2rem] border border-white/55 bg-white/75 p-4 shadow-glass lg:hidden"
-      >
+      <div id="mobile-menu" class="mt-4 rounded-[2rem] border border-white/10 bg-white/5 p-4 shadow-glass lg:hidden">
         <div class="flex flex-col gap-2">
-          <a class="rounded-2xl px-4 py-3 text-sm font-semibold text-espresso transition hover:bg-mist" href="#problema" data-goto="1">Problema</a>
-          <a class="rounded-2xl px-4 py-3 text-sm font-semibold text-espresso transition hover:bg-mist" href="#solucion" data-goto="2">Solucion</a>
-          <a class="rounded-2xl px-4 py-3 text-sm font-semibold text-espresso transition hover:bg-mist" href="#beneficios" data-goto="3">Beneficios</a>
-          <a class="rounded-2xl px-4 py-3 text-sm font-semibold text-espresso transition hover:bg-mist" href="#demo" data-goto="5">Demo</a>
-          <a class="rounded-2xl px-4 py-3 text-sm font-semibold text-espresso transition hover:bg-mist" href="#gestion" data-goto="6">Gestion</a>
-          <a class="rounded-2xl px-4 py-3 text-sm font-semibold text-espresso transition hover:bg-mist" href="#faq" data-goto="8">FAQ</a>
-          <a class="rounded-2xl bg-espresso px-4 py-3 text-center text-sm font-semibold text-cream shadow-soft" href="#cta" data-goto="9">Explorar TapMeal</a>
+          <a class="rounded-2xl px-4 py-3 text-sm font-semibold text-gray-400 transition hover:bg-white/5" href="#problema"
+            data-goto="1">Problema</a>
+          <a class="rounded-2xl px-4 py-3 text-sm font-semibold text-gray-400 transition hover:bg-white/5" href="#solucion"
+            data-goto="2">Solucion</a>
+          <a class="rounded-2xl px-4 py-3 text-sm font-semibold text-gray-400 transition hover:bg-white/5"
+            href="#beneficios" data-goto="3">Beneficios</a>
+          <a class="rounded-2xl px-4 py-3 text-sm font-semibold text-gray-400 transition hover:bg-white/5" href="#demo"
+            data-goto="5">Demo</a>
+          <a class="rounded-2xl px-4 py-3 text-sm font-semibold text-gray-400 transition hover:bg-white/5" href="#gestion"
+            data-goto="6">Gestion</a>
+          <a class="rounded-2xl px-4 py-3 text-sm font-semibold text-gray-400 transition hover:bg-white/5" href="#faq"
+            data-goto="8">FAQ</a>
+          <a class="rounded-2xl bg-indigo-600 px-4 py-3 text-center text-sm font-semibold text-white shadow-soft"
+            href="#cta" data-goto="9">Explorar TapMeal</a>
         </div>
       </div>
     </div>
   </header>
 
   <main id="fp-wrapper" class="transition-transform duration-700 ease-in-out">
-    <section id="inicio" class="fp-section relative scroll-mt-28 overflow-hidden px-0 pt-24 sm:pt-28" data-label="Inicio">
+    <section id="inicio" class="fp-section relative scroll-mt-28 overflow-hidden px-0 pt-24 sm:pt-28"
+      data-label="Inicio">
       <div class="mx-auto w-full max-w-none">
-        <div class="relative min-h-[calc(100svh-7rem)] overflow-hidden bg-[linear-gradient(180deg,#fbf6f0_0%,#f4eadf_40%,#e6d8c9_66%,#15100f_100%)] px-6 py-6 sm:px-8 lg:px-10 lg:py-10">
+        <div
+          class="relative min-h-[calc(100svh-7rem)] overflow-hidden bg-[#0f0e13] px-6 py-6 sm:px-8 lg:px-10 lg:py-10">
           <div class="absolute inset-0 opacity-80">
-            <div class="absolute -left-20 top-6 h-72 w-72 rounded-full bg-sky/35 blur-3xl"></div>
-            <div class="absolute right-0 top-12 h-[30rem] w-[30rem] rounded-full bg-terracotta/14 blur-3xl"></div>
-            <div class="absolute bottom-0 right-1/3 h-64 w-64 rounded-full bg-cacao/12 blur-3xl"></div>
+            <div class="absolute -left-20 top-6 h-72 w-72 rounded-full bg-white/5 blur-3xl"></div>
+            <div class="absolute right-0 top-12 h-[30rem] w-[30rem] rounded-full bg-indigo-500/14 blur-3xl"></div>
+            <div class="absolute bottom-0 right-1/3 h-64 w-64 rounded-full bg-indigo-500/20 blur-3xl"></div>
           </div>
 
           <div class="relative grid gap-12 lg:grid-cols-[0.84fr_1.16fr] lg:items-center">
             <div class="max-w-2xl">
               <div
-                class="mb-6 inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/65 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-espresso/70 shadow-glass"
-                data-reveal
-              >
-                <span class="inline-flex h-2.5 w-2.5 rounded-full bg-terracotta"></span>
+                class="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-gray-400 shadow-glass"
+                data-reveal>
+                <span class="inline-flex h-2.5 w-2.5 rounded-full bg-indigo-500"></span>
                 <span>TapMeal para restaurantes y cafeterias</span>
               </div>
 
               <div data-reveal style="--delay: 90ms">
                 <div class="mb-6 h-px w-24 hero-gradient-line"></div>
-                <h1 class="max-w-[12ch] text-balance font-display text-[clamp(3.2rem,6vw,6rem)] font-semibold leading-[0.92] tracking-[-0.03em] text-cacao">
+                <h1
+                  class="max-w-[12ch] text-balance font-display text-[clamp(3.2rem,6vw,6rem)] font-semibold leading-[0.92] tracking-[-0.03em] text-white">
                   Pedidos digitales con ritmo limpio y presencia premium.
                 </h1>
-                <p class="mt-6 max-w-xl text-lg leading-8 text-espresso/78 sm:text-xl">
-                  TapMeal organiza el recorrido completo del cliente y del negocio: QR, carrito, pagos, estados, inventario y reportes en una experiencia clara y moderna.
+                <p class="mt-6 max-w-xl text-lg leading-8 text-gray-400 sm:text-xl">
+                  TapMeal organiza el recorrido completo del cliente y del negocio: QR, carrito, pagos, estados,
+                  inventario y reportes en una experiencia clara y moderna.
                 </p>
               </div>
 
               <div class="mt-8 flex flex-col gap-4 sm:flex-row" data-reveal style="--delay: 180ms">
-                <a
-                  href="#demo"
-                  data-goto="5"
-                  class="inline-flex items-center justify-center gap-2 rounded-full bg-espresso px-7 py-4 text-sm font-bold text-cream shadow-soft transition hover:-translate-y-0.5 hover:bg-cacao"
-                >
+                <a href="#demo" data-goto="5"
+                  class="inline-flex items-center justify-center gap-2 rounded-full bg-indigo-600 px-7 py-4 text-sm font-bold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-[#18181b]">
                   <span data-lucide="play-circle" class="h-4 w-4"></span>
                   Ver demo interactiva
                 </a>
-                <a
-                  href="#solucion"
-                  data-goto="2"
-                  class="inline-flex items-center justify-center gap-2 rounded-full border border-espresso/15 bg-white/76 px-7 py-4 text-sm font-bold text-espresso transition hover:border-espresso/30 hover:bg-white"
-                >
+                <a href="#solucion" data-goto="2"
+                  class="inline-flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-7 py-4 text-sm font-bold text-gray-400 transition hover:border-white/10 hover:bg-[#1a1514]">
                   <span data-lucide="sparkles" class="h-4 w-4"></span>
                   Conocer la plataforma
                 </a>
               </div>
 
-              <div class="mt-10 grid gap-4 border-t border-espresso/12 pt-6 sm:grid-cols-3" data-reveal style="--delay: 260ms">
+              <div class="mt-10 grid gap-4 border-t border-white/10 pt-6 sm:grid-cols-3" data-reveal
+                style="--delay: 260ms">
                 <div>
-                  <p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-espresso/52">Menu QR</p>
-                  <p class="mt-2 text-sm leading-7 text-cacao/88">Acceso inmediato desde la mesa.</p>
+                  <p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-gray-400">Menu QR</p>
+                  <p class="mt-2 text-sm leading-7 text-gray-400">Acceso inmediato desde la mesa.</p>
                 </div>
                 <div>
-                  <p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-espresso/52">Pagos</p>
-                  <p class="mt-2 text-sm leading-7 text-cacao/88">Total visible y cobro sin friccion.</p>
+                  <p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-gray-400">Pagos</p>
+                  <p class="mt-2 text-sm leading-7 text-gray-400">Total visible y cobro sin friccion.</p>
                 </div>
                 <div>
-                  <p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-espresso/52">Operacion</p>
-                  <p class="mt-2 text-sm leading-7 text-cacao/88">Pedidos, inventario y reportes.</p>
+                  <p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-gray-400">Operacion</p>
+                  <p class="mt-2 text-sm leading-7 text-gray-400">Pedidos, inventario y reportes.</p>
                 </div>
               </div>
             </div>
 
             <div class="relative" data-reveal style="--delay: 220ms">
-              <div class="absolute left-1/2 top-1/2 h-[28rem] w-[28rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-sky/35 blur-3xl pulse-halo"></div>
-              <div class="parallax-layer media-shell min-h-[28rem] bg-cacao lg:min-h-[42rem]" data-parallax="0.12">
+              <div
+                class="absolute left-1/2 top-1/2 h-[28rem] w-[28rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/5 blur-3xl pulse-halo">
+              </div>
+              <div class="parallax-layer media-shell min-h-[28rem] bg-[#18181b] lg:min-h-[42rem]" data-parallax="0.12">
                 <img
-                  src="https://images.unsplash.com/photo-1741684413650-6da6a3dd2ddb?auto=format&fit=crop&fm=jpg&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&ixlib=rb-4.1.0&q=60&w=3000"
-                  alt="Interior moderno y acogedor de cafetería"
-                  class="slow-zoom media-photo"
-                  loading="eager"
-                  decoding="async"
-                >
+                  src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&w=800&q=80"
+                  alt="Interior moderno y acogedor de cafetería" class="slow-zoom media-photo" loading="eager"
+                  decoding="async">
                 <div class="media-overlay"></div>
 
-                <div class="absolute left-5 top-5 rounded-full border border-white/15 bg-[#120f0e]/70 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-cream/72 backdrop-blur-xl">
+                <div
+                  class="absolute left-5 top-5 rounded-full border border-white/10 bg-[#120f0e]/70 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-gray-400 backdrop-blur-xl">
                   TapMeal
                 </div>
 
                 <div class="absolute bottom-5 left-5 right-5">
-                  <div class="panel-hover rounded-[2rem] border border-white/15 bg-[#120f0e]/76 p-5 text-cream shadow-glass backdrop-blur-xl">
+                  <div
+                    class="panel-hover rounded-[2rem] border border-white/10 bg-[#120f0e]/76 p-5 text-white shadow-glass backdrop-blur-xl">
                     <div class="flex items-center justify-between gap-4">
                       <div>
-                        <p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-cream/55">Pedido activo</p>
+                        <p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-gray-400">Pedido activo</p>
                         <p class="mt-2 text-lg font-semibold">Cold Brew vainilla y cheesecake</p>
                       </div>
-                      <div class="rounded-full bg-white/12 px-3 py-2 text-sm font-bold">Mesa 07</div>
+                      <div class="rounded-full bg-white/5 px-3 py-2 text-sm font-bold">Mesa 07</div>
                     </div>
-                    <div class="mt-4 h-2 rounded-full bg-white/10">
-                      <div class="h-full w-[74%] rounded-full bg-terracotta"></div>
+                    <div class="mt-4 h-2 rounded-full bg-white/5">
+                      <div class="h-full w-[74%] rounded-full bg-indigo-500"></div>
                     </div>
-                    <p class="mt-3 text-sm leading-6 text-cream/72">La orden avanza sin interrumpir el servicio y sin perder visibilidad.</p>
+                    <p class="mt-3 text-sm leading-6 text-gray-400">La orden avanza sin interrumpir el servicio y sin
+                      perder visibilidad.</p>
                   </div>
                 </div>
               </div>
 
               <div class="mt-4 grid gap-4 sm:grid-cols-2" hidden>
-                <div class="panel-hover rounded-[1.8rem] border border-white/60 bg-white/70 p-4 shadow-glass">
-                  <p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-espresso/55">Flujo claro</p>
-                  <p class="mt-2 text-sm text-espresso/80">Un solo recorrido visual para pedir, pagar y seguir el estado.</p>
+                <div class="panel-hover rounded-[1.8rem] border border-white/10 bg-white/5 p-4 shadow-glass">
+                  <p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-gray-400">Flujo claro</p>
+                  <p class="mt-2 text-sm text-gray-400">Un solo recorrido visual para pedir, pagar y seguir el
+                    estado.</p>
                 </div>
-                <div class="panel-hover rounded-[1.8rem] border border-white/60 bg-white/70 p-4 shadow-glass">
-                  <p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-espresso/55">Atmósfera</p>
-                  <p class="mt-2 text-sm text-espresso/80">Materiales suaves, bordes limpios y contraste alto.</p>
+                <div class="panel-hover rounded-[1.8rem] border border-white/10 bg-white/5 p-4 shadow-glass">
+                  <p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-gray-400">Atmósfera</p>
+                  <p class="mt-2 text-sm text-gray-400">Materiales suaves, bordes limpios y contraste alto.</p>
                 </div>
               </div>
             </div>
@@ -660,42 +712,47 @@
       </div>
     </section>
 
+    <div class="w-full max-w-7xl mx-auto px-4"><div class="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent"></div></div>
     <section id="problema" class="fp-section scroll-mt-28 px-4 py-24 sm:px-6 lg:px-8" data-label="Problema">
       <div class="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
         <div data-reveal>
-          <p class="text-sm font-semibold uppercase tracking-[0.28em] text-terracotta">Problema</p>
-          <h2 class="mt-4 text-balance font-display text-4xl font-semibold leading-tight text-cacao sm:text-5xl">
+          <p class="text-sm font-semibold uppercase tracking-[0.28em] text-indigo-400">Problema</p>
+          <h2 class="mt-4 text-balance font-display text-4xl font-semibold leading-tight text-white sm:text-5xl">
             Cuando el pedido depende de procesos manuales, el servicio pierde ritmo.
           </h2>
-          <p class="mt-6 max-w-2xl text-lg leading-8 text-espresso/78">
-            TapMeal nace para quitar friccion al momento de pedir, ordenar mejor la cocina y darle al cliente una experiencia que no se siente dispersa.
+          <p class="mt-6 max-w-2xl text-lg leading-8 text-gray-400">
+            TapMeal nace para quitar friccion al momento de pedir, ordenar mejor la cocina y darle al cliente una
+            experiencia que no se siente dispersa.
           </p>
 
-          <div class="mt-8 space-y-4 border-t border-espresso/12 pt-6">
+          <div class="mt-8 space-y-4 border-t border-white/10 pt-6">
             <div class="flex items-start gap-4">
-              <span class="text-xs font-semibold uppercase tracking-[0.24em] text-terracotta">01</span>
+              <span class="text-xs font-semibold uppercase tracking-[0.24em] text-indigo-400">01</span>
               <div>
-                <p class="font-bold text-cacao">Filas y espera innecesaria</p>
-                <p class="mt-1 text-sm leading-7 text-espresso/76">
-                  El cliente espera para pedir, esperar para confirmar y volver a esperar para saber si su orden ya está lista.
+                <p class="font-bold text-white">Filas y espera innecesaria</p>
+                <p class="mt-1 text-sm leading-7 text-gray-400">
+                  El cliente espera para pedir, esperar para confirmar y volver a esperar para saber si su orden ya está
+                  lista.
                 </p>
               </div>
             </div>
             <div class="flex items-start gap-4">
-              <span class="text-xs font-semibold uppercase tracking-[0.24em] text-terracotta">02</span>
+              <span class="text-xs font-semibold uppercase tracking-[0.24em] text-indigo-400">02</span>
               <div>
-                <p class="font-bold text-cacao">Errores en la toma de pedidos</p>
-                <p class="mt-1 text-sm leading-7 text-espresso/76">
-                  Notas incompletas, productos agotados y estados poco visibles generan fricción tanto en cocina como en caja.
+                <p class="font-bold text-white">Errores en la toma de pedidos</p>
+                <p class="mt-1 text-sm leading-7 text-gray-400">
+                  Notas incompletas, productos agotados y estados poco visibles generan fricción tanto en cocina como en
+                  caja.
                 </p>
               </div>
             </div>
             <div class="flex items-start gap-4">
-              <span class="text-xs font-semibold uppercase tracking-[0.24em] text-terracotta">03</span>
+              <span class="text-xs font-semibold uppercase tracking-[0.24em] text-indigo-400">03</span>
               <div>
-                <p class="font-bold text-cacao">Poca visibilidad operativa</p>
-                <p class="mt-1 text-sm leading-7 text-espresso/76">
-                  Sin una vista centralizada, administrar menú, inventario y pedidos activos se vuelve lento y poco confiable.
+                <p class="font-bold text-white">Poca visibilidad operativa</p>
+                <p class="mt-1 text-sm leading-7 text-gray-400">
+                  Sin una vista centralizada, administrar menú, inventario y pedidos activos se vuelve lento y poco
+                  confiable.
                 </p>
               </div>
             </div>
@@ -703,19 +760,18 @@
         </div>
 
         <div class="relative" data-reveal style="--delay: 120ms">
-          <div class="parallax-layer media-shell min-h-[36rem] bg-cacao" data-parallax="0.05">
-            <img
-              src="https://images.unsplash.com/photo-1743035346761-6ccbf77ad921?auto=format&fit=crop&q=90&w=1600"
+          <div class="parallax-layer media-shell min-h-[28rem] bg-[#18181b]" data-parallax="0.05">
+            <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80"
               alt="Cliente usando el telefono en una cafeteria"
-              class="absolute inset-0 h-full w-full object-cover slow-zoom media-photo"
-              loading="lazy"
-            >
+              class="absolute inset-0 h-full w-full object-cover slow-zoom media-photo" loading="lazy" decoding="async">
             <div class="media-overlay"></div>
-            <div class="absolute left-5 top-5 rounded-full border border-white/15 bg-[#120f0e]/72 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-cream/72 backdrop-blur-xl">
+            <div
+              class="absolute left-5 top-5 rounded-full border border-white/10 bg-[#120f0e]/72 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-gray-400 backdrop-blur-xl">
               Flujo manual
             </div>
-            <div class="absolute bottom-5 left-5 right-5 rounded-[1.8rem] border border-white/12 bg-[#120f0e]/72 p-5 text-cream shadow-glass backdrop-blur-xl">
-              <p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-cream/55">Lo que pasa sin TapMeal</p>
+            <div
+              class="absolute bottom-5 left-5 right-5 rounded-[1.8rem] border border-white/10 bg-[#120f0e]/72 p-4 text-white shadow-glass backdrop-blur-xl">
+              <p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-gray-400">Lo que pasa sin TapMeal</p>
               <p class="mt-2 text-lg font-semibold leading-7">
                 Más pasos, menos claridad y una experiencia que depende demasiado de la memoria del equipo.
               </p>
@@ -723,89 +779,100 @@
           </div>
 
           <div class="mt-4 grid gap-4 sm:grid-cols-2">
-            <div class="rounded-[1.8rem] border border-white/55 bg-white/66 p-4 shadow-glass">
-              <p class="text-xs font-semibold uppercase tracking-[0.22em] text-espresso/55">Impacto</p>
-              <p class="mt-2 text-sm leading-7 text-espresso/78">El cliente no entiende en qué punto va su orden.</p>
+            <div class="rounded-[1.8rem] border border-white/10 bg-white/5 p-4 shadow-glass">
+              <p class="text-xs font-semibold uppercase tracking-[0.22em] text-gray-400">Impacto</p>
+              <p class="mt-2 text-sm leading-7 text-gray-400">El cliente no entiende en qué punto va su orden.</p>
             </div>
-            <div class="rounded-[1.8rem] border border-white/55 bg-white/66 p-4 shadow-glass">
-              <p class="text-xs font-semibold uppercase tracking-[0.22em] text-espresso/55">Operación</p>
-              <p class="mt-2 text-sm leading-7 text-espresso/78">El negocio pierde tiempo por información dispersa.</p>
+            <div class="rounded-[1.8rem] border border-white/10 bg-white/5 p-4 shadow-glass">
+              <p class="text-xs font-semibold uppercase tracking-[0.22em] text-gray-400">Operación</p>
+              <p class="mt-2 text-sm leading-7 text-gray-400">El negocio pierde tiempo por información dispersa.</p>
             </div>
           </div>
         </div>
       </div>
     </section>
 
+    <div class="w-full max-w-7xl mx-auto px-4"><div class="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent"></div></div>
     <section id="solucion" class="fp-section relative scroll-mt-28 px-4 py-24 sm:px-6 lg:px-8" data-label="Solucion">
       <div class="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.98fr_1.02fr] lg:items-center">
         <div data-reveal>
-          <p class="text-sm font-semibold uppercase tracking-[0.28em] text-terracotta">Solucion</p>
-          <h2 class="mt-4 text-balance font-display text-4xl font-semibold leading-tight text-cacao sm:text-5xl">
+          <p class="text-sm font-semibold uppercase tracking-[0.28em] text-indigo-400">Solucion</p>
+          <h2 class="mt-4 text-balance font-display text-4xl font-semibold leading-tight text-white sm:text-5xl">
             TapMeal une la experiencia del cliente con la operacion del negocio en un solo recorrido.
           </h2>
-          <p class="mt-6 max-w-2xl text-lg leading-8 text-espresso/78">
-            La plataforma hace que cada pedido entre limpio, trazable y listo para avanzar desde el menu digital hasta la gestion administrativa.
+          <p class="mt-6 max-w-2xl text-lg leading-8 text-gray-400">
+            La plataforma hace que cada pedido entre limpio, trazable y listo para avanzar desde el menu digital hasta
+            la gestion administrativa.
           </p>
 
-          <div class="mt-8 space-y-6 border-t border-espresso/12 pt-6">
+          <div class="mt-8 space-y-6 border-t border-white/10 pt-6">
             <div class="flex items-start gap-4">
-              <span class="text-xs font-semibold uppercase tracking-[0.24em] text-terracotta">01</span>
+              <span class="text-xs font-semibold uppercase tracking-[0.24em] text-indigo-400">01</span>
               <div>
-                <p class="font-bold text-cacao">Menu digital y carrito</p>
-                <p class="mt-1 text-sm leading-7 text-espresso/76">El cliente explora categorías, ajusta cantidades y confirma con claridad.</p>
+                <p class="font-bold text-white">Menu digital y carrito</p>
+                <p class="mt-1 text-sm leading-7 text-gray-400">El cliente explora categorías, ajusta cantidades y
+                  confirma con claridad.</p>
               </div>
             </div>
             <div class="flex items-start gap-4">
-              <span class="text-xs font-semibold uppercase tracking-[0.24em] text-terracotta">02</span>
+              <span class="text-xs font-semibold uppercase tracking-[0.24em] text-indigo-400">02</span>
               <div>
-                <p class="font-bold text-cacao">QR, pagos y estados</p>
-                <p class="mt-1 text-sm leading-7 text-espresso/76">Cada orden puede asociarse a mesa, método de pago y seguimiento en tiempo real.</p>
+                <p class="font-bold text-white">QR, pagos y estados</p>
+                <p class="mt-1 text-sm leading-7 text-gray-400">Cada orden puede asociarse a mesa, método de pago y
+                  seguimiento en tiempo real.</p>
               </div>
             </div>
             <div class="flex items-start gap-4">
-              <span class="text-xs font-semibold uppercase tracking-[0.24em] text-terracotta">03</span>
+              <span class="text-xs font-semibold uppercase tracking-[0.24em] text-indigo-400">03</span>
               <div>
-                <p class="font-bold text-cacao">Panel administrativo</p>
-                <p class="mt-1 text-sm leading-7 text-espresso/76">Gestiona productos, categorías, pedidos y clientes sin depender de procesos dispersos.</p>
+                <p class="font-bold text-white">Panel administrativo</p>
+                <p class="mt-1 text-sm leading-7 text-gray-400">Gestiona productos, categorías, pedidos y clientes
+                  sin depender de procesos dispersos.</p>
               </div>
             </div>
           </div>
         </div>
 
         <div class="relative" data-reveal style="--delay: 120ms">
-          <div class="parallax-layer media-shell min-h-[36rem] bg-cacao p-6" data-parallax="0.06">
+          <div class="parallax-layer media-shell min-h-[28rem] bg-[#18181b] p-6" data-parallax="0.06">
             <img
-              src="https://images.unsplash.com/photo-1748910635208-bb198eb0f9f8?auto=format&fit=crop&q=90&w=1400"
+              src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&w=800&q=80"
               alt="Telefono y cafe sobre una mesa de marmol"
-              class="absolute inset-0 h-full w-full object-cover slow-zoom media-photo"
-              loading="lazy"
-            >
+              class="absolute inset-0 h-full w-full object-cover slow-zoom media-photo" loading="lazy" decoding="async">
             <div class="media-overlay"></div>
             <div class="relative z-10 grid h-full content-between gap-4">
-              <div class="max-w-[17rem] rounded-[2rem] border border-white/15 bg-[#130f0e]/68 px-5 py-5 text-cream shadow-glass backdrop-blur-xl">
-                <p class="text-xs font-semibold uppercase tracking-[0.24em] text-cream/55">Experiencia limpia</p>
-                <p class="mt-2 text-lg font-semibold leading-7">TapMeal reduce pasos, ordena la información y mantiene el contexto visible.</p>
+              <div
+                class="max-w-[17rem] rounded-[2rem] border border-white/10 bg-[#130f0e]/68 px-4 py-4 text-white shadow-glass backdrop-blur-xl">
+                <p class="text-xs font-semibold uppercase tracking-[0.24em] text-gray-400">Experiencia limpia</p>
+                <p class="mt-2 text-lg font-semibold leading-7">TapMeal reduce pasos, ordena la información y mantiene
+                  el contexto visible.</p>
               </div>
 
               <div class="grid gap-4 md:grid-cols-[0.95fr_1.05fr]">
-                <div class="dark-card-soft rounded-[2rem] p-5 text-cream backdrop-blur-xl">
-                  <p class="text-xs font-semibold uppercase tracking-[0.2em] text-cream/55">Cliente</p>
-                  <ul class="mt-4 space-y-3 text-sm text-cream/82">
-                    <li class="flex items-center gap-3"><span class="h-2.5 w-2.5 rounded-full bg-terracotta"></span>Escanea o entra desde su móvil</li>
-                    <li class="flex items-center gap-3"><span class="h-2.5 w-2.5 rounded-full bg-terracotta"></span>Confirma productos y pago</li>
-                    <li class="flex items-center gap-3"><span class="h-2.5 w-2.5 rounded-full bg-terracotta"></span>Sigue el estado sin preguntar</li>
+                <div class="dark-card-soft rounded-[2rem] p-4 text-white backdrop-blur-xl">
+                  <p class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-400">Cliente</p>
+                  <ul class="mt-4 space-y-2 text-sm text-gray-400">
+                    <li class="flex items-center gap-3"><span class="h-2 w-2 rounded-full bg-indigo-500"></span>Escanea
+                      o entra desde su móvil</li>
+                    <li class="flex items-center gap-3"><span class="h-2 w-2 rounded-full bg-indigo-500"></span>Confirma
+                      productos y pago</li>
+                    <li class="flex items-center gap-3"><span class="h-2 w-2 rounded-full bg-indigo-500"></span>Sigue el
+                      estado sin preguntar</li>
                   </ul>
                 </div>
 
-                <div class="rounded-[2rem] bg-white p-5 shadow-glass">
+                <div class="rounded-[2rem] bg-[#1a1514] p-4 shadow-glass">
                   <div class="flex items-center justify-between">
-                    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-espresso/55">Negocio</p>
-                    <span data-lucide="chef-hat" class="h-5 w-5 text-terracotta"></span>
+                    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-400">Negocio</p>
+                    <span data-lucide="chef-hat" class="h-5 w-5 text-indigo-400"></span>
                   </div>
-                  <div class="mt-4 grid gap-3">
-                    <div class="rounded-[1.5rem] bg-mist px-4 py-3 text-sm font-semibold text-cacao">Pedidos organizados por estado</div>
-                    <div class="rounded-[1.5rem] bg-sky/40 px-4 py-3 text-sm font-semibold text-cacao">Menú y categorías actualizables</div>
-                    <div class="rounded-[1.5rem] bg-blush/45 px-4 py-3 text-sm font-semibold text-cacao">Inventario y reportes visibles</div>
+                  <div class="mt-4 grid gap-2">
+                    <div class="rounded-[1.2rem] bg-white/5 px-3 py-2 text-xs font-semibold text-white">Pedidos organizados
+                    </div>
+                    <div class="rounded-[1.2rem] bg-white/5 px-3 py-2 text-xs font-semibold text-white">Menú actualizable
+                    </div>
+                    <div class="rounded-[1.2rem] bg-white/5 px-3 py-2 text-xs font-semibold text-white">Reportes
+                      visibles</div>
                   </div>
                 </div>
               </div>
@@ -815,274 +882,308 @@
       </div>
     </section>
 
+    <div class="w-full max-w-7xl mx-auto px-4"><div class="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent"></div></div>
     <section id="beneficios" class="fp-section scroll-mt-28 px-4 py-20 sm:px-6 lg:px-8" data-label="Beneficios">
       <div class="mx-auto max-w-7xl">
         <div class="max-w-3xl" data-reveal>
-          <p class="text-sm font-semibold uppercase tracking-[0.28em] text-terracotta">Beneficios</p>
-          <h2 class="mt-4 text-balance font-display text-4xl font-semibold leading-tight text-cacao sm:text-5xl">
+          <p class="text-sm font-semibold uppercase tracking-[0.28em] text-indigo-400">Beneficios</p>
+          <h2 class="mt-4 text-balance font-display text-4xl font-semibold leading-tight text-white sm:text-5xl">
             Una misma plataforma, dos experiencias mejor resueltas.
           </h2>
         </div>
 
-        <div class="mt-12 grid gap-6 lg:grid-cols-2">
-          <article class="rounded-[2.8rem] border border-white/55 bg-white/65 p-8 shadow-glass" data-reveal style="--delay: 80ms">
-            <p class="text-xs font-semibold uppercase tracking-[0.28em] text-espresso/55">Para el negocio</p>
-            <h3 class="mt-4 font-display text-3xl font-semibold text-cacao">Menos friccion operativa. Mas capacidad de respuesta.</h3>
-            <ul class="mt-8 space-y-4">
-              <li class="flex items-start gap-4">
-                <span class="mt-1 inline-flex h-10 w-10 flex-none items-center justify-center rounded-2xl bg-sage/65">
-                  <span data-lucide="scan-line" class="h-4 w-4 text-cacao"></span>
-                </span>
-                <div>
-                  <p class="font-bold text-cacao">Entrada de pedidos mas limpia</p>
-                  <p class="mt-1 text-sm leading-7 text-espresso/76">El QR y el menu digital reducen intermediacion y mejoran la precision del pedido.</p>
-                </div>
-              </li>
-              <li class="flex items-start gap-4">
-                <span class="mt-1 inline-flex h-10 w-10 flex-none items-center justify-center rounded-2xl bg-sky/65">
-                  <span data-lucide="square-kanban" class="h-4 w-4 text-cacao"></span>
-                </span>
-                <div>
-                  <p class="font-bold text-cacao">Control de estados y menu</p>
-                  <p class="mt-1 text-sm leading-7 text-espresso/76">Gestiona productos, categorias y progreso de la orden desde una vista central.</p>
-                </div>
-              </li>
-              <li class="flex items-start gap-4">
-                <span class="mt-1 inline-flex h-10 w-10 flex-none items-center justify-center rounded-2xl bg-blush/65">
-                  <span data-lucide="bar-chart-3" class="h-4 w-4 text-cacao"></span>
-                </span>
-                <div>
-                  <p class="font-bold text-cacao">Mejor base para decidir</p>
-                  <p class="mt-1 text-sm leading-7 text-espresso/76">Reportes, ventas e inventario aportan visibilidad para mejorar costos y servicio.</p>
-                </div>
-              </li>
-            </ul>
-          </article>
+        <div class="mt-12 grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
+          <div class="flex flex-col gap-6">
+            <article class="rounded-[2rem] border border-white/10 bg-white/5 p-4 shadow-glass" data-reveal
+              style="--delay: 80ms">
+              <p class="text-[10px] font-semibold uppercase tracking-[0.28em] text-gray-400">Para el negocio</p>
+              <h3 class="mt-2 font-display text-xl font-semibold text-white">Menos friccion operativa. Mas capacidad de
+                respuesta.</h3>
+              <ul class="mt-4 space-y-3">
+                <li class="flex items-start gap-4">
+                  <span class="mt-1 inline-flex h-9 w-9 flex-none items-center justify-center rounded-xl bg-white/5">
+                    <span data-lucide="scan-line" class="h-3.5 w-3.5 text-white"></span>
+                  </span>
+                  <div>
+                    <p class="text-sm font-bold text-white">Entrada de pedidos mas limpia</p>
+                    <p class="mt-1 text-xs leading-6 text-gray-400">El QR y el menu digital reducen intermediacion y
+                      mejoran la precision del pedido.</p>
+                  </div>
+                </li>
+                <li class="flex items-start gap-4">
+                  <span class="mt-1 inline-flex h-9 w-9 flex-none items-center justify-center rounded-xl bg-white/5">
+                    <span data-lucide="square-kanban" class="h-3.5 w-3.5 text-white"></span>
+                  </span>
+                  <div>
+                    <p class="text-sm font-bold text-white">Control de estados y menu</p>
+                    <p class="mt-1 text-xs leading-6 text-gray-400">Gestiona productos, categorias y progreso de la
+                      orden desde una vista central.</p>
+                  </div>
+                </li>
+                <li class="flex items-start gap-4">
+                  <span class="mt-1 inline-flex h-9 w-9 flex-none items-center justify-center rounded-xl bg-white/5">
+                    <span data-lucide="bar-chart-3" class="h-3.5 w-3.5 text-white"></span>
+                  </span>
+                  <div>
+                    <p class="text-sm font-bold text-white">Mejor base para decidir</p>
+                    <p class="mt-1 text-xs leading-6 text-gray-400">Reportes, ventas e inventario aportan visibilidad
+                      para mejorar costos y servicio.</p>
+                  </div>
+                </li>
+              </ul>
+            </article>
 
-          <article class="rounded-[2.8rem] border border-white/55 bg-cacao p-8 text-cream shadow-soft" data-reveal style="--delay: 160ms">
-            <p class="text-xs font-semibold uppercase tracking-[0.28em] text-cream/60">Para el cliente</p>
-            <h3 class="mt-4 font-display text-3xl font-semibold text-cream">Pedir se siente mas natural, rapido y transparente.</h3>
-            <ul class="mt-8 space-y-4">
-              <li class="flex items-start gap-4">
-                <span class="mt-1 inline-flex h-10 w-10 flex-none items-center justify-center rounded-2xl bg-white/10">
-                  <span data-lucide="smartphone" class="h-4 w-4 text-cream"></span>
-                </span>
-                <div>
-                  <p class="font-bold text-cream">Todo desde el movil</p>
-                  <p class="mt-1 text-sm leading-7 text-cream/74">Accede al menu, agrega al carrito y confirma sin depender de una toma manual.</p>
-                </div>
-              </li>
-              <li class="flex items-start gap-4">
-                <span class="mt-1 inline-flex h-10 w-10 flex-none items-center justify-center rounded-2xl bg-white/10">
-                  <span data-lucide="wallet" class="h-4 w-4 text-cream"></span>
-                </span>
-                <div>
-                  <p class="font-bold text-cream">Mas claridad al pagar</p>
-                  <p class="mt-1 text-sm leading-7 text-cream/74">El cliente elige metodo de pago y conoce el total antes de confirmar.</p>
-                </div>
-              </li>
-              <li class="flex items-start gap-4">
-                <span class="mt-1 inline-flex h-10 w-10 flex-none items-center justify-center rounded-2xl bg-white/10">
-                  <span data-lucide="badge-check" class="h-4 w-4 text-cream"></span>
-                </span>
-                <div>
-                  <p class="font-bold text-cream">Seguimiento sin incertidumbre</p>
-                  <p class="mt-1 text-sm leading-7 text-cream/74">La experiencia mejora cuando el usuario entiende en que punto va su pedido.</p>
-                </div>
-              </li>
-            </ul>
-          </article>
+            <article class="rounded-[2rem] border border-white/10 bg-[#18181b] p-4 text-white shadow-soft" data-reveal
+              style="--delay: 160ms">
+              <p class="text-[10px] font-semibold uppercase tracking-[0.28em] text-gray-400">Para el cliente</p>
+              <h3 class="mt-2 font-display text-xl font-semibold text-white">Pedir se siente mas natural, rapido y
+                transparente.</h3>
+              <ul class="mt-4 space-y-3">
+                <li class="flex items-start gap-4">
+                  <span class="mt-1 inline-flex h-9 w-9 flex-none items-center justify-center rounded-xl bg-white/5">
+                    <span data-lucide="smartphone" class="h-3.5 w-3.5 text-white"></span>
+                  </span>
+                  <div>
+                    <p class="text-sm font-bold text-white">Todo desde el movil</p>
+                    <p class="mt-1 text-xs leading-6 text-gray-400">Accede al menu, agrega al carrito y confirma sin
+                      depender de una toma manual.</p>
+                  </div>
+                </li>
+                <li class="flex items-start gap-4">
+                  <span class="mt-1 inline-flex h-9 w-9 flex-none items-center justify-center rounded-xl bg-white/5">
+                    <span data-lucide="wallet" class="h-3.5 w-3.5 text-white"></span>
+                  </span>
+                  <div>
+                    <p class="text-sm font-bold text-white">Mas claridad al pagar</p>
+                    <p class="mt-1 text-xs leading-6 text-gray-400">El cliente elige metodo de pago y conoce el total
+                      antes de confirmar.</p>
+                  </div>
+                </li>
+                <li class="flex items-start gap-4">
+                  <span class="mt-1 inline-flex h-9 w-9 flex-none items-center justify-center rounded-xl bg-white/5">
+                    <span data-lucide="badge-check" class="h-3.5 w-3.5 text-white"></span>
+                  </span>
+                  <div>
+                    <p class="text-sm font-bold text-white">Seguimiento sin incertidumbre</p>
+                    <p class="mt-1 text-xs leading-6 text-gray-400">La experiencia mejora cuando el usuario entiende en
+                      que punto va su pedido.</p>
+                  </div>
+                </li>
+              </ul>
+            </article>
+          </div>
+
+          <div class="relative hidden lg:block" data-reveal style="--delay: 240ms">
+            <div class="parallax-layer media-shell h-full min-h-[40rem]" data-parallax="0.05">
+              <img src="beneficios_cafe_tech.png" alt="Personal de cafeteria usando tecnologia"
+                class="slow-zoom media-photo h-full w-full object-cover" loading="lazy" decoding="async">
+              <div class="media-overlay"></div>
+              <div
+                class="absolute bottom-6 left-6 right-6 rounded-[1.8rem] border border-white/10 bg-[#120f0e]/72 p-4 text-white shadow-glass backdrop-blur-xl">
+                <p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-gray-400">Tecnologia invisible</p>
+                <p class="mt-1 text-sm font-semibold leading-6">Mejoramos el servicio sin que la herramienta estorbe el
+                  ritmo natural de la atencion.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
+    <div class="w-full max-w-7xl mx-auto px-4"><div class="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent"></div></div>
     <section id="como-funciona" class="fp-section scroll-mt-28 px-4 py-20 sm:px-6 lg:px-8" data-label="Funcionamiento">
       <div class="mx-auto max-w-7xl">
         <div class="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div class="max-w-3xl" data-reveal>
-            <p class="text-sm font-semibold uppercase tracking-[0.28em] text-terracotta">Como funciona</p>
-            <h2 class="mt-4 text-balance font-display text-4xl font-semibold leading-tight text-cacao sm:text-5xl">
+            <p class="text-sm font-semibold uppercase tracking-[0.28em] text-indigo-400">Como funciona</p>
+            <h2 class="mt-4 text-balance font-display text-4xl font-semibold leading-tight text-white sm:text-5xl">
               Tres pasos para ordenar mejor y operar con mas calma.
             </h2>
           </div>
-          <p class="max-w-xl text-base leading-8 text-espresso/76" data-reveal style="--delay: 90ms">
+          <p class="max-w-xl text-base leading-8 text-gray-400" data-reveal style="--delay: 90ms">
             El flujo esta pensado para ser intuitivo para el cliente y accionable para el negocio desde el primer toque.
           </p>
         </div>
 
-        <div class="mt-12 grid gap-6 lg:grid-cols-3">
-          <article class="rounded-[2.6rem] border border-white/55 bg-white/65 p-8 shadow-glass" data-reveal style="--delay: 80ms">
-            <p class="text-6xl font-display font-semibold leading-none text-terracotta/70">01</p>
-            <h3 class="mt-6 text-2xl font-bold text-cacao">Escanea o entra</h3>
-            <p class="mt-4 text-base leading-8 text-espresso/76">
-              El cliente accede desde un QR en la mesa o desde su propio dispositivo para iniciar el recorrido sin friccion.
+        <div class="mt-10 grid gap-6 lg:grid-cols-3">
+          <article class="rounded-[2rem] border border-white/10 bg-white/5 p-4 shadow-glass" data-reveal
+            style="--delay: 80ms">
+            <p class="text-4xl font-display font-semibold leading-none text-indigo-400/70">01</p>
+            <h3 class="mt-4 text-lg font-bold text-white">Escanea o entra</h3>
+            <p class="mt-2 text-xs leading-6 text-gray-400">
+              El cliente accede desde un QR en la mesa o desde su propio dispositivo para iniciar el recorrido sin
+              friccion.
             </p>
           </article>
 
-          <article class="rounded-[2.6rem] border border-white/55 bg-white/65 p-8 shadow-glass" data-reveal style="--delay: 160ms">
-            <p class="text-6xl font-display font-semibold leading-none text-terracotta/70">02</p>
-            <h3 class="mt-6 text-2xl font-bold text-cacao">Elige y confirma</h3>
-            <p class="mt-4 text-base leading-8 text-espresso/76">
-              Revisa el menu, ajusta cantidades, selecciona el metodo de pago y confirma un pedido claro antes de enviarlo.
+          <article class="rounded-[2rem] border border-white/10 bg-white/5 p-4 shadow-glass" data-reveal
+            style="--delay: 160ms">
+            <p class="text-4xl font-display font-semibold leading-none text-indigo-400/70">02</p>
+            <h3 class="mt-4 text-lg font-bold text-white">Elige y confirma</h3>
+            <p class="mt-2 text-xs leading-6 text-gray-400">
+              Revisa el menu, ajusta cantidades, selecciona el metodo de pago y confirma un pedido claro antes de
+              enviarlo.
             </p>
           </article>
 
-          <article class="rounded-[2.6rem] border border-white/55 bg-white/65 p-8 shadow-glass" data-reveal style="--delay: 240ms">
-            <p class="text-6xl font-display font-semibold leading-none text-terracotta/70">03</p>
-            <h3 class="mt-6 text-2xl font-bold text-cacao">Sigue y gestiona</h3>
-            <p class="mt-4 text-base leading-8 text-espresso/76">
-              El cliente ve el estado del pedido mientras el equipo administra ordenes, productos e inventario desde el panel.
+          <article class="rounded-[2rem] border border-white/10 bg-white/5 p-4 shadow-glass" data-reveal
+            style="--delay: 240ms">
+            <p class="text-4xl font-display font-semibold leading-none text-indigo-400/70">03</p>
+            <h3 class="mt-4 text-lg font-bold text-white">Sigue y gestiona</h3>
+            <p class="mt-2 text-xs leading-6 text-gray-400">
+              El cliente ve el estado del pedido mientras el equipo administra ordenes, productos e inventario desde el
+              panel.
             </p>
           </article>
+        </div>
+
+        <div
+          class="mt-8 relative h-64 lg:h-96 w-full rounded-[2.5rem] overflow-hidden shadow-glass border border-white/10"
+          data-reveal style="--delay: 320ms">
+          <img
+            src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&w=1200&q=80"
+            class="slow-zoom h-full w-full object-cover media-photo" alt="Como funciona el escaneo de QR en la mesa"
+            loading="lazy">
+          <div class="media-overlay"></div>
+          <div
+            class="absolute bottom-6 left-6 rounded-[1.5rem] border border-white/10 bg-white/5 p-4 shadow-glass backdrop-blur-xl">
+            <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-400">Experiencia en mesa</p>
+            <p class="mt-1 text-sm font-bold text-white">Un pedido directo, sin esperas y visualmente atractivo.</p>
+          </div>
         </div>
       </div>
     </section>
 
+    <div class="w-full max-w-7xl mx-auto px-4"><div class="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent"></div></div>
     <section id="demo" class="fp-section scroll-mt-28 px-4 py-20 sm:px-6 lg:px-8" data-label="Demo">
       <div class="mx-auto max-w-7xl">
         <div class="mx-auto max-w-4xl text-center" data-reveal>
-            <p class="text-sm font-semibold uppercase tracking-[0.28em] text-terracotta">Vista demo</p>
-            <h2 class="mt-4 text-balance font-display text-4xl font-semibold leading-tight text-cacao sm:text-5xl">
-              Un menu demo que muestra como TapMeal puede sentirse dentro del negocio.
-            </h2>
-            <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-espresso/78">
-              Esta vista ejemplifica la experiencia del cliente usando categorias, productos destacados, postres y combos visibles desde el mismo flujo.
-            </p>
+          <p class="text-sm font-semibold uppercase tracking-[0.28em] text-indigo-400">Vista demo</p>
+          <h2 class="mt-4 text-balance font-display text-4xl font-semibold leading-tight text-white sm:text-5xl">
+            Un menu demo que muestra como TapMeal puede sentirse dentro del negocio.
+          </h2>
+          <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-400">
+            Esta vista ejemplifica la experiencia del cliente usando categorias, productos destacados, postres y combos
+            visibles desde el mismo flujo.
+          </p>
         </div>
 
-        <div class="mt-10 flex flex-wrap justify-center gap-3" role="tablist" aria-label="Categorias del demo" data-reveal style="--delay: 100ms">
-            <button
-              class="demo-tab rounded-full border border-espresso/12 bg-white/72 px-5 py-3 text-sm font-bold text-espresso transition"
-              type="button"
-              role="tab"
-              id="tab-cafes"
-              aria-selected="true"
-              aria-controls="panel-cafes"
-              data-demo-tab
-              data-target="cafes"
-            >
-              Cafes
-            </button>
-            <button
-              class="demo-tab rounded-full border border-espresso/12 bg-white/72 px-5 py-3 text-sm font-bold text-espresso transition"
-              type="button"
-              role="tab"
-              id="tab-postres"
-              aria-selected="false"
-              aria-controls="panel-postres"
-              data-demo-tab
-              data-target="postres"
-            >
-              Postres
-            </button>
-            <button
-              class="demo-tab rounded-full border border-espresso/12 bg-white/72 px-5 py-3 text-sm font-bold text-espresso transition"
-              type="button"
-              role="tab"
-              id="tab-combos"
-              aria-selected="false"
-              aria-controls="panel-combos"
-              data-demo-tab
-              data-target="combos"
-            >
-              Combos
-            </button>
-          </div>
+        <div class="mt-10 flex flex-wrap justify-center gap-3" role="tablist" aria-label="Categorias del demo"
+          data-reveal style="--delay: 100ms">
+          <button
+            class="demo-tab rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-bold text-gray-400 transition"
+            type="button" role="tab" id="tab-cafes" aria-selected="true" aria-controls="panel-cafes" data-demo-tab
+            data-target="cafes" class="demo-tab rounded-full border border-white/10 bg-white/10 px-5 py-3 text-sm font-bold text-white transition">
+            Cafes
+          </button>
+          <button
+            class="demo-tab rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-bold text-gray-400 transition"
+            type="button" role="tab" id="tab-postres" aria-selected="false" aria-controls="panel-postres" data-demo-tab
+            data-target="postres">
+            Postres
+          </button>
+          <button
+            class="demo-tab rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-bold text-gray-400 transition"
+            type="button" role="tab" id="tab-combos" aria-selected="false" aria-controls="panel-combos" data-demo-tab
+            data-target="combos">
+            Combos
+          </button>
+        </div>
         <div class="mt-12 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
           <div class="space-y-5">
-            <div
-              id="panel-cafes"
-              class="demo-panel rounded-[2.7rem] border border-white/55 bg-white/65 p-6 shadow-glass"
-              role="tabpanel"
-              aria-labelledby="tab-cafes"
-              data-demo-panel="cafes"
-            >
+            <div id="panel-cafes" class="demo-panel rounded-[2rem] border border-white/10 bg-white/5 p-4 shadow-glass"
+              role="tabpanel" aria-labelledby="tab-cafes" data-demo-panel="cafes">
               <div class="grid gap-4 md:grid-cols-2">
-                <article class="rounded-[2rem] bg-gradient-to-br from-latte via-blush to-cream p-5">
-                  <p class="text-xs font-semibold uppercase tracking-[0.2em] text-espresso/55">Mas pedido</p>
-                  <h3 class="mt-3 font-display text-3xl font-semibold text-cacao">Americano miel</h3>
-                  <p class="mt-3 text-sm leading-7 text-espresso/74">Perfil suave, ideal para pedidos rapidos en salon o pickup.</p>
-                  <div class="mt-6 flex items-center justify-between">
-                    <span class="text-lg font-extrabold text-cacao">C$ 85</span>
-                    <button class="demo-add-btn rounded-full bg-espresso px-4 py-2 text-sm font-bold text-cream" data-price="85">Agregar</button>
+                <article class="rounded-[1.5rem] bg-[#18181b] p-4 flex gap-4">
+                  <div class="h-24 w-24 flex-none rounded-2xl overflow-hidden bg-black/20">
+                    <img src="https://images.unsplash.com/photo-1559525839-b184a4d698c7?auto=format&fit=crop&w=300&q=80" alt="Americano Miel" class="h-full w-full object-cover">
+                  </div>
+                  <div class="flex-1">
+                    <p class="text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-400">Mas pedido</p>
+                    <h3 class="mt-1 font-display text-xl font-semibold text-white">Americano miel</h3>
+                    <p class="mt-1 text-xs leading-5 text-gray-400">Perfil suave, ideal para pedidos rápidos.</p>
+                    <div class="mt-4 flex items-center justify-between">
+                      <span class="text-base font-extrabold text-white">C$ 85</span>
+                      <button class="demo-add-btn rounded-full bg-indigo-600 px-3 py-1.5 text-xs font-bold text-white" data-price="85">Agregar</button>
+                    </div>
                   </div>
                 </article>
-                <article class="rounded-[2rem] bg-white p-5 shadow-glass">
-                  <p class="text-xs font-semibold uppercase tracking-[0.2em] text-espresso/55">Favorito</p>
-                  <h3 class="mt-3 font-display text-3xl font-semibold text-cacao">Latte vainilla</h3>
-                  <p class="mt-3 text-sm leading-7 text-espresso/74">Una bebida clara en precio, tiempos y estado para el cliente.</p>
-                  <div class="mt-6 flex items-center justify-between">
-                    <span class="text-lg font-extrabold text-cacao">C$ 98</span>
-                    <button class="demo-add-btn rounded-full border border-espresso/15 px-4 py-2 text-sm font-bold text-espresso" data-price="98">Agregar</button>
+                <article class="rounded-[1.5rem] bg-[#1a1514] p-4 shadow-glass flex gap-4">
+                  <div class="h-24 w-24 flex-none rounded-2xl overflow-hidden bg-black/20">
+                    <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=300&q=80" alt="Latte Vainilla" class="h-full w-full object-cover">
+                  </div>
+                  <div class="flex-1">
+                    <p class="text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-400">Favorito</p>
+                    <h3 class="mt-1 font-display text-xl font-semibold text-white">Latte vainilla</h3>
+                    <p class="mt-1 text-xs leading-5 text-gray-400">Una bebida clara en precio, tiempos y estado.</p>
+                    <div class="mt-4 flex items-center justify-between">
+                      <span class="text-base font-extrabold text-white">C$ 98</span>
+                      <button class="demo-add-btn rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-bold text-white" data-price="98">Agregar</button>
+                    </div>
                   </div>
                 </article>
               </div>
             </div>
 
-            <div
-              id="panel-postres"
-              class="demo-panel rounded-[2.7rem] border border-white/55 bg-white/65 p-6 shadow-glass"
-              role="tabpanel"
-              aria-labelledby="tab-postres"
-              data-demo-panel="postres"
-              hidden
-            >
+            <div id="panel-postres"
+              class="demo-panel rounded-[2rem] border border-white/10 bg-white/5 p-4 shadow-glass" role="tabpanel"
+              aria-labelledby="tab-postres" data-demo-panel="postres" hidden>
               <div class="grid gap-4 lg:grid-cols-[1.02fr_0.98fr]">
-                <div class="parallax-layer relative min-h-[22rem] overflow-hidden rounded-[2.2rem]" data-parallax="0.03">
+                <div class="parallax-layer relative min-h-[18rem] overflow-hidden rounded-[1.8rem]"
+                  data-parallax="0.03">
                   <img
-                    src="https://images.unsplash.com/photo-1744421461496-50b7b00ec544?auto=format&fit=crop&fm=jpg&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&ixlib=rb-4.1.0&q=60&w=3000"
+                    src="https://images.unsplash.com/photo-1483695028939-5bb13f8648b0?auto=format&fit=crop&w=800&q=80"
                     alt="Postres artesanales servidos en una mesa de cafeteria"
-                    class="slow-zoom media-photo h-full w-full object-cover"
-                    loading="lazy"
-                    decoding="async"
-                  >
+                    class="slow-zoom media-photo h-full w-full object-cover" loading="lazy" decoding="async">
                   <div class="media-overlay"></div>
-                  <div class="absolute inset-x-4 bottom-4 rounded-[1.8rem] border border-white/10 bg-[#130f0e]/72 p-4 text-cream shadow-glass backdrop-blur-xl">
-                    <p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-cream/58">Vitrina dulce</p>
-                    <p class="mt-2 text-lg font-semibold leading-7">Postres que elevan el ticket medio y se ven memorables desde el primer toque.</p>
+                  <div
+                    class="absolute inset-x-4 bottom-4 rounded-[1.5rem] border border-white/10 bg-[#130f0e]/72 p-3 text-white shadow-glass backdrop-blur-xl">
+                    <p class="text-[10px] font-semibold uppercase tracking-[0.22em] text-gray-400">Vitrina dulce</p>
+                    <p class="mt-1 text-sm font-semibold leading-6">Postres que elevan el ticket medio y se ven
+                      memorables.</p>
                   </div>
                 </div>
 
                 <div class="grid gap-4">
-                  <article class="overflow-hidden rounded-[2rem] bg-white shadow-glass">
-                    <div class="relative h-36 overflow-hidden">
+                  <article class="overflow-hidden rounded-[1.5rem] bg-[#1a1514] shadow-glass">
+                    <div class="relative h-28 overflow-hidden">
                       <img
-                        src="https://images.unsplash.com/photo-1747535797958-82823a0b1d2d?auto=format&fit=crop&fm=jpg&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&ixlib=rb-4.1.0&q=60&w=3000"
+                        src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=800&q=80"
                         alt="Cheesecake con bebida listo para servir"
-                        class="slow-zoom media-photo h-full w-full object-cover"
-                        loading="lazy"
-                        decoding="async"
-                      >
+                        class="slow-zoom media-photo h-full w-full object-cover" loading="lazy" decoding="async">
                       <div class="media-overlay"></div>
                     </div>
-                    <div class="p-5">
-                      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-espresso/55">Nuevo</p>
-                      <h3 class="mt-3 font-display text-3xl font-semibold text-cacao">Cheesecake frio</h3>
-                      <p class="mt-3 text-sm leading-7 text-espresso/74">Ideal para complementar una orden y sumar valor sin romper el ritmo del servicio.</p>
-                      <div class="mt-6 flex items-center justify-between">
-                        <span class="text-lg font-extrabold text-cacao">C$ 110</span>
-                        <button class="demo-add-btn rounded-full bg-espresso px-4 py-2 text-sm font-bold text-cream" data-price="110">Agregar</button>
+                    <div class="p-4">
+                      <p class="text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-400">Nuevo</p>
+                      <h3 class="mt-1 font-display text-xl font-semibold text-white">Cheesecake frio</h3>
+                      <p class="mt-1 text-xs leading-5 text-gray-400">Ideal para complementar una orden y sumar
+                        valor.</p>
+                      <div class="mt-4 flex items-center justify-between">
+                        <span class="text-base font-extrabold text-white">C$ 110</span>
+                        <button class="demo-add-btn rounded-full bg-indigo-600 px-3 py-1.5 text-xs font-bold text-white"
+                          data-price="110">Agregar</button>
                       </div>
                     </div>
                   </article>
 
-                  <article class="overflow-hidden rounded-[2rem] bg-gradient-to-br from-sage via-cream to-sky shadow-glass">
-                    <div class="relative h-36 overflow-hidden">
+                  <article
+                    class="overflow-hidden rounded-[1.5rem] bg-gradient-to-br from-sage via-cream to-sky shadow-glass">
+                    <div class="relative h-28 overflow-hidden">
                       <img
-                        src="https://images.unsplash.com/photo-1757030477866-31f7076d49a2?auto=format&fit=crop&fm=jpg&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&ixlib=rb-4.1.0&q=60&w=3000"
+                        src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=800&q=80"
                         alt="Brownies de chocolate servidos con helado"
-                        class="slow-zoom media-photo h-full w-full object-cover"
-                        loading="lazy"
-                        decoding="async"
-                      >
+                        class="slow-zoom media-photo h-full w-full object-cover" loading="lazy" decoding="async">
                       <div class="media-overlay"></div>
                     </div>
-                    <div class="p-5">
-                      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-espresso/55">Temporada</p>
-                      <h3 class="mt-3 font-display text-3xl font-semibold text-cacao">Brownie cacao</h3>
-                      <p class="mt-3 text-sm leading-7 text-espresso/74">Una pieza visualmente fuerte para mostrar postres con mejor presencia y lectura.</p>
-                      <div class="mt-6 flex items-center justify-between">
-                        <span class="text-lg font-extrabold text-cacao">C$ 95</span>
-                        <button class="demo-add-btn rounded-full border border-espresso/15 bg-white/75 px-4 py-2 text-sm font-bold text-espresso" data-price="95">Agregar</button>
+                    <div class="p-4">
+                      <p class="text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-400">Temporada</p>
+                      <h3 class="mt-1 font-display text-xl font-semibold text-white">Brownie cacao</h3>
+                      <p class="mt-1 text-xs leading-5 text-gray-400">Una pieza visualmente fuerte para mostrar
+                        postres.</p>
+                      <div class="mt-4 flex items-center justify-between">
+                        <span class="text-base font-extrabold text-white">C$ 95</span>
+                        <button
+                          class="demo-add-btn rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-bold text-gray-400"
+                          data-price="95">Agregar</button>
                       </div>
                     </div>
                   </article>
@@ -1090,46 +1191,38 @@
               </div>
             </div>
 
-            <div
-              id="panel-combos"
-              class="demo-panel rounded-[2.7rem] border border-white/55 bg-white/65 p-6 shadow-glass"
-              role="tabpanel"
-              aria-labelledby="tab-combos"
-              data-demo-panel="combos"
-              hidden
-            >
+            <div id="panel-combos" class="demo-panel rounded-[2rem] border border-white/10 bg-white/5 p-4 shadow-glass"
+              role="tabpanel" aria-labelledby="tab-combos" data-demo-panel="combos" hidden>
               <div class="grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
-                <article class="rounded-[2rem] bg-gradient-to-br from-cacao via-espresso to-[#6c5444] p-5 text-cream shadow-glass">
-                  <p class="text-xs font-semibold uppercase tracking-[0.2em] text-cream/60">Combo destacado</p>
-                  <h3 class="mt-3 font-display text-3xl font-semibold text-cream">Brunch ligero</h3>
-                  <p class="mt-3 text-sm leading-7 text-cream/72">Cafe, postre y complemento en un solo toque, con total visible desde el carrito.</p>
-                  <div class="mt-6 flex items-center justify-between">
-                    <span class="text-lg font-extrabold text-cream">C$ 180</span>
-                    <button class="demo-add-btn rounded-full bg-cream px-4 py-2 text-sm font-bold text-cacao" data-price="180">Agregar</button>
+                <article
+                  class="rounded-[1.5rem] bg-gradient-to-br from-cacao via-espresso to-[#6c5444] p-4 text-white shadow-glass">
+                  <p class="text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-400">Combo destacado</p>
+                  <h3 class="mt-1 font-display text-xl font-semibold text-white">Brunch ligero</h3>
+                  <p class="mt-1 text-xs leading-5 text-gray-400">Cafe, postre y complemento en un solo toque.</p>
+                  <div class="mt-4 flex items-center justify-between">
+                    <span class="text-base font-extrabold text-white">C$ 180</span>
+                    <button class="demo-add-btn rounded-full bg-cream px-3 py-1.5 text-xs font-bold text-white"
+                      data-price="180">Agregar</button>
                   </div>
                 </article>
                 <div class="grid gap-4">
-                  <div class="relative h-36 overflow-hidden rounded-[2rem]">
+                  <div class="relative h-28 overflow-hidden rounded-[1.5rem]">
                     <img
-                      src="https://images.unsplash.com/photo-1757030477866-31f7076d49a2?auto=format&fit=crop&fm=jpg&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&ixlib=rb-4.1.0&q=60&w=3000"
+                      src="https://images.unsplash.com/photo-1493770348161-369560ae357d?auto=format&fit=crop&w=800&q=80"
                       alt="Brownies de chocolate listos para acompañar un combo"
-                      class="slow-zoom media-photo h-full w-full object-cover"
-                      loading="lazy"
-                      decoding="async"
-                    >
+                      class="slow-zoom media-photo h-full w-full object-cover" loading="lazy" decoding="async">
                     <div class="media-overlay"></div>
-                    <div class="absolute bottom-4 left-4 rounded-full border border-white/15 bg-[#130f0e]/70 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-cream/75 backdrop-blur-xl">
-                      Postre incluido
-                    </div>
                   </div>
 
-                  <article class="rounded-[2rem] bg-white p-5 shadow-glass">
-                    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-espresso/55">Combo rapido</p>
-                    <h3 class="mt-3 font-display text-3xl font-semibold text-cacao">Cafe + sandwich</h3>
-                    <p class="mt-3 text-sm leading-7 text-espresso/74">Pensado para resolver pedidos de alto ritmo con menos pasos para el cliente.</p>
-                    <div class="mt-6 flex items-center justify-between">
-                      <span class="text-lg font-extrabold text-cacao">C$ 165</span>
-                      <button class="demo-add-btn rounded-full border border-espresso/15 px-4 py-2 text-sm font-bold text-espresso" data-price="165">Agregar</button>
+                  <article class="rounded-[1.5rem] bg-[#1a1514] p-4 shadow-glass">
+                    <p class="text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-400">Combo rapido</p>
+                    <h3 class="mt-1 font-display text-xl font-semibold text-white">Cafe + sandwich</h3>
+                    <p class="mt-1 text-xs leading-5 text-gray-400">Pensado para pedidos de alto ritmo.</p>
+                    <div class="mt-4 flex items-center justify-between">
+                      <span class="text-base font-extrabold text-white">C$ 165</span>
+                      <button
+                        class="demo-add-btn rounded-full border border-white/10 px-3 py-1.5 text-xs font-bold text-gray-400"
+                        data-price="165">Agregar</button>
                     </div>
                   </article>
                 </div>
@@ -1137,48 +1230,68 @@
             </div>
           </div>
 
-          <div class="phone-mockup relative mx-auto w-full max-w-[320px] lg:max-w-none" data-reveal style="--delay: 140ms">
+          <div class="phone-mockup relative mx-auto w-full max-w-[320px] lg:max-w-none" data-reveal
+            style="--delay: 140ms">
             <div class="relative overflow-hidden rounded-[3rem] border-[8px] border-espresso bg-cream shadow-glass">
               <!-- Pantalla del Celular -->
               <div class="h-[580px] overflow-y-auto px-4 py-6 scrollbar-hide">
                 <div class="flex items-center justify-between">
-                  <span class="text-[10px] font-bold uppercase tracking-widest text-espresso/40">TapMeal Demo</span>
-                  <div class="flex items-center gap-1 rounded-full bg-espresso/5 px-2 py-1">
-                    <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-terracotta"></span>
-                    <span id="order-count" class="text-[10px] font-bold text-espresso">24</span>
+                  <span class="text-[10px] font-bold uppercase tracking-widest text-gray-400">TapMeal Demo</span>
+                  <div class="flex items-center gap-1 rounded-full bg-indigo-600/5 px-2 py-1">
+                    <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-indigo-500"></span>
+                    <span id="order-count" class="text-[10px] font-bold text-gray-400">24</span>
                   </div>
                 </div>
 
-                <h3 class="mt-6 font-display text-2xl font-bold text-cacao">Tu Pedido</h3>
-                
+                <h3 class="mt-6 font-display text-2xl font-bold text-white">Tu Pedido</h3>
+
                 <!-- Carousel de Sugerencias -->
                 <div id="menu-carousel" class="mt-6 flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
-                  <div class="demo-card w-[200px] flex-none rounded-2xl bg-white p-4 shadow-sm transition-all duration-500 opacity-0 translate-y-4">
-                    <div class="h-24 rounded-xl bg-latte/30"></div>
-                    <p class="mt-3 text-xs font-bold text-cacao">Cappuccino Pro</p>
+                  <div
+                    class="demo-card w-[200px] flex-none rounded-2xl bg-[#1a1514] p-4 shadow-sm transition-all duration-500 opacity-0 translate-y-4">
+                    <div class="h-24 overflow-hidden rounded-xl">
+                      <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=800&q=80"
+                        class="h-full w-full object-cover" alt="Cappuccino">
+                    </div>
+                    <p class="mt-3 text-xs font-bold text-white">Cappuccino Pro</p>
                     <div class="mt-2 flex items-center justify-between">
                       <span class="text-xs font-extrabold">C$ 95</span>
-                      <button class="demo-add-btn h-6 w-6 rounded-full bg-espresso text-cream flex items-center justify-center" data-price="95">
+                      <button
+                        class="demo-add-btn h-6 w-6 rounded-full bg-indigo-600 text-white flex items-center justify-center"
+                        data-price="95">
                         <span data-lucide="plus" class="h-3 w-3"></span>
                       </button>
                     </div>
                   </div>
-                  <div class="demo-card w-[200px] flex-none rounded-2xl bg-white p-4 shadow-sm transition-all duration-500 opacity-0 translate-y-4">
-                    <div class="h-24 rounded-xl bg-sage/30"></div>
-                    <p class="mt-3 text-xs font-bold text-cacao">Muffin Arandano</p>
+                  <div
+                    class="demo-card w-[200px] flex-none rounded-2xl bg-[#1a1514] p-4 shadow-sm transition-all duration-500 opacity-0 translate-y-4">
+                    <div class="h-24 overflow-hidden rounded-xl">
+                      <img src="https://images.unsplash.com/photo-1607958996333-41aef7caefaa?auto=format&fit=crop&w=800&q=80"
+                        class="h-full w-full object-cover" alt="Muffin">
+                    </div>
+                    <p class="mt-3 text-xs font-bold text-white">Muffin Arandano</p>
                     <div class="mt-2 flex items-center justify-between">
                       <span class="text-xs font-extrabold">C$ 65</span>
-                      <button class="demo-add-btn h-6 w-6 rounded-full bg-espresso text-cream flex items-center justify-center" data-price="65">
+                      <button
+                        class="demo-add-btn h-6 w-6 rounded-full bg-indigo-600 text-white flex items-center justify-center"
+                        data-price="65">
                         <span data-lucide="plus" class="h-3 w-3"></span>
                       </button>
                     </div>
                   </div>
-                  <div class="demo-card w-[200px] flex-none rounded-2xl bg-white p-4 shadow-sm transition-all duration-500 opacity-0 translate-y-4">
-                    <div class="h-24 rounded-xl bg-sky/30"></div>
-                    <p class="mt-3 text-xs font-bold text-cacao">Tostado Jamon</p>
+                  <div
+                    class="demo-card w-[200px] flex-none rounded-2xl bg-[#1a1514] p-4 shadow-sm transition-all duration-500 opacity-0 translate-y-4">
+                    <div class="h-24 overflow-hidden rounded-xl">
+                      <img
+                        src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=800&q=80"
+                        class="h-full w-full object-cover" alt="Tostado">
+                    </div>
+                    <p class="mt-3 text-xs font-bold text-white">Tostado Jamon</p>
                     <div class="mt-2 flex items-center justify-between">
                       <span class="text-xs font-extrabold">C$ 120</span>
-                      <button class="demo-add-btn h-6 w-6 rounded-full bg-espresso text-cream flex items-center justify-center" data-price="120">
+                      <button
+                        class="demo-add-btn h-6 w-6 rounded-full bg-indigo-600 text-white flex items-center justify-center"
+                        data-price="120">
                         <span data-lucide="plus" class="h-3 w-3"></span>
                       </button>
                     </div>
@@ -1186,143 +1299,145 @@
                 </div>
 
                 <div id="carousel-dots" class="mt-2 flex justify-center gap-1.5">
-                  <span class="h-2 w-5 rounded-full bg-terracotta transition-all"></span>
-                  <span class="h-2 w-2 rounded-full bg-espresso/15 transition-all"></span>
-                  <span class="h-2 w-2 rounded-full bg-espresso/15 transition-all"></span>
+                  <span class="h-2 w-5 rounded-full bg-indigo-500 transition-all"></span>
+                  <span class="h-2 w-2 rounded-full bg-indigo-600/15 transition-all"></span>
+                  <span class="h-2 w-2 rounded-full bg-indigo-600/15 transition-all"></span>
                 </div>
 
                 <!-- Resumen de Carrito -->
-                <div class="mt-8 rounded-3xl bg-white p-5 shadow-sm border border-espresso/5">
+                <div class="mt-8 rounded-3xl bg-[#1a1514] p-5 shadow-sm border border-white/10">
                   <div class="flex items-center justify-between">
-                    <p id="demo-item-count" class="text-xs font-bold text-espresso/60">0 items</p>
-                    <p id="demo-total" class="text-xl font-extrabold text-cacao">C$ 0.00</p>
+                    <p id="demo-item-count" class="text-xs font-bold text-gray-400">0 items</p>
+                    <p id="demo-total" class="text-xl font-extrabold text-white">C$ 0.00</p>
                   </div>
-                  <button 
-                    id="demo-order-btn" 
-                    disabled 
-                    class="mt-6 w-full rounded-2xl bg-espresso py-4 text-sm font-bold text-cream transition-all hover:bg-cacao disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                  >
+                  <button id="demo-order-btn" disabled
+                    class="mt-6 w-full rounded-2xl bg-indigo-600 py-4 text-sm font-bold text-white transition-all hover:bg-[#18181b] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">
                     Confirmar Orden
                   </button>
                 </div>
 
                 <div class="mt-6 text-center">
-                  <p class="text-[10px] text-espresso/40">Escanea el QR en tu mesa para comenzar</p>
+                  <p class="text-[10px] text-gray-400">Escanea el QR en tu mesa para comenzar</p>
                 </div>
               </div>
             </div>
-            
+
             <!-- Elementos decorativos del mockup -->
-            <div class="absolute -right-4 top-20 h-16 w-1 rounded-l-md bg-espresso/20"></div>
-            <div class="absolute -right-4 top-40 h-10 w-1 rounded-l-md bg-espresso/20"></div>
+            <div class="absolute -right-4 top-20 h-16 w-1 rounded-l-md bg-indigo-600/20"></div>
+            <div class="absolute -right-4 top-40 h-10 w-1 rounded-l-md bg-indigo-600/20"></div>
           </div>
         </div>
       </div>
     </section>
 
+    <div class="w-full max-w-7xl mx-auto px-4"><div class="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent"></div></div>
     <section id="gestion" class="fp-section section-dark scroll-mt-28 px-4 py-24 sm:px-6 lg:px-8" data-label="Gestion">
       <div class="section-dark-fade"></div>
       <div class="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
         <div data-reveal>
-          <p class="text-sm font-semibold uppercase tracking-[0.28em] text-terracotta">Gestion</p>
-          <h2 class="mt-4 font-display text-4xl font-semibold leading-tight text-cream sm:text-5xl">
+          <p class="text-sm font-semibold uppercase tracking-[0.28em] text-indigo-400">Gestion</p>
+          <h2 class="mt-4 font-display text-4xl font-semibold leading-tight text-white sm:text-5xl">
             La operacion tambien gana orden, visibilidad y mejor ritmo.
           </h2>
-          <p class="mt-6 max-w-2xl text-lg leading-8 text-cream/74">
-            TapMeal no solo piensa en quien pide. Tambien ayuda a quien administra productos, estados, compras y reportes dentro del negocio.
+          <p class="mt-6 max-w-2xl text-lg leading-8 text-gray-400">
+            TapMeal no solo piensa en quien pide. Tambien ayuda a quien administra productos, estados, compras y
+            reportes dentro del negocio.
           </p>
           <div class="mt-8 grid gap-4">
-            <div class="panel-hover dark-card flex items-start gap-4 rounded-[2rem] p-5">
-              <span class="inline-flex h-12 w-12 flex-none items-center justify-center rounded-2xl bg-sage/65">
-                <span data-lucide="package-open" class="h-5 w-5 text-cacao"></span>
+            <div class="panel-hover dark-card flex items-start gap-3 rounded-[1.8rem] p-4">
+              <span class="inline-flex h-10 w-10 flex-none items-center justify-center rounded-2xl bg-white/5">
+                <span data-lucide="package-open" class="h-4 w-4 text-white"></span>
               </span>
               <div>
-                <p class="font-bold text-cream">Inventario y catalogo mas claros</p>
-                <p class="mt-1 text-sm leading-7 text-cream/72">Administra productos, categorias, proveedores y compras desde una misma superficie.</p>
+                <p class="font-bold text-white">Inventario y catalogo mas claros</p>
+                <p class="mt-1 text-xs leading-6 text-gray-400">Administra productos, categorias, proveedores y compras
+                  desde una misma superficie.</p>
               </div>
             </div>
-            <div class="panel-hover dark-card flex items-start gap-4 rounded-[2rem] p-5">
-              <span class="inline-flex h-12 w-12 flex-none items-center justify-center rounded-2xl bg-sky/65">
-                <span data-lucide="list-checks" class="h-5 w-5 text-cacao"></span>
+            <div class="panel-hover dark-card flex items-start gap-3 rounded-[1.8rem] p-4">
+              <span class="inline-flex h-10 w-10 flex-none items-center justify-center rounded-2xl bg-white/5">
+                <span data-lucide="list-checks" class="h-4 w-4 text-white"></span>
               </span>
               <div>
-                <p class="font-bold text-cream">Estados de pedido accionables</p>
-                <p class="mt-1 text-sm leading-7 text-cream/72">El equipo puede actualizar el progreso y mantener informado al cliente sin ruido adicional.</p>
+                <p class="font-bold text-white">Estados de pedido accionables</p>
+                <p class="mt-1 text-xs leading-6 text-gray-400">El equipo puede actualizar el progreso y mantener
+                  informado al cliente sin ruido adicional.</p>
               </div>
             </div>
-            <div class="panel-hover dark-card flex items-start gap-4 rounded-[2rem] p-5">
-              <span class="inline-flex h-12 w-12 flex-none items-center justify-center rounded-2xl bg-blush/65">
-                <span data-lucide="bar-chart-3" class="h-5 w-5 text-cacao"></span>
+            <div class="panel-hover dark-card flex items-start gap-3 rounded-[1.8rem] p-4">
+              <span class="inline-flex h-10 w-10 flex-none items-center justify-center rounded-2xl bg-white/5">
+                <span data-lucide="bar-chart-3" class="h-4 w-4 text-white"></span>
               </span>
               <div>
-                <p class="font-bold text-cream">Reportes para tomar decisiones</p>
-                <p class="mt-1 text-sm leading-7 text-cream/72">Ventas, compras y estadisticas apoyan decisiones para reducir gastos y mejorar el servicio.</p>
+                <p class="font-bold text-white">Reportes para tomar decisiones</p>
+                <p class="mt-1 text-xs leading-6 text-gray-400">Ventas, compras y estadisticas apoyan decisiones para
+                  reducir gastos y mejorar el servicio.</p>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="admin-lines dark-card rounded-[2.8rem] p-6" data-reveal style="--delay: 140ms">
+        <div class="admin-lines dark-card rounded-[2rem] p-4" data-reveal style="--delay: 140ms">
           <div class="grid gap-4 lg:grid-cols-[1.05fr_0.95fr]">
-            <div class="rounded-[2rem] bg-cacao p-5 text-cream">
+            <div class="rounded-[1.5rem] bg-[#18181b] p-4 text-white">
               <div class="flex items-center justify-between">
                 <div>
-                  <p class="text-xs font-semibold uppercase tracking-[0.22em] text-cream/55">Panel admin</p>
-                  <p class="mt-2 font-display text-2xl font-semibold">Centro operativo</p>
+                  <p class="text-[10px] font-semibold uppercase tracking-[0.22em] text-gray-400">Panel admin</p>
+                  <p class="mt-1 font-display text-xl font-semibold">Centro operativo</p>
                 </div>
-                <span class="rounded-full bg-white/10 px-3 py-2 text-xs font-bold">Activo</span>
+                <span class="rounded-full bg-white/5 px-2 py-0.5 text-[9px] font-bold">Activo</span>
               </div>
-              <div class="mt-6 grid gap-3">
-                <div class="rounded-[1.4rem] bg-white/10 px-4 py-3 text-sm">Pedidos activos - 12</div>
-                <div class="rounded-[1.4rem] bg-white/10 px-4 py-3 text-sm">Productos disponibles - 48</div>
-                <div class="rounded-[1.4rem] bg-white/10 px-4 py-3 text-sm">Alertas de stock - 03</div>
+              <div class="mt-4 grid gap-2">
+                <div class="rounded-[1rem] bg-white/5 px-3 py-1.5 text-[11px]">Pedidos activos - 12</div>
+                <div class="rounded-[1rem] bg-white/5 px-3 py-1.5 text-[11px]">Productos disponibles - 48</div>
+                <div class="rounded-[1rem] bg-white/5 px-3 py-1.5 text-[11px]">Alertas de stock - 03</div>
               </div>
             </div>
 
             <div class="grid gap-4">
-              <div class="dark-card-soft rounded-[2rem] p-5 text-cream">
-                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-cream/55">Pedidos por estado</p>
-                <div class="mt-5 space-y-4">
+              <div class="dark-card-soft rounded-[1.5rem] p-4 text-white">
+                <p class="text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-400">Pedidos por estado</p>
+                <div class="mt-3 space-y-3">
                   <div>
-                    <div class="mb-2 flex items-center justify-between text-sm font-semibold text-cream">
+                    <div class="mb-1 flex items-center justify-between text-[11px] font-semibold text-white">
                       <span>Confirmados</span>
                       <span>4</span>
                     </div>
-                    <div class="h-2 rounded-full bg-white/70">
-                      <div class="h-full w-1/3 rounded-full bg-cacao"></div>
+                    <div class="h-1 rounded-full bg-white/5">
+                      <div class="h-full w-1/3 rounded-full bg-[#18181b]"></div>
                     </div>
                   </div>
                   <div>
-                    <div class="mb-2 flex items-center justify-between text-sm font-semibold text-cream">
+                    <div class="mb-1 flex items-center justify-between text-[11px] font-semibold text-white">
                       <span>En preparacion</span>
                       <span>5</span>
                     </div>
-                    <div class="h-2 rounded-full bg-white/70">
-                      <div class="h-full w-1/2 rounded-full bg-terracotta"></div>
+                    <div class="h-1 rounded-full bg-white/5">
+                      <div class="h-full w-1/2 rounded-full bg-indigo-500"></div>
                     </div>
                   </div>
                   <div>
-                    <div class="mb-2 flex items-center justify-between text-sm font-semibold text-cream">
+                    <div class="mb-1 flex items-center justify-between text-[11px] font-semibold text-white">
                       <span>Listos</span>
                       <span>3</span>
                     </div>
-                    <div class="h-2 rounded-full bg-white/70">
-                      <div class="h-full w-1/4 rounded-full bg-cacao"></div>
+                    <div class="h-1 rounded-full bg-white/5">
+                      <div class="h-full w-1/4 rounded-full bg-[#18181b]"></div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div class="rounded-[2rem] bg-white p-5 shadow-glass">
-                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-espresso/55">Vista de reportes</p>
-                <div class="mt-4 flex items-end gap-3">
-                  <span class="h-14 w-8 rounded-t-2xl bg-sky"></span>
-                  <span class="h-20 w-8 rounded-t-2xl bg-latte"></span>
-                  <span class="h-24 w-8 rounded-t-2xl bg-terracotta"></span>
-                  <span class="h-16 w-8 rounded-t-2xl bg-sage"></span>
-                  <span class="h-28 w-8 rounded-t-2xl bg-cacao"></span>
+              <div class="rounded-[1.5rem] bg-[#1a1514] p-4 shadow-glass">
+                <p class="text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-400">Vista de reportes</p>
+                <div class="mt-3 flex items-end gap-2">
+                  <span class="h-10 w-6 rounded-t-xl bg-white/5"></span>
+                  <span class="h-14 w-6 rounded-t-xl bg-white/5"></span>
+                  <span class="h-16 w-6 rounded-t-xl bg-indigo-500"></span>
+                  <span class="h-12 w-6 rounded-t-xl bg-white/5"></span>
+                  <span class="h-20 w-6 rounded-t-xl bg-[#18181b]"></span>
                 </div>
-                <p class="mt-4 text-sm leading-7 text-espresso/74">Una lectura visual simple para entender ventas, ritmo y comportamiento del negocio.</p>
+                <p class="mt-3 text-xs leading-5 text-gray-400">Lectura visual simple del negocio.</p>
               </div>
             </div>
           </div>
@@ -1330,46 +1445,52 @@
       </div>
     </section>
 
-    <section id="caso-real" class="fp-section section-dark scroll-mt-28 px-4 py-20 sm:px-6 lg:px-8" data-label="Caso Real">
-      <div class="mx-auto max-w-7xl rounded-[3rem] p-8 dark-card lg:p-12">
-        <div class="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+    <div class="w-full max-w-7xl mx-auto px-4"><div class="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent"></div></div>
+    <section id="caso-real" class="fp-section section-dark scroll-mt-28 px-4 py-20 sm:px-6 lg:px-8"
+      data-label="Caso Real">
+      <div class="mx-auto max-w-7xl rounded-[3rem] p-6 dark-card lg:p-10">
+        <div class="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div data-reveal>
-            <p class="text-sm font-semibold uppercase tracking-[0.28em] text-terracotta">Caso real</p>
-            <h2 class="mt-4 text-balance font-display text-4xl font-semibold leading-tight text-cream sm:text-5xl">
+            <p class="text-sm font-semibold uppercase tracking-[0.28em] text-indigo-400">Caso real</p>
+            <h2 class="mt-4 text-balance font-display text-4xl font-semibold leading-tight text-white sm:text-5xl">
               TapMeal nace con un caso de referencia real en el sector cafetero.
             </h2>
-            <p class="mt-6 text-lg leading-8 text-cream/74">
-              La propuesta fue pensada a partir de necesidades operativas concretas: reducir espera, evitar errores en la toma manual y dar visibilidad al pedido tanto al cliente como al equipo del negocio.
+            <p class="mt-6 text-lg leading-8 text-gray-400">
+              La propuesta fue pensada a partir de necesidades operativas concretas: reducir espera, evitar errores en
+              la toma manual y dar visibilidad al pedido tanto al cliente como al equipo del negocio.
             </p>
-            <p class="mt-4 text-base leading-8 text-cream/68">
-              Esa validacion contextual permite que la landing muestre un producto con enfoque practico, no una idea abstracta. La referencia del negocio se mantiene como punto de aprendizaje, mientras que la marca y la solucion principal siguen siendo TapMeal.
+            <p class="mt-4 text-base leading-8 text-gray-400">
+              Esa validacion contextual permite que la landing muestre un producto con enfoque practico, no una idea
+              abstracta. La referencia del negocio se mantiene como punto de aprendizaje, mientras que la marca y la
+              solucion principal siguen siendo TapMeal.
             </p>
           </div>
 
           <div class="grid gap-4" data-reveal style="--delay: 120ms">
             <div class="parallax-layer media-shell h-72" data-parallax="0.04">
               <img
-                src="https://images.unsplash.com/photo-1748910635208-bb198eb0f9f8?auto=format&fit=crop&q=90&w=1400"
-                alt="Telefono y cafe sobre una mesa de marmol"
-                class="slow-zoom media-photo"
-                loading="lazy"
-              >
+                src="https://images.unsplash.com/photo-1498804103079-a6351b050096?auto=format&fit=crop&w=1000&q=80"
+                alt="Telefono y cafe sobre una mesa de marmol" class="slow-zoom media-photo" loading="lazy">
               <div class="media-overlay"></div>
             </div>
 
-            <div class="dark-card-soft rounded-[2.2rem] p-6 text-cream">
-              <p class="text-xs font-semibold uppercase tracking-[0.22em] text-cream/55">Lo que se valido</p>
-              <ul class="mt-5 space-y-3 text-sm leading-7 text-cream/76">
-                <li class="flex items-start gap-3"><span class="mt-2 h-2.5 w-2.5 rounded-full bg-terracotta"></span>Pedido desde mesa o dispositivo personal.</li>
-                <li class="flex items-start gap-3"><span class="mt-2 h-2.5 w-2.5 rounded-full bg-terracotta"></span>Seguimiento del estado del pedido para mejorar la experiencia.</li>
-                <li class="flex items-start gap-3"><span class="mt-2 h-2.5 w-2.5 rounded-full bg-terracotta"></span>Panel administrativo con inventario, reportes y gestion del catalogo.</li>
+            <div class="dark-card-soft rounded-[2.2rem] p-4 text-white">
+              <p class="text-xs font-semibold uppercase tracking-[0.22em] text-gray-400">Lo que se valido</p>
+              <ul class="mt-4 space-y-2 text-sm leading-7 text-gray-400">
+                <li class="flex items-start gap-3"><span class="mt-2 h-2 w-2 rounded-full bg-indigo-500"></span>Pedido
+                  desde mesa o dispositivo personal.</li>
+                <li class="flex items-start gap-3"><span
+                    class="mt-2 h-2 w-2 rounded-full bg-indigo-500"></span>Seguimiento del estado del pedido.</li>
+                <li class="flex items-start gap-3"><span class="mt-2 h-2 w-2 rounded-full bg-indigo-500"></span>Panel
+                  administrativo con inventario.</li>
               </ul>
             </div>
 
-            <div class="dark-card-soft rounded-[2.2rem] p-6">
-              <p class="text-xs font-semibold uppercase tracking-[0.22em] text-cream/55">Enfoque del producto</p>
-              <p class="mt-4 text-base leading-8 text-cream/72">
-                Una herramienta pensada para negocios que quieren modernizar su operacion con una experiencia movil mas ligera y mejor organizada.
+            <div class="dark-card-soft rounded-[2.2rem] p-4">
+              <p class="text-xs font-semibold uppercase tracking-[0.22em] text-gray-400">Enfoque del producto</p>
+              <p class="mt-3 text-sm leading-7 text-gray-400">
+                Una herramienta pensada para negocios que quieren modernizar su operacion con una experiencia movil mas
+                ligera y mejor organizada.
               </p>
             </div>
           </div>
@@ -1377,106 +1498,93 @@
       </div>
     </section>
 
+    <div class="w-full max-w-7xl mx-auto px-4"><div class="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent"></div></div>
     <section id="faq" class="fp-section section-dark scroll-mt-28 px-4 py-20 sm:px-6 lg:px-8" data-label="FAQ">
       <div class="mx-auto max-w-5xl">
         <div class="text-center" data-reveal>
-          <p class="text-sm font-semibold uppercase tracking-[0.28em] text-terracotta">FAQ</p>
-          <h2 class="mt-4 text-balance font-display text-4xl font-semibold leading-tight text-cream sm:text-5xl">
+          <p class="text-sm font-semibold uppercase tracking-[0.28em] text-indigo-400">FAQ</p>
+          <h2 class="mt-4 text-balance font-display text-4xl font-semibold leading-tight text-white sm:text-5xl">
             Preguntas frecuentes antes de implementar TapMeal.
           </h2>
         </div>
 
         <div class="mt-12 space-y-4">
-          <article class="dark-card-soft rounded-[2rem] px-6 py-5" data-reveal style="--delay: 60ms">
-            <button
-              class="faq-trigger flex w-full items-center justify-between gap-6 text-left"
-              type="button"
-              aria-expanded="false"
-              aria-controls="faq-panel-1"
-            >
-              <span class="text-lg font-bold text-cream">TapMeal reemplaza por completo la atencion del personal?</span>
-              <span data-lucide="plus" class="h-5 w-5 flex-none text-terracotta"></span>
+          <article class="dark-card-soft rounded-[2rem] p-4" data-reveal style="--delay: 60ms">
+            <button class="faq-trigger flex w-full items-center justify-between gap-6 text-left" type="button"
+              aria-expanded="false" aria-controls="faq-panel-1">
+              <span class="text-lg font-bold text-white">TapMeal reemplaza por completo la atencion del personal?</span>
+              <span data-lucide="plus" class="h-5 w-5 flex-none text-indigo-400"></span>
             </button>
             <div id="faq-panel-1" class="faq-panel" hidden>
               <div class="faq-panel-inner pt-4">
-                <p class="max-w-3xl text-base leading-8 text-cream/72">
-                  No. La propuesta reduce friccion en el pedido y mejora la operacion, pero sigue siendo una herramienta de apoyo para que el servicio sea mas claro y rapido.
+                <p class="max-w-3xl text-base leading-8 text-gray-400">
+                  No. La propuesta reduce friccion en el pedido y mejora la operacion, pero sigue siendo una herramienta
+                  de apoyo para que el servicio sea mas claro y rapido.
                 </p>
               </div>
             </div>
           </article>
 
-          <article class="dark-card-soft rounded-[2rem] px-6 py-5" data-reveal style="--delay: 120ms">
-            <button
-              class="faq-trigger flex w-full items-center justify-between gap-6 text-left"
-              type="button"
-              aria-expanded="false"
-              aria-controls="faq-panel-2"
-            >
-              <span class="text-lg font-bold text-cream">La experiencia funciona solo con QR?</span>
-              <span data-lucide="plus" class="h-5 w-5 flex-none text-terracotta"></span>
+          <article class="dark-card-soft rounded-[2rem] p-4" data-reveal style="--delay: 120ms">
+            <button class="faq-trigger flex w-full items-center justify-between gap-6 text-left" type="button"
+              aria-expanded="false" aria-controls="faq-panel-2">
+              <span class="text-lg font-bold text-white">La experiencia funciona solo con QR?</span>
+              <span data-lucide="plus" class="h-5 w-5 flex-none text-indigo-400"></span>
             </button>
             <div id="faq-panel-2" class="faq-panel" hidden>
               <div class="faq-panel-inner pt-4">
-                <p class="max-w-3xl text-base leading-8 text-cream/72">
-                  El QR es un punto de entrada muy util, pero TapMeal tambien se plantea para acceso desde el propio movil del cliente segun el flujo del negocio.
+                <p class="max-w-3xl text-base leading-8 text-gray-400">
+                  El QR es un punto de entrada muy util, pero TapMeal tambien se plantea para acceso desde el propio
+                  movil del cliente segun el flujo del negocio.
                 </p>
               </div>
             </div>
           </article>
 
-          <article class="dark-card-soft rounded-[2rem] px-6 py-5" data-reveal style="--delay: 180ms">
-            <button
-              class="faq-trigger flex w-full items-center justify-between gap-6 text-left"
-              type="button"
-              aria-expanded="false"
-              aria-controls="faq-panel-3"
-            >
-              <span class="text-lg font-bold text-cream">Que tipo de control obtiene el negocio?</span>
-              <span data-lucide="plus" class="h-5 w-5 flex-none text-terracotta"></span>
+          <article class="dark-card-soft rounded-[2rem] p-4" data-reveal style="--delay: 180ms">
+            <button class="faq-trigger flex w-full items-center justify-between gap-6 text-left" type="button"
+              aria-expanded="false" aria-controls="faq-panel-3">
+              <span class="text-lg font-bold text-white">Que tipo de control obtiene el negocio?</span>
+              <span data-lucide="plus" class="h-5 w-5 flex-none text-indigo-400"></span>
             </button>
             <div id="faq-panel-3" class="faq-panel" hidden>
               <div class="faq-panel-inner pt-4">
-                <p class="max-w-3xl text-base leading-8 text-cream/72">
-                  La propuesta contempla gestion de productos, categorias, clientes, pedidos, compras, ventas, reportes y visualizacion de estadisticas para apoyar decisiones operativas.
+                <p class="max-w-3xl text-base leading-8 text-gray-400">
+                  La propuesta contempla gestion de productos, categorias, clientes, pedidos, compras, ventas, reportes
+                  y visualizacion de estadisticas para apoyar decisiones operativas.
                 </p>
               </div>
             </div>
           </article>
 
-          <article class="dark-card-soft rounded-[2rem] px-6 py-5" data-reveal style="--delay: 240ms">
-            <button
-              class="faq-trigger flex w-full items-center justify-between gap-6 text-left"
-              type="button"
-              aria-expanded="false"
-              aria-controls="faq-panel-4"
-            >
-              <span class="text-lg font-bold text-cream">TapMeal ya procesa pagos y estados del pedido?</span>
-              <span data-lucide="plus" class="h-5 w-5 flex-none text-terracotta"></span>
+          <article class="dark-card-soft rounded-[2rem] p-4" data-reveal style="--delay: 240ms">
+            <button class="faq-trigger flex w-full items-center justify-between gap-6 text-left" type="button"
+              aria-expanded="false" aria-controls="faq-panel-4">
+              <span class="text-lg font-bold text-white">TapMeal ya procesa pagos y estados del pedido?</span>
+              <span data-lucide="plus" class="h-5 w-5 flex-none text-indigo-400"></span>
             </button>
             <div id="faq-panel-4" class="faq-panel" hidden>
               <div class="faq-panel-inner pt-4">
-                <p class="max-w-3xl text-base leading-8 text-cream/72">
-                  La vision del producto incorpora seleccion de metodo de pago y visualizacion del estado del pedido como partes centrales de la experiencia digital que se desea ofrecer.
+                <p class="max-w-3xl text-base leading-8 text-gray-400">
+                  La vision del producto incorpora seleccion de metodo de pago y visualizacion del estado del pedido
+                  como partes centrales de la experiencia digital que se desea ofrecer.
                 </p>
               </div>
             </div>
           </article>
 
-          <article class="dark-card-soft rounded-[2rem] px-6 py-5" data-reveal style="--delay: 300ms">
-            <button
-              class="faq-trigger flex w-full items-center justify-between gap-6 text-left"
-              type="button"
-              aria-expanded="false"
-              aria-controls="faq-panel-5"
-            >
-              <span class="text-lg font-bold text-cream">La landing depende de backend para mostrar esta experiencia?</span>
-              <span data-lucide="plus" class="h-5 w-5 flex-none text-terracotta"></span>
+          <article class="dark-card-soft rounded-[2rem] p-4" data-reveal style="--delay: 300ms">
+            <button class="faq-trigger flex w-full items-center justify-between gap-6 text-left" type="button"
+              aria-expanded="false" aria-controls="faq-panel-5">
+              <span class="text-lg font-bold text-white">La landing depende de backend para mostrar esta
+                experiencia?</span>
+              <span data-lucide="plus" class="h-5 w-5 flex-none text-indigo-400"></span>
             </button>
             <div id="faq-panel-5" class="faq-panel" hidden>
               <div class="faq-panel-inner pt-4">
-                <p class="max-w-3xl text-base leading-8 text-cream/72">
-                  No en esta version. La landing esta pensada como vitrina estatica del producto, con enfasis en narrativa, estructura visual y demostracion conceptual.
+                <p class="max-w-3xl text-base leading-8 text-gray-400">
+                  No en esta version. La landing esta pensada como vitrina estatica del producto, con enfasis en
+                  narrativa, estructura visual y demostracion conceptual.
                 </p>
               </div>
             </div>
@@ -1485,33 +1593,31 @@
       </div>
     </section>
 
-    <section id="cta" class="fp-section section-dark scroll-mt-28 px-4 pb-20 pt-8 sm:px-6 lg:px-8 lg:pb-24" data-label="CTA">
-      <div class="mx-auto max-w-7xl rounded-[3rem] border border-white/10 bg-[linear-gradient(135deg,#221917,#120f0f_55%,#090808)] px-8 py-12 text-cream shadow-soft sm:px-10 lg:px-12 lg:py-14">
+    <div class="w-full max-w-7xl mx-auto px-4"><div class="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent"></div></div>
+    <section id="cta" class="fp-section section-dark scroll-mt-28 px-4 pb-20 pt-8 sm:px-6 lg:px-8 lg:pb-24"
+      data-label="CTA">
+      <div
+        class="mx-auto max-w-7xl rounded-[3rem] border border-white/10 bg-[#0f0e13] px-8 py-12 text-white shadow-soft sm:px-10 lg:px-12 lg:py-14">
         <div class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
           <div data-reveal>
-            <p class="text-xs font-semibold uppercase tracking-[0.28em] text-cream/55">CTA final</p>
-            <h2 class="mt-4 text-balance font-display text-4xl font-semibold leading-tight text-cream sm:text-5xl">
+            <p class="text-xs font-semibold uppercase tracking-[0.28em] text-gray-400">CTA final</p>
+            <h2 class="mt-4 text-balance font-display text-4xl font-semibold leading-tight text-white sm:text-5xl">
               TapMeal muestra como pedir mejor y operar con mas claridad puede sentirse desde la primera vista.
             </h2>
-            <p class="mt-6 max-w-2xl text-lg leading-8 text-cream/74">
-              Explora la demo, revisa el flujo del producto y usa esta landing como base moderna para presentar la propuesta del proyecto.
+            <p class="mt-6 max-w-2xl text-lg leading-8 text-gray-400">
+              Explora la demo, revisa el flujo del producto y usa esta landing como base moderna para presentar la
+              propuesta del proyecto.
             </p>
           </div>
 
           <div class="flex flex-col gap-4 sm:flex-row lg:justify-end" data-reveal style="--delay: 120ms">
-            <a
-              href="#demo"
-              data-goto="5"
-              class="inline-flex items-center justify-center gap-2 rounded-full bg-cream px-7 py-4 text-sm font-bold text-cacao transition hover:-translate-y-0.5"
-            >
+            <a href="#demo" data-goto="5"
+              class="inline-flex items-center justify-center gap-2 rounded-full bg-cream px-7 py-4 text-sm font-bold text-white transition hover:-translate-y-0.5">
               <span data-lucide="arrow-right" class="h-4 w-4"></span>
               Ir al demo
             </a>
-            <a
-              href="#inicio"
-              data-goto="0"
-              class="inline-flex items-center justify-center rounded-full border border-white/16 px-7 py-4 text-sm font-bold text-cream transition hover:bg-white/8"
-            >
+            <a href="#inicio" data-goto="0"
+              class="inline-flex items-center justify-center rounded-full border border-white/10 px-7 py-4 text-sm font-bold text-white transition hover:bg-white/5">
               Volver al inicio
             </a>
           </div>
@@ -1521,36 +1627,33 @@
   </main>
 
   <footer class="section-dark px-4 pb-8 sm:px-6 lg:px-8">
-    <div class="mx-auto flex max-w-7xl flex-col gap-3 border-t border-white/10 pt-6 text-sm text-cream/58 sm:flex-row sm:items-center sm:justify-between">
+    <div
+      class="mx-auto flex max-w-7xl flex-col gap-3 border-t border-white/10 pt-6 text-sm text-gray-400 sm:flex-row sm:items-center sm:justify-between">
       <p>TapMeal - Landing conceptual para presentar una solucion digital de pedidos y gestion.</p>
       <p>Hecha con HTML, Tailwind CDN, Lucide Icons y JavaScript nativo.</p>
     </div>
   </footer>
 
   <!-- Chatbot Interactivo -->
-  <button
-    id="chat-fab"
-    class="fixed bottom-6 right-6 z-[60] flex h-14 w-14 translate-y-20 items-center justify-center rounded-full bg-espresso text-cream shadow-soft transition-all duration-500 hover:scale-110 hover:bg-cacao"
-    aria-label="Abrir chat"
-  >
+  <button id="chat-fab"
+    class="fixed bottom-6 right-6 z-[60] flex h-14 w-14 translate-y-20 items-center justify-center rounded-full bg-indigo-600 text-white shadow-soft transition-all duration-500 hover:scale-110 hover:bg-[#18181b]"
+    aria-label="Abrir chat">
     <span data-lucide="message-circle" class="h-6 w-6"></span>
   </button>
 
-  <div
-    id="chat-window"
-    class="fixed bottom-24 right-6 z-[60] w-[min(380px,calc(100vw-3rem))] origin-bottom-right scale-95 overflow-hidden rounded-[2rem] border border-white/15 bg-white/80 opacity-0 shadow-soft backdrop-blur-2xl transition-all duration-300 pointer-events-none"
-  >
-    <div class="flex items-center justify-between bg-espresso p-5 text-cream">
+  <div id="chat-window"
+    class="fixed bottom-24 right-6 z-[60] w-[min(380px,calc(100vw-3rem))] origin-bottom-right scale-95 overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 opacity-0 shadow-soft backdrop-blur-2xl transition-all duration-300 pointer-events-none">
+    <div class="flex items-center justify-between bg-indigo-600 p-5 text-white">
       <div class="flex items-center gap-3">
         <div class="flex h-9 w-9 items-center justify-center rounded-full bg-cream/10">
           <span data-lucide="bot" class="h-5 w-5"></span>
         </div>
         <div>
           <p class="text-sm font-bold">Asistente TapMeal</p>
-          <p class="text-[10px] text-cream/60">En línea ahora</p>
+          <p class="text-[10px] text-gray-400">En línea ahora</p>
         </div>
       </div>
-      <button id="chat-close" class="rounded-full p-1 transition hover:bg-white/10">
+      <button id="chat-close" class="rounded-full p-1 transition hover:bg-white/5">
         <span data-lucide="x" class="h-5 w-5"></span>
       </button>
     </div>
@@ -1563,16 +1666,12 @@
       <!-- Opciones rápidas -->
     </div>
 
-    <form id="chat-email-form" class="hidden border-t border-espresso/5 p-4">
+    <form id="chat-email-form" class="hidden border-t border-white/10 p-4">
       <div class="flex gap-2">
-        <input
-          id="chat-email-input"
-          type="email"
-          placeholder="Tu correo electrónico..."
-          class="flex-1 rounded-full border border-espresso/10 bg-white/50 px-4 py-2 text-xs focus:border-terracotta focus:outline-none"
-          required
-        >
-        <button type="submit" class="rounded-full bg-espresso px-4 py-2 text-xs font-bold text-cream">
+        <input id="chat-email-input" type="email" placeholder="Tu correo electrónico..."
+          class="flex-1 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs focus:border-terracotta focus:outline-none"
+          required>
+        <button type="submit" class="rounded-full bg-indigo-600 px-4 py-2 text-xs font-bold text-white">
           Enviar
         </button>
       </div>
@@ -1580,20 +1679,30 @@
   </div>
 
   <div class="fixed right-6 top-1/2 z-50 hidden -translate-y-1/2 flex-col gap-4 lg:flex">
-    <button class="fp-dot h-3 w-3 rounded-full border border-espresso/20 bg-espresso/10 transition-all duration-300" aria-label="Seccion 1"></button>
-    <button class="fp-dot h-3 w-3 rounded-full border border-espresso/20 bg-espresso/10 transition-all duration-300" aria-label="Seccion 2"></button>
-    <button class="fp-dot h-3 w-3 rounded-full border border-espresso/20 bg-espresso/10 transition-all duration-300" aria-label="Seccion 3"></button>
-    <button class="fp-dot h-3 w-3 rounded-full border border-espresso/20 bg-espresso/10 transition-all duration-300" aria-label="Seccion 4"></button>
-    <button class="fp-dot h-3 w-3 rounded-full border border-espresso/20 bg-espresso/10 transition-all duration-300" aria-label="Seccion 5"></button>
-    <button class="fp-dot h-3 w-3 rounded-full border border-espresso/20 bg-espresso/10 transition-all duration-300" aria-label="Seccion 6"></button>
-    <button class="fp-dot h-3 w-3 rounded-full border border-espresso/20 bg-espresso/10 transition-all duration-300" aria-label="Seccion 7"></button>
-    <button class="fp-dot h-3 w-3 rounded-full border border-espresso/20 bg-espresso/10 transition-all duration-300" aria-label="Seccion 8"></button>
-    <button class="fp-dot h-3 w-3 rounded-full border border-espresso/20 bg-espresso/10 transition-all duration-300" aria-label="Seccion 9"></button>
-    <button class="fp-dot h-3 w-3 rounded-full border border-espresso/20 bg-espresso/10 transition-all duration-300" aria-label="Seccion 10"></button>
+    <button class="fp-dot h-3 w-3 rounded-full border border-white/10 bg-indigo-600/10 transition-all duration-300"
+      aria-label="Seccion 1"></button>
+    <button class="fp-dot h-3 w-3 rounded-full border border-white/10 bg-indigo-600/10 transition-all duration-300"
+      aria-label="Seccion 2"></button>
+    <button class="fp-dot h-3 w-3 rounded-full border border-white/10 bg-indigo-600/10 transition-all duration-300"
+      aria-label="Seccion 3"></button>
+    <button class="fp-dot h-3 w-3 rounded-full border border-white/10 bg-indigo-600/10 transition-all duration-300"
+      aria-label="Seccion 4"></button>
+    <button class="fp-dot h-3 w-3 rounded-full border border-white/10 bg-indigo-600/10 transition-all duration-300"
+      aria-label="Seccion 5"></button>
+    <button class="fp-dot h-3 w-3 rounded-full border border-white/10 bg-indigo-600/10 transition-all duration-300"
+      aria-label="Seccion 6"></button>
+    <button class="fp-dot h-3 w-3 rounded-full border border-white/10 bg-indigo-600/10 transition-all duration-300"
+      aria-label="Seccion 7"></button>
+    <button class="fp-dot h-3 w-3 rounded-full border border-white/10 bg-indigo-600/10 transition-all duration-300"
+      aria-label="Seccion 8"></button>
+    <button class="fp-dot h-3 w-3 rounded-full border border-white/10 bg-indigo-600/10 transition-all duration-300"
+      aria-label="Seccion 9"></button>
+    <button class="fp-dot h-3 w-3 rounded-full border border-white/10 bg-indigo-600/10 transition-all duration-300"
+      aria-label="Seccion 10"></button>
   </div>
 
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="./main.js" defer></script>
 </body>
-</html>
 
+</html>

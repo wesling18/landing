@@ -34,10 +34,22 @@ document.addEventListener("DOMContentLoaded", () => {
   initFAQ();
   initChatbot();
   initDataGoto();
+  initCursorGlow();
 
   // Reveal first section immediately
-  sections[0]?.classList.add("active");
+  if (sections[0]) {
+    sections[0].classList.add("active");
+    setTimeout(triggerReveal, 500);
+  }
 });
+
+function initCursorGlow() {
+  const root = document.documentElement;
+  window.addEventListener('mousemove', (e) => {
+    root.style.setProperty('--mouse-x', `${e.clientX}px`);
+    root.style.setProperty('--mouse-y', `${e.clientY}px`);
+  });
+}
 
 function initDataGoto() {
   document.querySelectorAll("[data-goto]").forEach(link => {
@@ -54,36 +66,21 @@ window.goTo = goTo;
 window.goToSection = goTo;
 function goTo(index) {
   if (index < 0 || index >= sections.length) return;
+  sections[index].scrollIntoView({ behavior: 'smooth' });
+  setTimeout(triggerReveal, 100);
+}
 
-  if (window.innerWidth <= 768) {
-    sections[index].scrollIntoView({ behavior: 'smooth' });
-    return;
-  }
-
-  if (isAnimating || index === currentSection) return;
-  isAnimating = true;
-
-  // Remove active from old
-  sections[currentSection].classList.remove("active");
-  sections[currentSection].classList.add("leaving");
-
-  currentSection = index;
-
-  // Move wrapper
-  const wrapper = document.getElementById("fp-wrapper");
-  wrapper.style.transform = `translateY(-${currentSection * 100}${vh})`;
-
-  // Ensure body is unlocked (cleanup from mobile menu or overlays)
-  document.body.style.overflow = '';
-
-  // Add active to new
-  setTimeout(() => {
-    sections.forEach(s => s.classList.remove("leaving"));
-    sections[currentSection].classList.add("active");
-  }, 300);
-
-  setTimeout(() => { isAnimating = false; }, TRANSITION_MS);
-  updateUI();
+function triggerReveal() {
+  const activeSection = sections[currentSection];
+  if (!activeSection) return;
+  
+  const reveals = activeSection.querySelectorAll("[data-reveal]");
+  reveals.forEach((el, i) => {
+    const delay = parseInt(el.style.getPropertyValue('--delay')) || 0;
+    setTimeout(() => {
+      el.classList.add("reveal-visible");
+    }, delay + (i * 50));
+  });
 }
 
 function goNext() { goTo(currentSection + 1); }
@@ -109,49 +106,17 @@ function updateUI() {
 
 // --- Wheel Navigation ---
 function initWheelNav() {
-  let accumulated = 0;
-  const THRESHOLD = 50;
-  let timeout;
-
-  window.addEventListener("wheel", (e) => {
-    if (window.innerWidth <= 768) return;
-    e.preventDefault();
-    accumulated += e.deltaY;
-    clearTimeout(timeout);
-    timeout = setTimeout(() => { accumulated = 0; }, 200);
-
-    if (Math.abs(accumulated) > THRESHOLD) {
-      if (accumulated > 0) goNext(); else goPrev();
-      accumulated = 0;
-    }
-  }, { passive: false });
+  // Let native scroll handle this
 }
 
 // --- Keyboard Navigation ---
 function initKeyboardNav() {
-  window.addEventListener("keydown", (e) => {
-    if (window.innerWidth <= 768) return;
-    if (e.key === "ArrowDown" || e.key === "PageDown") { e.preventDefault(); goNext(); }
-    if (e.key === "ArrowUp" || e.key === "PageUp") { e.preventDefault(); goPrev(); }
-    if (e.key === "Home") { e.preventDefault(); goTo(0); }
-    if (e.key === "End") { e.preventDefault(); goTo(sections.length - 1); }
-  });
+  // Let native browser keyboard nav handle this
 }
 
 // --- Touch/Swipe Navigation ---
 function initTouchNav() {
-  let startY = 0;
-  window.addEventListener("touchstart", (e) => { 
-    if (window.innerWidth <= 768) return;
-    startY = e.touches[0].clientY; 
-  }, { passive: true });
-  window.addEventListener("touchend", (e) => {
-    if (window.innerWidth <= 768) return;
-    const diff = startY - e.changedTouches[0].clientY;
-    if (Math.abs(diff) > 60) {
-      if (diff > 0) goNext(); else goPrev();
-    }
-  }, { passive: true });
+  // Let native swipe scroll handle this
 }
 
 // --- Dot Navigation ---
@@ -161,21 +126,22 @@ function initDotNav() {
   });
 }
 
-// --- Intersection Observer for Sections (Mobile) ---
+// --- Intersection Observer for Sections ---
 function initSectionObserver() {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting && window.innerWidth <= 768) {
+      if (entry.isIntersecting) {
         const index = sections.indexOf(entry.target);
         if (index !== -1 && currentSection !== index) {
           currentSection = index;
           sections.forEach(s => s.classList.remove("active"));
           entry.target.classList.add("active");
+          triggerReveal();
           updateUI();
         }
       }
     });
-  }, { threshold: 0.3 });
+  }, { threshold: 0.15 });
   
   sections.forEach(s => observer.observe(s));
 }
@@ -393,21 +359,17 @@ function initInteractiveMenu() {
 
 // --- Reveal Animations (Intersection Observer) ---
 function initRevealAnimations() {
-  const items = document.querySelectorAll(".reveal-item");
+  const items = document.querySelectorAll("[data-reveal]");
   if (!items.length) return;
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        // Stagger based on sibling index for sequential reveal
-        const parent = entry.target.parentElement;
-        const siblings = parent ? Array.from(parent.querySelectorAll(".reveal-item")) : [entry.target];
-        const idx = siblings.indexOf(entry.target);
-        setTimeout(() => entry.target.classList.add("revealed"), idx * 150);
+        entry.target.classList.add("reveal-visible");
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.15 });
+  }, { threshold: 0.1 });
 
   items.forEach(item => observer.observe(item));
 }
