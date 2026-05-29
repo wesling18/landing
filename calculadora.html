@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Ineficiencia en Pedidos | TapMeal</title>
+  <meta name="description"
+    content="Calcula cuánto tiempo, productividad y dinero está perdiendo tu restaurante o cafetería por la toma manual de pedidos y cobros. Automatiza con TapMeal.">
+  <meta name="keywords" content="calculadora restaurante, comandas manuales, ahorro de tiempo, menu digital QR, TapMeal, automatizacion pedidos">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <script>
+    window.tailwind = window.tailwind || {};
+    window.tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: "#FFF8F2",
+            mist: "#F8EEE9",
+            sage: "#DDE7D8",
+            sky: "#DCEAF4",
+            blush: "#F4D9D6",
+            latte: "#E9D5C5",
+            terracotta: "#D88B7D",
+            espresso: "#5B4636",
+            cacao: "#3D3026",
+            accent: "#4f46e5", // Indigo
+            alertRed: "#ef4444",
+            alertOrange: "#f97316",
+            alertYellow: "#eab308"
+          },
+          fontFamily: {
+            display: ["Fraunces", "serif"],
+            sans: ["Inter", "sans-serif"]
+          },
+          boxShadow: {
+            soft: "0 25px 60px rgba(91, 70, 54, 0.12)",
+            glass: "0 18px 50px rgba(0, 0, 0, 0.4)",
+            glow: "0 0 30px rgba(79, 70, 229, 0.3)"
+          }
+        }
+      }
+    };
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --mouse-x: 50%;
+      --mouse-y: 50%;
+    }
+
+    body {
+      background: #000000;
+      color: #fafafa;
+      overflow-x: hidden;
+    }
+
+    #cursor-glow {
+      position: fixed;
+      inset: 0;
+      z-index: -10;
+      pointer-events: none;
+      background: radial-gradient(circle 600px at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+        rgba(99, 102, 241, 0.5), rgba(236, 72, 153, 0.4), rgba(14, 165, 233, 0.3), transparent 80%);
+      
+      -webkit-mask-image: radial-gradient(rgba(0,0,0,1) 2px, transparent 2px);
+      -webkit-mask-size: 30px 30px;
+      mask-image: radial-gradient(rgba(0,0,0,1) 2px, transparent 2px);
+      mask-size: 30px 30px;
+      will-change: background;
+    }
+
+    .glass-card {
+      background: rgba(15, 14, 19, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    }
+
+    .glass-card-hover {
+      transition: all 300ms ease;
+    }
+
+    .glass-card-hover:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 25px 60px rgba(99, 102, 241, 0.1);
+    }
+
+    /* Custom range input styling */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 9999px;
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #4f46e5;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(79, 70, 229, 0.8);
+      transition: transform 0.1s ease, background-color 0.1s ease;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+      background: #6366f1;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border: none;
+      border-radius: 50%;
+      background: #4f46e5;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(79, 70, 229, 0.8);
+      transition: transform 0.1s ease, background-color 0.1s ease;
+    }
+
+    input[type="range"]::-moz-range-thumb:hover {
+      transform: scale(1.2);
+      background: #6366f1;
+    }
+
+    /* Circular gauge stroke animations */
+    .gauge-circle {
+      transition: stroke-dasharray 0.5s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.5s ease;
+    }
+
+    @keyframes pulse-slow {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.6; }
+    }
+
+    .animate-pulse-slow {
+      animation: pulse-slow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+  </style>
+</head>
+
+<body class="font-sans text-gray-300 antialiased selection:bg-indigo-500/25 selection:text-white">
+  <div id="cursor-glow"></div>
+
+  <!-- Header Nav -->
+  <header class="w-full px-4 py-6 max-w-7xl mx-auto flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-3 group">
+      <div class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-indigo-600 text-sm font-extrabold tracking-soft text-white shadow-soft transition group-hover:scale-105">
+        TM
+      </div>
+      <div>
+        <p class="font-display text-lg font-semibold leading-none text-white transition group-hover:text-indigo-400">TapMeal</p>
+        <p class="text-[10px] font-semibold uppercase tracking-[0.28em] text-gray-400">Pedidos digitales</p>
+      </div>
+    </a>
+
+    <a href="index.html" class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold text-gray-400 transition hover:border-white/20 hover:bg-white/10 hover:text-white">
+      <span data-lucide="arrow-left" class="h-3.5 w-3.5"></span>
+      Volver al Inicio
+    </a>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-7xl mx-auto px-4 py-8 lg:py-16">
+    
+    <!-- Title intro -->
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <div class="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.24em] text-indigo-400 shadow-glass">
+        <span class="inline-flex h-2 w-2 rounded-full bg-indigo-500 animate-ping"></span>
+        <span>Lead Magnet B2B — Herramienta de Diagnóstico</span>
+      </div>
+      <h1 class="font-display text-balance text-4xl sm:text-5xl lg:text-6xl font-semibold text-white tracking-tight leading-none mt-2">
+        ¿Cuánto tiempo y dinero pierde tu negocio en el flujo manual?
+      </h1>
+      <p class="mt-4 text-base sm:text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+        Tomar notas a mano, llevar comandas físicas a cocina y procesar cobros mesa por mesa drena el tiempo de tu equipo y frena tu facturación. Diagnostica tu negocio en tiempo real.
+      </p>
+    </div>
+
+    <!-- Interactive Section Grid -->
+    <div class="grid gap-8 lg:grid-cols-12 items-start">
+      
+      <!-- Inputs (Left Column - 5 cols) -->
+      <section class="lg:col-span-5 space-y-6">
+        <div class="glass-card rounded-[2.5rem] p-6 sm:p-8 space-y-8 relative overflow-hidden">
+          <div class="absolute top-0 right-0 h-40 w-40 rounded-full bg-indigo-500/5 blur-3xl pointer-events-none"></div>
+          
+          <h2 class="text-xl font-bold text-white flex items-center gap-2">
+            <span data-lucide="sliders" class="h-5 w-5 text-indigo-400"></span>
+            Tus Datos Operativos
+          </h2>
+          
+          <!-- Slider 1 -->
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <label for="range-orders" class="text-sm font-semibold text-gray-300">Pedidos o mesas al día</label>
+              <span id="val-orders" class="px-3 py-1 rounded-full bg-indigo-600/20 border border-indigo-500/30 text-indigo-300 font-bold text-sm">80</span>
+            </div>
+            <input type="range" id="range-orders" min="10" max="300" value="80" step="5" class="w-full">
+            <div class="flex justify-between text-[11px] text-gray-500 font-medium">
+              <span>10 pedidos</span>
+              <span>300 pedidos</span>
+            </div>
+          </div>
+
+          <!-- Slider 2 -->
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <label for="range-days" class="text-sm font-semibold text-gray-300">Días abierto por semana</label>
+              <span id="val-days" class="px-3 py-1 rounded-full bg-indigo-600/20 border border-indigo-500/30 text-indigo-300 font-bold text-sm">6 días</span>
+            </div>
+            <input type="range" id="range-days" min="1" max="7" value="6" step="1" class="w-full">
+            <div class="flex justify-between text-[11px] text-gray-500 font-medium">
+              <span>1 día</span>
+              <span>Toda la semana</span>
+            </div>
+          </div>
+
+          <!-- Slider 3 -->
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <label for="range-time" class="text-sm font-semibold text-gray-300">Tiempo manual por pedido</label>
+              <span id="val-time" class="px-3 py-1 rounded-full bg-indigo-600/20 border border-indigo-500/30 text-indigo-300 font-bold text-sm">6 min</span>
+            </div>
+            <input type="range" id="range-time" min="2" max="20" value="6" step="1" class="w-full">
+            <div class="flex justify-between text-[11px] text-gray-500 font-medium">
+              <span>2 minutos</span>
+              <span>20 minutos</span>
+            </div>
+            <p class="text-[11px] text-gray-500 leading-normal pt-1">
+              *Tiempo acumulado promedio por orden en: llevar menú físico, tomar nota, pasar comanda a cocina, imprimir cuenta, cobrar mesa y registrar pago en caja.
+            </p>
+          </div>
+
+          <!-- Advanced Optional Slider: Labor Cost -->
+          <div class="border-t border-white/5 pt-6 space-y-4">
+            <button id="toggle-advanced" class="text-xs font-semibold text-indigo-400 hover:text-indigo-300 transition flex items-center gap-1.5">
+              <span data-lucide="chevron-down" id="advanced-icon" class="h-3.5 w-3.5 transition-transform duration-200"></span>
+              Ajustes de costo laboral avanzado (Opcional)
+            </button>
+            
+            <div id="advanced-panel" class="hidden space-y-3">
+              <div class="flex items-center justify-between">
+                <label for="range-wage" class="text-xs font-semibold text-gray-400">Costo laboral por hora (con prestaciones)</label>
+                <span id="val-wage" class="px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-gray-300 text-xs font-bold">C$ 120/hr</span>
+              </div>
+              <input type="range" id="range-wage" min="50" max="400" value="120" step="10" class="w-full">
+              <div class="flex justify-between text-[10px] text-gray-600">
+                <span>C$ 50</span>
+                <span>C$ 400 / hora</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Outputs & Results (Right Column - 7 cols) -->
+      <section class="lg:col-span-7 space-y-6">
+        
+        <!-- Impact Display Dashboard -->
+        <div class="glass-card rounded-[2.5rem] p-6 sm:p-8 space-y-6 relative overflow-hidden">
+          <div class="absolute inset-0 opacity-40">
+            <div class="absolute -right-20 -top-20 h-80 w-80 rounded-full bg-red-500/5 blur-3xl pointer-events-none"></div>
+          </div>
+          
+          <div class="relative flex flex-col md:flex-row items-center justify-between gap-8 border-b border-white/5 pb-8">
+            <!-- Alert message left -->
+            <div class="text-center md:text-left space-y-3 max-w-md">
+              <p class="text-xs font-bold uppercase tracking-[0.24em] text-red-500 flex items-center justify-center md:justify-start gap-1.5">
+                <span data-lucide="alert-triangle" class="h-4 w-4 text-red-500 animate-pulse"></span>
+                Pérdida Crítica Detectada
+              </p>
+              
+              <div class="font-display leading-none text-white tracking-tight">
+                <span class="block text-sm font-semibold uppercase tracking-wider text-gray-500">Pierdes el equivalente a:</span>
+                <span id="metric-hero-days" class="text-5xl sm:text-6xl font-bold text-red-500 inline-block my-1 transition-all duration-300 font-display">86.4</span>
+                <span class="block text-2xl font-semibold text-white">días laborales de trabajo al año</span>
+              </div>
+              
+              <p class="text-sm text-gray-400">
+                Solo en tiempos muertos de tu personal dedicados a la toma de comandas físicas e ingresos de caja.
+              </p>
+            </div>
+            
+            <!-- Circular Gauge graphic right -->
+            <div class="relative flex-none flex items-center justify-center w-36 h-36">
+              <svg class="w-full h-full transform -rotate-90">
+                <!-- Background track -->
+                <circle cx="72" cy="72" r="62" fill="transparent" stroke="rgba(255,255,255,0.03)" stroke-width="10"></circle>
+                <!-- Active progress gauge -->
+                <circle id="gauge-progress" cx="72" cy="72" r="62" fill="transparent" stroke="#ef4444" stroke-width="10"
+                  stroke-dasharray="390" stroke-dashoffset="150" stroke-linecap="round" class="gauge-circle"></circle>
+              </svg>
+              <!-- Center content -->
+              <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                <span id="gauge-percentage" class="text-2xl font-extrabold text-white leading-none">62%</span>
+                <span class="text-[9px] font-bold text-gray-500 uppercase tracking-widest mt-1">Ineficiencia</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Secondary Metrics Cards Grid -->
+          <div class="grid gap-4 sm:grid-cols-2">
+            
+            <!-- Card 1 -->
+            <div class="glass-card-hover rounded-[2rem] border border-white/5 bg-white/2 p-5 space-y-1">
+              <div class="flex items-center justify-between text-gray-500">
+                <span class="text-xs font-semibold uppercase tracking-wider">Horas al mes</span>
+                <span data-lucide="clock" class="h-4 w-4 text-indigo-400"></span>
+              </div>
+              <p class="text-2xl font-bold text-white" id="metric-hours-month">173.2</p>
+              <p class="text-[11px] text-gray-500">Tiempo total de servicio desperdiciado</p>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="glass-card-hover rounded-[2rem] border border-white/5 bg-white/2 p-5 space-y-1">
+              <div class="flex items-center justify-between text-gray-500">
+                <span class="text-xs font-semibold uppercase tracking-wider">Días del Año (24h)</span>
+                <span data-lucide="calendar" class="h-4 w-4 text-indigo-400"></span>
+              </div>
+              <p class="text-2xl font-bold text-white" id="metric-days-year">86.6</p>
+              <p class="text-[11px] text-gray-500">Días enteros perdidos al año</p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="glass-card-hover rounded-[2rem] border border-white/5 bg-white/2 p-5 space-y-1">
+              <div class="flex items-center justify-between text-gray-500">
+                <span class="text-xs font-semibold uppercase tracking-wider">Fuerza Laboral (FTE)</span>
+                <span data-lucide="users" class="h-4 w-4 text-indigo-400"></span>
+              </div>
+              <p class="text-2xl font-bold text-white" id="metric-fte">1.04</p>
+              <p class="text-[11px] text-gray-500">Equivalente en empleados a tiempo completo</p>
+            </div>
+
+            <!-- Card 4 (Cost Impact) -->
+            <div class="glass-card-hover rounded-[2rem] border border-red-500/10 bg-red-500/2 p-5 space-y-1">
+              <div class="flex items-center justify-between text-gray-500">
+                <span class="text-xs font-semibold uppercase tracking-wider text-red-400/80">Costo Financiero Anual</span>
+                <span data-lucide="dollar-sign" class="h-4 w-4 text-red-500"></span>
+              </div>
+              <p class="text-2xl font-extrabold text-red-400" id="metric-cost">C$ 249,408</p>
+              <p class="text-[11px] text-gray-500">Dinero quemado en nómina ineficiente</p>
+            </div>
+
+          </div>
+
+          <!-- Marketing Insight Warning Banner -->
+          <div class="rounded-2xl bg-orange-600/10 border border-orange-500/20 p-4 flex gap-3.5 items-start">
+            <span class="p-2 rounded-xl bg-orange-500/20 text-orange-400 flex-none mt-0.5">
+              <span data-lucide="info" class="h-4 w-4"></span>
+            </span>
+            <div class="space-y-1 text-sm">
+              <p class="font-bold text-white leading-none">Impacto en la rotación de mesas</p>
+              <p class="text-gray-400 text-xs leading-relaxed">
+                Al demorar <span id="insight-time-lost" class="text-orange-300 font-semibold">6 minutos</span> manuales por pedido, tus clientes esperan un 25% más para recibir su orden. Esto reduce la velocidad de rotación de tus mesas e impacta directamente en tus ventas diarias potenciales.
+              </p>
+            </div>
+          </div>
+
+          <!-- CTA Box (La Solución - Conversion Box) -->
+          <div class="relative overflow-hidden rounded-[2.2rem] border border-indigo-500/20 bg-gradient-to-br from-indigo-950/40 to-slate-950 p-6 sm:p-8 space-y-6 shadow-glow mt-8">
+            <div class="absolute -right-12 -bottom-12 h-44 w-44 rounded-full bg-indigo-500/15 blur-3xl pointer-events-none"></div>
+            
+            <div class="space-y-3 relative">
+              <span class="inline-flex items-center gap-1.5 rounded-full bg-indigo-500/20 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-indigo-300">
+                <span data-lucide="sparkles" class="h-3 w-3"></span> La Solución Automática
+              </span>
+              <h3 class="font-display text-2xl sm:text-3xl font-semibold text-white tracking-tight leading-none mt-2">
+                Recupera tu tiempo. Automatiza tu menú y pedidos en 1 clic.
+              </h3>
+              <p class="text-sm text-gray-400 leading-relaxed max-w-xl">
+                TapMeal digitaliza el ciclo completo: tus clientes escanean el QR de su mesa, revisan el menú multimedia interactivo, ordenan directamente y pagan sin demoras. Libera a tu personal de las comandas manuales y acelera tu servicio.
+              </p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center gap-4 pt-2 relative">
+              <a href="index.html#demo" 
+                class="w-full sm:w-auto text-center inline-flex items-center justify-center gap-2 rounded-full bg-indigo-600 hover:bg-indigo-500 px-8 py-4 text-sm font-bold text-white transition duration-300 shadow-soft hover:-translate-y-0.5 hover:shadow-indigo-500/20">
+                Prueba TapMeal Gratis
+                <span data-lucide="arrow-right" class="h-4 w-4"></span>
+              </a>
+              <a href="index.html#inicio" 
+                class="w-full sm:w-auto text-center inline-flex items-center justify-center gap-2 rounded-full border border-white/10 hover:border-white/20 bg-white/5 hover:bg-white/10 px-6 py-4 text-sm font-bold text-gray-300 transition duration-300">
+                Conocer la Plataforma
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+
+  <footer class="mt-16 border-t border-white/10 py-8 bg-[#07070a]">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-xs text-gray-500">
+      <p>TapMeal - Simulador interactivo de optimización operativa para hostelería.</p>
+      <p>Diseño premium autocontenido hecho con Tailwind CSS y JavaScript.</p>
+    </div>
+  </footer>
+
+  <!-- Lucide script and initialization -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Create Lucide Icons
+      if (window.lucide) window.lucide.createIcons();
+
+      // DOM Elements
+      const rangeOrders = document.getElementById("range-orders");
+      const rangeDays = document.getElementById("range-days");
+      const rangeTime = document.getElementById("range-time");
+      const rangeWage = document.getElementById("range-wage");
+
+      const valOrders = document.getElementById("val-orders");
+      const valDays = document.getElementById("val-days");
+      const valTime = document.getElementById("val-time");
+      const valWage = document.getElementById("val-wage");
+
+      const metricHeroDays = document.getElementById("metric-hero-days");
+      const metricHoursMonth = document.getElementById("metric-hours-month");
+      const metricDaysYear = document.getElementById("metric-days-year");
+      const metricFte = document.getElementById("metric-fte");
+      const metricCost = document.getElementById("metric-cost");
+      
+      const insightTimeLost = document.getElementById("insight-time-lost");
+      const gaugeProgress = document.getElementById("gauge-progress");
+      const gaugePercentage = document.getElementById("gauge-percentage");
+
+      const toggleAdvanced = document.getElementById("toggle-advanced");
+      const advancedPanel = document.getElementById("advanced-panel");
+      const advancedIcon = document.getElementById("advanced-icon");
+
+      // Advanced Settings Toggle
+      toggleAdvanced.addEventListener("click", () => {
+        advancedPanel.classList.toggle("hidden");
+        const isOpen = !advancedPanel.classList.contains("hidden");
+        advancedIcon.style.transform = isOpen ? "rotate(180deg)" : "rotate(0deg)";
+      });
+
+      // Cursor spotlight follow (same as landing page)
+      const root = document.documentElement;
+      window.addEventListener('mousemove', (e) => {
+        root.style.setProperty('--mouse-x', `${e.clientX}px`);
+        root.style.setProperty('--mouse-y', `${e.clientY}px`);
+      });
+
+      // Target numbers for animations
+      let targets = {
+        heroDays: 0,
+        hoursMonth: 0,
+        daysYear: 0,
+        fte: 0,
+        cost: 0
+      };
+
+      // Current displayed numbers for smooth interpolation
+      let currentValues = {
+        heroDays: 0,
+        hoursMonth: 0,
+        daysYear: 0,
+        fte: 0,
+        cost: 0
+      };
+
+      // Mathematical logic & Update values
+      function calculate() {
+        const orders = parseInt(rangeOrders.value, 10);
+        const days = parseInt(rangeDays.value, 10);
+        const time = parseInt(rangeTime.value, 10);
+        const wage = parseInt(rangeWage.value, 10);
+
+        // Update Slider Bubble Numbers
+        valOrders.textContent = orders;
+        valDays.textContent = days === 7 ? "Toda la semana" : `${days} ${days === 1 ? "día" : "días"}`;
+        valTime.textContent = `${time} min`;
+        valWage.textContent = `C$ ${wage}/hr`;
+        insightTimeLost.textContent = `${time} minutos`;
+
+        // Mathematical Conversions
+        // Orders per week
+        const weeklyOrders = orders * days;
+        // Orders per year
+        const annualOrders = weeklyOrders * 52;
+        
+        // Annual time lost (minutes)
+        const annualMinLost = annualOrders * time;
+        // Annual time lost (hours)
+        const annualHrsLost = annualMinLost / 60;
+
+        // Monthly time lost (hours)
+        const monthlyHrsLost = annualHrsLost / 12;
+
+        // Days of 24h lost per year
+        const annualDays24h = annualHrsLost / 24;
+
+        // Workdays (8 hours) lost per year (Primary alert value)
+        const workdays8h = annualHrsLost / 8;
+
+        // FTEs (Full Time Equivalent: 2,000 hours per year)
+        const fteValue = annualHrsLost / 2000;
+
+        // Annual labor cost wasted
+        const annualCost = annualHrsLost * wage;
+
+        // Save target values
+        targets.heroDays = workdays8h;
+        targets.hoursMonth = monthlyHrsLost;
+        targets.daysYear = annualDays24h;
+        targets.fte = fteValue;
+        targets.cost = annualCost;
+
+        // Dynamic Circular Gauge
+        // Let's assume a maximum wasted hours scale to compute percentage (Max realistic is ~2 FTEs = 4000 hours)
+        // Let's base ineficiency percentage on workdays: e.g. 240 workdays/year is a full standard workspace year (100% capacity)
+        const maxWorkdaysCapacity = 240; 
+        const ineficiencyPercent = Math.min(Math.round((workdays8h / maxWorkdaysCapacity) * 100), 100);
+        
+        gaugePercentage.textContent = `${ineficiencyPercent}%`;
+        
+        // Circular stroke math: r=62, perimeter ~390
+        const perimeter = 2 * Math.PI * 62; // ~389.5
+        const offset = perimeter - (ineficiencyPercent / 100) * perimeter;
+        gaugeProgress.style.strokeDasharray = `${perimeter}`;
+        gaugeProgress.style.strokeDashoffset = offset;
+
+        // Dynamic color for gauge based on critical level
+        if (ineficiencyPercent < 20) {
+          gaugeProgress.setAttribute("stroke", "#DDE7D8"); // sage / low ineficiency
+          metricHeroDays.className = "text-5xl sm:text-6xl font-bold text-indigo-400 inline-block my-1 transition-all duration-300 font-display";
+        } else if (ineficiencyPercent < 55) {
+          gaugeProgress.setAttribute("stroke", "#eab308"); // yellow / warning level
+          metricHeroDays.className = "text-5xl sm:text-6xl font-bold text-yellow-500 inline-block my-1 transition-all duration-300 font-display";
+        } else {
+          gaugeProgress.setAttribute("stroke", "#ef4444"); // red / danger level
+          metricHeroDays.className = "text-5xl sm:text-6xl font-bold text-red-500 inline-block my-1 transition-all duration-300 font-display";
+        }
+      }
+
+      // Smooth number animation loop
+      function animateNumbers() {
+        // Linear interpolation factor (speed of counter catch-up)
+        const lerpFactor = 0.12;
+
+        currentValues.heroDays += (targets.heroDays - currentValues.heroDays) * lerpFactor;
+        currentValues.hoursMonth += (targets.hoursMonth - currentValues.hoursMonth) * lerpFactor;
+        currentValues.daysYear += (targets.daysYear - currentValues.daysYear) * lerpFactor;
+        currentValues.fte += (targets.fte - currentValues.fte) * lerpFactor;
+        currentValues.cost += (targets.cost - currentValues.cost) * lerpFactor;
+
+        // Render Values
+        metricHeroDays.textContent = currentValues.heroDays.toFixed(1);
+        metricHoursMonth.textContent = currentValues.hoursMonth.toFixed(1);
+        metricDaysYear.textContent = currentValues.daysYear.toFixed(1);
+        metricFte.textContent = currentValues.fte.toFixed(2);
+        
+        // Format Cost with Córdoba Currency Symbol
+        metricCost.textContent = `C$ ${Math.round(currentValues.cost).toLocaleString()}`;
+
+        requestAnimationFrame(animateNumbers);
+      }
+
+      // Sliders event listeners
+      rangeOrders.addEventListener("input", calculate);
+      rangeDays.addEventListener("input", calculate);
+      rangeTime.addEventListener("input", calculate);
+      rangeWage.addEventListener("input", calculate);
+
+      // Initialize
+      calculate();
+      
+      // Seed current values to avoid starting from zero if sliders are default
+      currentValues.heroDays = targets.heroDays * 0.5;
+      currentValues.hoursMonth = targets.hoursMonth * 0.5;
+      currentValues.daysYear = targets.daysYear * 0.5;
+      currentValues.fte = targets.fte * 0.5;
+      currentValues.cost = targets.cost * 0.5;
+
+      animateNumbers();
+    });
+  </script>
+</body>
+
+</html>
