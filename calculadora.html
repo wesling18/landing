@@ -57,6 +57,25 @@
       --mouse-y: 50%;
     }
 
+    /* Mejora la legibilidad y contraste de los textos grises pequeños en fondos oscuros */
+    body.text-gray-400,
+    body .text-gray-400 {
+      color: #d1d5db; /* Incrementa el contraste de gray-400 (#9ca3af) a gray-300 (#d1d5db) */
+    }
+    body.text-gray-400:not(.font-medium):not(.font-semibold):not(.font-bold):not(.font-extrabold),
+    body .text-gray-400:not(.font-medium):not(.font-semibold):not(.font-bold):not(.font-extrabold) {
+      font-weight: 500; /* Aplica peso medium para que se aprecien más en negritas */
+    }
+
+    body.text-gray-500,
+    body .text-gray-500 {
+      color: #9ca3af; /* Incrementa el contraste de gray-500 (#71717a) a gray-400 (#9ca3af) */
+    }
+    body.text-gray-500:not(.font-medium):not(.font-semibold):not(.font-bold):not(.font-extrabold),
+    body .text-gray-500:not(.font-medium):not(.font-semibold):not(.font-bold):not(.font-extrabold) {
+      font-weight: 500; /* Peso medium para mejor lectura */
+    }
+
     body {
       background: #000000;
       color: #fafafa;

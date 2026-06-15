@@ -62,7 +62,25 @@
       --mouse-y: 50%;
     }
 
-    
+    /* Mejora la legibilidad y contraste de los textos grises pequeños en fondos oscuros */
+    body.text-gray-400,
+    body .text-gray-400 {
+      color: #d1d5db; /* Incrementa el contraste de gray-400 (#9ca3af) a gray-300 (#d1d5db) */
+    }
+    body.text-gray-400:not(.font-medium):not(.font-semibold):not(.font-bold):not(.font-extrabold),
+    body .text-gray-400:not(.font-medium):not(.font-semibold):not(.font-bold):not(.font-extrabold) {
+      font-weight: 500; /* Aplica peso medium para que se aprecien más en negritas */
+    }
+
+    body.text-gray-500,
+    body .text-gray-500 {
+      color: #9ca3af; /* Incrementa el contraste de gray-500 (#71717a) a gray-400 (#9ca3af) */
+    }
+    body.text-gray-500:not(.font-medium):not(.font-semibold):not(.font-bold):not(.font-extrabold),
+    body .text-gray-500:not(.font-medium):not(.font-semibold):not(.font-bold):not(.font-extrabold) {
+      font-weight: 500; /* Peso medium para mejor lectura */
+    }
+
     body {
       background: #000000;
       color: #fafafa;
@@ -1636,28 +1654,103 @@
       data-label="CTA">
       <div
         class="mx-auto max-w-7xl rounded-[3rem] border border-white/10 bg-[#0f0e13] px-8 py-12 text-white shadow-soft sm:px-10 lg:px-12 lg:py-14">
-        <div class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
+        <div class="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div data-reveal>
-            <p class="text-xs font-semibold uppercase tracking-[0.28em] text-gray-400">CTA final</p>
+            <p class="text-xs font-semibold uppercase tracking-[0.28em] text-indigo-400">Acceso Prioritario</p>
             <h2 class="mt-4 text-balance font-display text-4xl font-semibold leading-tight text-white sm:text-5xl">
-              TapMeal muestra como pedir mejor y operar con mas claridad puede sentirse desde la primera vista.
+              TapMeal muestra como pedir mejor y operar con mas claridad.
             </h2>
             <p class="mt-6 max-w-2xl text-lg leading-8 text-gray-400">
-              Explora la demo, revisa el flujo del producto y usa esta landing como base moderna para presentar la
-              propuesta del proyecto.
+              Explora la demo interactiva o únete al pre-registro de lanzamiento. Guardaremos tus datos localmente en el navegador para darte acceso prioritario apenas la aplicación esté disponible.
             </p>
+            
+            <div class="mt-8 flex flex-col gap-4 sm:flex-row">
+              <a href="#demo" data-goto="5"
+                class="inline-flex items-center justify-center gap-2 rounded-full bg-indigo-600 px-7 py-4 text-sm font-bold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-[#18181b]">
+                <span data-lucide="arrow-right" class="h-4 w-4"></span>
+                Ir al demo
+              </a>
+              <a href="#inicio" data-goto="0"
+                class="inline-flex items-center justify-center rounded-full border border-white/10 px-7 py-4 text-sm font-bold text-white transition hover:bg-white/5">
+                Volver al inicio
+              </a>
+            </div>
           </div>
 
-          <div class="flex flex-col gap-4 sm:flex-row lg:justify-end" data-reveal style="--delay: 120ms">
-            <a href="#demo" data-goto="5"
-              class="inline-flex items-center justify-center gap-2 rounded-full bg-cream px-7 py-4 text-sm font-bold text-white transition hover:-translate-y-0.5">
-              <span data-lucide="arrow-right" class="h-4 w-4"></span>
-              Ir al demo
-            </a>
-            <a href="#inicio" data-goto="0"
-              class="inline-flex items-center justify-center rounded-full border border-white/10 px-7 py-4 text-sm font-bold text-white transition hover:bg-white/5">
-              Volver al inicio
-            </a>
+          <!-- Glass Form Card for pre-register -->
+          <div class="rounded-[2.2rem] border border-white/10 bg-white/5 p-6 sm:p-8 shadow-glass backdrop-blur-xl" data-reveal style="--delay: 120ms">
+            <div id="register-form-container">
+              <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                <span data-lucide="sparkles" class="h-4.5 w-4.5 text-indigo-400"></span>
+                Pre-registro de Lanzamiento
+              </h3>
+              <p class="text-xs text-gray-400 mb-6">Completa tus datos para guardarlos en tu navegador y recibir notificaciones.</p>
+              
+              <form id="launch-register-form" class="space-y-4">
+                <div>
+                  <label for="reg-name" class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-1.5">Tu Nombre</label>
+                  <div class="relative">
+                    <input type="text" id="reg-name" required placeholder="Ej. Carlos Martínez"
+                      class="w-full rounded-xl border border-white/10 bg-black/40 pl-4 pr-10 py-3 text-sm text-white placeholder-gray-600 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all duration-300">
+                    <span class="absolute right-3 top-1/2 -translate-y-1/2 text-emerald-400 opacity-0 scale-75 transition-all duration-300 pointer-events-none" id="valid-icon-name">
+                      <span data-lucide="check-circle" class="h-4 w-4"></span>
+                    </span>
+                  </div>
+                </div>
+                
+                <div>
+                  <label for="reg-email" class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-1.5">Correo Electrónico</label>
+                  <div class="relative">
+                    <input type="email" id="reg-email" required placeholder="carlos@ejemplo.com"
+                      class="w-full rounded-xl border border-white/10 bg-black/40 pl-4 pr-10 py-3 text-sm text-white placeholder-gray-600 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all duration-300">
+                    <span class="absolute right-3 top-1/2 -translate-y-1/2 text-emerald-400 opacity-0 scale-75 transition-all duration-300 pointer-events-none" id="valid-icon-email">
+                      <span data-lucide="check-circle" class="h-4 w-4"></span>
+                    </span>
+                  </div>
+                </div>
+                
+                <div>
+                  <label for="reg-restaurant" class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-1.5">Nombre de tu Restaurante</label>
+                  <div class="relative">
+                    <input type="text" id="reg-restaurant" required placeholder="Ej. Café Altura"
+                      class="w-full rounded-xl border border-white/10 bg-black/40 pl-4 pr-10 py-3 text-sm text-white placeholder-gray-600 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all duration-300">
+                    <span class="absolute right-3 top-1/2 -translate-y-1/2 text-emerald-400 opacity-0 scale-75 transition-all duration-300 pointer-events-none" id="valid-icon-restaurant">
+                      <span data-lucide="check-circle" class="h-4 w-4"></span>
+                    </span>
+                  </div>
+                </div>
+                
+                <button type="submit"
+                  class="w-full rounded-xl bg-indigo-600 py-3.5 text-sm font-bold text-white transition-all hover:bg-indigo-500 flex items-center justify-center gap-2 shadow-soft">
+                  Registrarme y Guardar Acceso
+                </button>
+              </form>
+            </div>
+            
+            <!-- Success registered state -->
+            <div id="register-success" class="hidden text-center py-4 space-y-5">
+              <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                <span data-lucide="badge-check" class="h-6 w-6"></span>
+              </div>
+              <div class="space-y-1">
+                <p class="text-lg font-bold text-white">¡Registro Guardado!</p>
+                <p class="text-xs text-gray-400 leading-relaxed px-2">
+                  Tus datos se guardaron localmente. Te notificaremos con prioridad apenas lancemos la plataforma.
+                </p>
+              </div>
+              
+              <div class="rounded-xl bg-black/40 p-4 border border-white/5 text-left text-xs space-y-1.5">
+                <p class="font-bold text-indigo-400 uppercase tracking-wider text-[10px]">Datos de Registro:</p>
+                <p class="text-white"><strong class="text-gray-400 font-medium">Nombre:</strong> <span id="saved-name" class="font-semibold text-gray-200"></span></p>
+                <p class="text-white"><strong class="text-gray-400 font-medium">Correo:</strong> <span id="saved-email" class="font-semibold text-gray-200"></span></p>
+                <p class="text-white"><strong class="text-gray-400 font-medium">Negocio:</strong> <span id="saved-restaurant" class="font-semibold text-gray-200"></span></p>
+              </div>
+              
+              <button id="btn-edit-register"
+                class="text-xs font-semibold text-indigo-400 hover:text-indigo-300 transition flex items-center justify-center gap-1.5 mx-auto">
+                Modificar mis datos
+              </button>
+            </div>
           </div>
         </div>
       </div>

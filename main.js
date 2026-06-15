@@ -34,6 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initFAQ();
   initDataGoto();
   initCursorGlow();
+  initLaunchRegistration();
 
   // Reveal first section immediately
   if (sections[0]) {
@@ -403,4 +404,152 @@ function initFAQ() {
       }
     });
   });
+}
+
+// --- Launch Pre-Registration ---
+function initLaunchRegistration() {
+  const form = document.getElementById("launch-register-form");
+  const formContainer = document.getElementById("register-form-container");
+  const successEl = document.getElementById("register-success");
+  
+  if (!form || !formContainer || !successEl) return;
+
+  const inputName = document.getElementById("reg-name");
+  const inputEmail = document.getElementById("reg-email");
+  const inputRestaurant = document.getElementById("reg-restaurant");
+  
+  const savedName = document.getElementById("saved-name");
+  const savedEmail = document.getElementById("saved-email");
+  const savedRestaurant = document.getElementById("saved-restaurant");
+  
+  const editBtn = document.getElementById("btn-edit-register");
+
+  const iconName = document.getElementById("valid-icon-name");
+  const iconEmail = document.getElementById("valid-icon-email");
+  const iconRestaurant = document.getElementById("valid-icon-restaurant");
+
+  function toggleInputStatus(input, iconEl, isValid) {
+    if (isValid) {
+      input.classList.remove("border-white/10", "focus:border-indigo-500", "focus:ring-indigo-500");
+      input.classList.add("border-emerald-500/50", "focus:border-emerald-500", "focus:ring-emerald-500");
+      if (iconEl) {
+        iconEl.classList.remove("opacity-0", "scale-75");
+        iconEl.classList.add("opacity-100", "scale-100");
+      }
+    } else {
+      input.classList.add("border-white/10", "focus:border-indigo-500", "focus:ring-indigo-500");
+      input.classList.remove("border-emerald-500/50", "focus:border-emerald-500", "focus:ring-emerald-500");
+      if (iconEl) {
+        iconEl.classList.add("opacity-0", "scale-75");
+        iconEl.classList.remove("opacity-100", "scale-100");
+      }
+    }
+  }
+
+  function checkAllInputs() {
+    if (inputName && iconName) {
+      const isValid = inputName.value.trim().length >= 3;
+      toggleInputStatus(inputName, iconName, isValid);
+    }
+    if (inputEmail && iconEmail) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const isValid = emailRegex.test(inputEmail.value.trim());
+      toggleInputStatus(inputEmail, iconEmail, isValid);
+    }
+    if (inputRestaurant && iconRestaurant) {
+      const isValid = inputRestaurant.value.trim().length >= 2;
+      toggleInputStatus(inputRestaurant, iconRestaurant, isValid);
+    }
+  }
+
+  // Real-time validation listeners
+  if (inputName && iconName) {
+    inputName.addEventListener("input", () => {
+      const isValid = inputName.value.trim().length >= 3;
+      toggleInputStatus(inputName, iconName, isValid);
+    });
+  }
+
+  if (inputEmail && iconEmail) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    inputEmail.addEventListener("input", () => {
+      const isValid = emailRegex.test(inputEmail.value.trim());
+      toggleInputStatus(inputEmail, iconEmail, isValid);
+    });
+  }
+
+  if (inputRestaurant && iconRestaurant) {
+    inputRestaurant.addEventListener("input", () => {
+      const isValid = inputRestaurant.value.trim().length >= 2;
+      toggleInputStatus(inputRestaurant, iconRestaurant, isValid);
+    });
+  }
+
+  // Check if user has already registered
+  const savedDataRaw = localStorage.getItem("tapmeal_launch_registration");
+  if (savedDataRaw) {
+    try {
+      const data = JSON.parse(savedDataRaw);
+      showRegisteredState(data);
+    } catch (e) {
+      localStorage.removeItem("tapmeal_launch_registration");
+    }
+  }
+
+  function showRegisteredState(data) {
+    savedName.textContent = data.name;
+    savedEmail.textContent = data.email;
+    savedRestaurant.textContent = data.restaurant;
+    
+    formContainer.classList.add("hidden");
+    successEl.classList.remove("hidden");
+    if (window.lucide) window.lucide.createIcons();
+  }
+
+  function showFormState() {
+    successEl.classList.add("hidden");
+    formContainer.classList.remove("hidden");
+    if (window.lucide) window.lucide.createIcons();
+  }
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    
+    const data = {
+      name: inputName.value.trim(),
+      email: inputEmail.value.trim(),
+      restaurant: inputRestaurant.value.trim()
+    };
+    
+    // Save to localStorage
+    localStorage.setItem("tapmeal_launch_registration", JSON.stringify(data));
+    
+    // Animate submit button text
+    const btn = form.querySelector("button[type=submit]");
+    const orig = btn.textContent;
+    btn.innerHTML = '<span class="animate-pulse">Guardando...</span>';
+    btn.disabled = true;
+    
+    setTimeout(() => {
+      showRegisteredState(data);
+      btn.textContent = orig;
+      btn.disabled = false;
+    }, 1000);
+  });
+
+  if (editBtn) {
+    editBtn.addEventListener("click", () => {
+      const savedDataRaw = localStorage.getItem("tapmeal_launch_registration");
+      if (savedDataRaw) {
+        try {
+          const data = JSON.parse(savedDataRaw);
+          inputName.value = data.name;
+          inputEmail.value = data.email;
+          inputRestaurant.value = data.restaurant;
+        } catch(e) {}
+      }
+      showFormState();
+      checkAllInputs(); // Verify status when pre-filling fields
+    });
+  }
 }
